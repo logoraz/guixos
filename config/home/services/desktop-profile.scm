@@ -57,8 +57,7 @@
 
    ;; Authentication
    gnupg
-   keepassxc
-   password-store ;; move to password-store eventually...
+   password-store ;; keepassxc -> password-store
 
    ;; Audio devices & Media playback
    mpv

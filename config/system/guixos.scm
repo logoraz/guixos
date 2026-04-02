@@ -1,13 +1,16 @@
 (define-module (config system guixos)
   #:use-module (guix gexp)
+  #:use-module (guix packages)
+  #:use-module (guix transformations)
   #:use-module (gnu)
+  #:use-module (gnu system nss)
+  #:use-module (gnu system keyboard)
   #:use-module (gnu packages)
   #:use-module (gnu packages cups)
   #:use-module (gnu packages ssh)
   #:use-module (gnu packages guile)
   #:use-module (gnu packages guile-xyz)
   #:use-module (gnu packages emacs)
-  #:use-module (gnu packages lisp)
   #:use-module (gnu packages base)
   #:use-module (gnu packages build-tools)
   #:use-module (gnu packages commencement)
@@ -16,7 +19,6 @@
   #:use-module (gnu packages fonts)
   #:use-module (gnu packages linux)
   #:use-module (gnu packages audio)
-  #:use-module (gnu packages xorg)
   #:use-module (gnu packages wget)
   #:use-module (gnu packages curl)
   #:use-module (gnu packages version-control)
@@ -30,12 +32,9 @@
   #:use-module (gnu services xorg)
   #:use-module (gnu services desktop)
   #:use-module (gnu services networking)
-  #:use-module (gnu system nss)
-  #:use-module (gnu system keyboard)
   #:use-module (nongnu packages linux)
   #:use-module (nongnu packages firmware)
   #:use-module (nongnu system linux-initrd)
-  #:use-module (guix transformations)
   #:use-module (config system core substitutes)
   #:use-module (config system core guixos-channels)
   #:use-module (config services firmware)
@@ -102,10 +101,8 @@
 ;;;
 (define %guixos-base-services
   (cons*
-   (service gnome-desktop-service-type)
-
-   (set-xorg-configuration
-    (xorg-configuration (keyboard-layout %guixos-keyboard-layout)))
+   ;; (set-xorg-configuration
+   ;;  (xorg-configuration (keyboard-layout %guixos-keyboard-layout)))
 
    (service bluetooth-service-type
             (bluetooth-configuration
@@ -135,19 +132,41 @@
             `((,guixos-user-name ,guixos-home)))
 
    ;; See: https://guix.gnu.org/manual/en/html_node/Desktop-Services.html
-   (modify-services %desktop-services
+   (modify-services (cons (service gnome-desktop-service-type)
+                          %desktop-services)
      ;; Modify GNOME packages here...
-     ;;   (gnome-desktop-service-type
-     ;;    cfg =>
-     ;;    (gnome-desktop-configuration
-     ;;      (inherit cfg)
-     ;;      (utilities
-     ;;       (remove-by-name
-     ;;        '("yelp" "gnome-tour" "cheese")
-     ;;        (gnome-desktop-configuration-utilities cfg)))
-     ;;      (extra-packages
-     ;;       (append (gnome-desktop-configuration-extra-packages cfg)
-     ;;               (list gnome-software)))))
+     (gnome-desktop-service-type
+      config =>
+      (gnome-desktop-configuration
+        (inherit config)
+        (shell
+         (filter (lambda (pkg)
+                   (not (member (package-name pkg)
+                                '("gnome-user-docs"))))
+                 (gnome-desktop-configuration-shell config)))
+        (extra-packages
+         (append
+          (list gnome-software)
+          (filter (lambda (pkg)
+                    (not (member (package-name pkg)
+                                 '("yelp"
+                                   "system-config-printer"))))
+                  (gnome-desktop-configuration-extra-packages config))))
+        (utilities
+         (filter (lambda (pkg)
+                   (not (member (package-name pkg)
+                                '("yelp"
+                                  "cheese"
+                                  "evince"
+                                  "epiphany"
+                                  "simple-scan"
+                                  "gnome-music"
+                                  "gnome-console"
+                                  "gnome-screenshot"
+                                  "gnome-text-editor"))))
+                 (gnome-desktop-configuration-utilities config)))))
+
+     ;; Configure package substitues
      (guix-service-type
       config =>
       (substitutes->services
@@ -156,20 +175,12 @@
 
 ;;;
 ;;; Package Transformations & Packages
-;;;
-;; ref: https://guix.gnu.org/manual/en/guix.html#Defining-Package-Variants
-(define latest-guile ;; example of guile-next
-  (options->transformation
-   '((with-latest . "guile"))))
-
-;;;
-;;; Install bare-minimum system packages
+;;; |-> Install bare-minimum system packages
 ;;;
 (define %guixos-base-packages
   (append
    (list
-    ;; Lambda
-    ;; (specification->package "guile")
+    ;; Lambda Core
     (specification->package "guile-json")
     guile-colorized
     guile-ares-rs
@@ -195,12 +206,9 @@
     bibata-cursor-theme
     gnome-themes-extra
     ffmpegthumbnailer
-    gnome-software
 
     ;; Desktop Tools/Utilities
     pipewire
-    ;; wireplumber
-    ;; egl-wayland
     bluez
     brightnessctl
     lm-sensors
