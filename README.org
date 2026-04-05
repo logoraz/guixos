@@ -8,7 +8,7 @@
 :end:
 
 
-#+html: <p align="center"> <img src="files/assets/graphics/gx-guile.svg" width="300"/> </p>
+#+html: <p align="center"> <img src="files/assets/graphics/gx-guixos.svg" width="300"/> </p>
 
 
 GuixOS: Flagship Guix System Configuration for GNOME...

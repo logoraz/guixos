@@ -28,6 +28,7 @@
   #:use-module (gnu packages gnome-xyz)
   #:use-module (gnu packages gstreamer)
   #:use-module (gnu packages video)
+  #:use-module (gnu packages image)
   #:use-module (gnu packages virtualization)
   #:use-module (gnu services guix)
   #:use-module (gnu services cups)
@@ -217,6 +218,7 @@
     gst-plugins-bad
     gst-plugins-ugly
     gst-libav
+    librsvg
 
     ;; Desktop Tools/Utilities
     pipewire
