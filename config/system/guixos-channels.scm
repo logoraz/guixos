@@ -1,4 +1,4 @@
-(define-module (config system core guixos-channels)
+(define-module (config system guixos-channels)
   #:use-module (guix channels)
   #:export (%guixos-channels))
 

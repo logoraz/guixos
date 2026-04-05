@@ -8,8 +8,11 @@
                                       "$XDG_DATA_HOME/flatpak/exports/share:"))
 
 (define (home-env-vars-config-gexp config)
-  `( ;; Sort hidden (dot) files first in ls listings
+  `(;; Sort hidden (dot) files first in ls listings
     ("LC_COLLATE" . "C")
+
+    ;; Guile Init File
+    ("GUILE_INIT_FILE" . "$HOME/.config/guile/guile.scm")
 
     ;; Set Emacs as editor
     ("EDITOR" . "emacsclient -c -a emacs")
@@ -17,11 +20,6 @@
 
     ;; Set Zen Browser as the default (Installed via Flatpaks)
     ("BROWSER" . "Zen Browser")
-
-    ;; GTK/QT/Cursor Theming
-    ;; ("GTK_THEME"            . "Adwaita:dark")
-    ;; ("GTK_ICON_THEME"       . "Qogir-dark")
-    ;; ("GDK_DPI_SCALE"        . "1")
 
     ;; Set XDG environment variables
     ("XDG_LOG_HOME"     . "$HOME/.local/log")

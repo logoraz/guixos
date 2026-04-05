@@ -11,6 +11,7 @@
   #:use-module (gnu packages guile)
   #:use-module (gnu packages guile-xyz)
   #:use-module (gnu packages emacs)
+  #:use-module (gnu packages admin)
   #:use-module (gnu packages base)
   #:use-module (gnu packages build-tools)
   #:use-module (gnu packages commencement)
@@ -37,8 +38,8 @@
   #:use-module (nongnu packages linux)
   #:use-module (nongnu packages firmware)
   #:use-module (nongnu system linux-initrd)
-  #:use-module (config system core substitutes)
-  #:use-module (config system core guixos-channels)
+  #:use-module (config system substitutes)
+  #:use-module (config system guixos-channels)
   #:use-module (config services firmware)
   #:use-module (config home guixos-home)
   #:export (%guixos))
@@ -228,7 +229,8 @@
     curl
     wget
     zip
-    unzip)
+    unzip
+    tree)
 
    %base-packages))
 

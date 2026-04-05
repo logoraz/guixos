@@ -22,9 +22,9 @@
                 #:recursive? #t)))
 
 (define (home-config-files-service config)
-  `( ;; Guile Configuration
+  `(;; Guile Configuration
     (".guile"
-     ,(resolve "files/guile" #:file "guile"))
+     ,(resolve "files/guile" #:file "dot-guile"))
 
     ;; SBCL Configuration
     (".sbclrc"
@@ -33,14 +33,6 @@
     ;; Guix Configuration Channels
     (".config/guix/channels.scm"
      ,(resolve "config/system" #:file "channels.scm"))
-
-    ;;TODO: prep for GNU guile-next release to store these in XDG_CONFIG_HOME...
-    (".config/guile/guile"
-     ,(resolve "files/guile" #:file "guile"))
-
-    ;; GTK configuration --> needed for mouse theme on GTK applications
-    ;; (".config/gtk-3.0/settings.ini"
-    ;;  ,(resolve "files/gtk" #:file "settings.ini"))
 
     ;; Terminal configurations
     ;; (".config/foot/foot.ini"

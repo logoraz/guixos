@@ -1,4 +1,4 @@
-(define-module (config system core substitutes)
+(define-module (config system substitutes)
   #:use-module (ice-9 optargs)
   #:use-module (ice-9 ftw)
   #:use-module (gnu)
