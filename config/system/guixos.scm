@@ -25,7 +25,9 @@
   #:use-module (gnu packages compression)
   #:use-module (gnu packages gnome)
   #:use-module (gnu packages gnome-xyz)
+  #:use-module (gnu packages gstreamer)
   #:use-module (gnu packages video)
+  #:use-module (gnu packages virtualization)
   #:use-module (gnu services guix)
   #:use-module (gnu services cups)
   #:use-module (gnu services ssh)
@@ -157,7 +159,7 @@
                    (not (member (package-name pkg)
                                 '("yelp"
                                   "cheese"
-                                  "evince"
+                                  ;; "evince"
                                   "epiphany"
                                   "simple-scan"
                                   "gnome-music"
@@ -205,7 +207,15 @@
     font-iosevka-aile
     bibata-cursor-theme
     gnome-themes-extra
+    bubblewrap
+    ffmpeg
     ffmpegthumbnailer
+    gstreamer
+    gst-plugins-base
+    gst-plugins-good
+    gst-plugins-bad
+    gst-plugins-ugly
+    gst-libav
 
     ;; Desktop Tools/Utilities
     pipewire

@@ -10,7 +10,6 @@
   #:use-module (gnu packages glib)
   #:use-module (gnu packages gnome)
   #:use-module (gnu packages gnome-xyz)
-  #:use-module (gnu packages gstreamer)
   #:use-module (gnu packages gnuzilla)
   #:use-module (gnu packages terminals)
   #:use-module (gnu packages graphics)
@@ -64,13 +63,6 @@
    mpv-mpris
    yt-dlp
    playerctl
-   gstreamer
-   gst-plugins-base
-   gst-plugins-good
-   gst-plugins-bad
-   gst-plugins-ugly
-   gst-libav
-   ffmpeg
    steam-devices-udev-rules
 
    ;; Applications
