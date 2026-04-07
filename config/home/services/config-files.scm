@@ -1,7 +1,7 @@
 (define-module (config home services config-files)
+  #:use-module (guix gexp)
   #:use-module (gnu home)
   #:use-module (gnu home services)
-  #:use-module (guix gexp)
   #:use-module (gnu home services dotfiles)
   #:export (home-config-files-service-type))
 
@@ -22,17 +22,17 @@
                 #:recursive? #t)))
 
 (define (home-config-files-service config)
-  `(;; Guile Configuration
+  `(;; Guix Configuration Channels
+    (".config/guix/channels.scm"
+     ,(resolve "config/system" #:file "channels.scm"))
+
+    ;; Guile Configuration
     (".guile"
      ,(resolve "files/guile" #:file "dot-guile"))
 
     ;; SBCL Configuration
     (".sbclrc"
      ,(resolve "files/common-lisp" #:file "dot-sbclrc.lisp"))
-
-    ;; Guix Configuration Channels
-    (".config/guix/channels.scm"
-     ,(resolve "config/system" #:file "channels.scm"))
 
     ;; Terminal configurations
     ;; (".config/foot/foot.ini"

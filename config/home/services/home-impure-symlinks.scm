@@ -1,11 +1,11 @@
 (define-module (config home services home-impure-symlinks)
-  #:use-module (gnu services)
-  #:use-module (gnu home services)
+  #:use-module (srfi srfi-1)
   #:use-module (guix gexp)
   #:use-module (guix modules)
   #:use-module (guix monads)
   #:use-module (guix store)
-  #:use-module (srfi srfi-1)
+  #:use-module (gnu services)
+  #:use-module (gnu home services)
   #:export (home-impure-symlinks-service-type))
 
 
