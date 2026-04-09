@@ -3,8 +3,14 @@
   #:export (%guixos-channels))
 
 ;;; Instructions
-;; To pin channels at a certain guix pull
-;; guix describe -f channels > channels.scm
+;;; To pin channels at a certain guix pull do:
+;;;
+;;; guix describe -f channels > channels.scm
+;;;
+;;; or to premptively pin at latest master do:
+;;;
+;;; git ls-remote https://git.guix.gnu.org/guix.git master
+;;; git ls-remote https://gitlab.com/nonguix/nonguix master
 
 ;;; Main Channels
 (define %nonguix-channel
@@ -12,7 +18,7 @@
     (name 'nonguix)
     (url "https://gitlab.com/nonguix/nonguix")
     (branch "master")
-    (commit "62ea83535efec8809187c8110b5583b79d053686")
+    (commit "c4541fdb0b472664dafe5d7b1ec2e51e4ef7b772")
     (introduction
      (make-channel-introduction
       "897c1a470da759236cc11798f4e0a5f7d4d59fbc"
@@ -24,7 +30,7 @@
     (name 'guix)
     (url "https://git.guix.gnu.org/guix.git")
     (branch "master")
-    (commit "f0e22ae62c143fbf00bde368c2adbc848cff5ff5")
+    (commit "af9b985f139016d2544335bcf64c2dd32a4638f3")
     (introduction
      (make-channel-introduction
       "9edb3f66fd807b096b48283debdcddccfea34bad"
