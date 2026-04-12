@@ -43,6 +43,7 @@
   #:use-module (config system guixos-channels)
   #:use-module (config services firmware)
   #:use-module (config home guixos-home)
+  #:use-module (config packages zen-browser)
   #:export (%guixos))
 
 ;;;
@@ -221,6 +222,7 @@
     librsvg
 
     ;; Desktop Tools/Utilities
+    zen-browser-bin
     pipewire
     bluez
     brightnessctl

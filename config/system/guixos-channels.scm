@@ -37,28 +37,30 @@
       (openpgp-fingerprint
        "BBB0 2DDF 2CEA F6A8 0D1D  E643 A2A0 6DF2 A33A 54FA")))))
 
+;;;
 ;;; Auxiliary Channels
+;;;
 (define %rde-channel
   (channel
-   (name 'rde)
-   (url "https://git.sr.ht/~abcdw/rde")
-   (branch "master")
-   (introduction
-    (make-channel-introduction
-     "257cebd587b66e4d865b3537a9a88cccd7107c95"
-     (openpgp-fingerprint
-      "2841 9AC6 5038 7440 C7E9  2FFA 2208 D209 58C1 DEB0")))))
+    (name 'rde)
+    (url "https://git.sr.ht/~abcdw/rde")
+    (branch "master")
+    (introduction
+     (make-channel-introduction
+      "257cebd587b66e4d865b3537a9a88cccd7107c95"
+      (openpgp-fingerprint
+       "2841 9AC6 5038 7440 C7E9  2FFA 2208 D209 58C1 DEB0")))))
 
 (define %guixrus-channel
   (channel
-   (name 'guixrus)
-   (url "https://git.sr.ht/~whereiseveryone/guixrus")
-   (branch "master")
-   (introduction
-    (make-channel-introduction
-     "7c67c3a9f299517bfc4ce8235628657898dd26b2"
-     (openpgp-fingerprint
-      "CD2D 5EAA A98C CB37 DA91  D6B0 5F58 1664 7F8B E551")))))
+    (name 'guixrus)
+    (url "https://git.sr.ht/~whereiseveryone/guixrus")
+    (branch "master")
+    (introduction
+     (make-channel-introduction
+      "7c67c3a9f299517bfc4ce8235628657898dd26b2"
+      (openpgp-fingerprint
+       "CD2D 5EAA A98C CB37 DA91  D6B0 5F58 1664 7F8B E551")))))
 
 (define %saayix-channel
   (channel
@@ -72,6 +74,7 @@
        "3FFA 7335 973E 0A49 47FC  0A8C 38D5 96BE 07D3 34AB")))))
 
 (define %guixos-channels
-  (append (list %nonguix-channel
-                %guix-channel)
-          %default-channels))
+  (append
+   (list %nonguix-channel
+         %guix-channel)
+   %default-channels))

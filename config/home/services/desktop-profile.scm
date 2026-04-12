@@ -49,8 +49,7 @@
    font-liberation
    font-awesome
 
-   ;; Browsers
-   icecat
+   ;; Browser Utilities
    enchant
    node
 

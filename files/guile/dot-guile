@@ -8,3 +8,8 @@
 
 (activate-readline)
 (activate-colorized)
+
+;; G-Golf recommended duplicate binding handler
+(use-modules (oop goops))
+(default-duplicate-binding-handler
+  '(merge-generics replace warn-override-core warn last))
