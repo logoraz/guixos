@@ -1,10 +1,7 @@
 (define-module (config home services mutable-files)
-  #:use-module (ice-9 optargs)
   #:use-module (guix gexp)
-  #:use-module (gnu home)
   #:use-module (gnu home services)
-  #:use-module (gnu home services dotfiles)
-  #:use-module (config home services home-impure-symlinks)
+  #:use-module (config home services impure-symlinks)
   #:export (home-mutable-symlinks-service-type))
 
 (define %user-name "logoraz")

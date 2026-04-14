@@ -1,4 +1,4 @@
-(define-module (config home services home-impure-symlinks)
+(define-module (config home services impure-symlinks)
   #:use-module (srfi srfi-1)
   #:use-module (guix gexp)
   #:use-module (guix modules)

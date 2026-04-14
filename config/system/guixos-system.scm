@@ -106,9 +106,6 @@
 ;;;
 (define %guixos-base-services
   (cons*
-   ;; (set-xorg-configuration
-   ;;  (xorg-configuration (keyboard-layout %guixos-keyboard-layout)))
-
    (service bluetooth-service-type
             (bluetooth-configuration
               (auto-enable? #t)))
@@ -116,7 +113,7 @@
    ;; Firmware Updating Service via fwupd --> Framework Laptops
    (service fwupd-service-type)
 
-   ;; ssh user@host -p 2222
+   ;; SSH server daemon - remote access via 'ssh user@host -p 2222'
    (service openssh-service-type
             (openssh-configuration
               (openssh openssh-sans-x)
