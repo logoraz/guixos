@@ -11,7 +11,6 @@
   #:use-module (gnu packages gnome)
   #:use-module (gnu packages gnome-xyz)
   #:use-module (gnu packages gnuzilla)
-  #:use-module (gnu packages terminals)
   #:use-module (gnu packages graphics)
   #:use-module (gnu packages libreoffice)
   #:use-module (gnu packages pulseaudio)
@@ -31,7 +30,7 @@
   #:export (home-desktop-profile-service-type))
 
 
-;;; Package Transformations
+;;; Packages & Package Transformations
 (define (home-desktop-profile-service config)
   (list
    ;; XDG Utilities
@@ -75,9 +74,6 @@
    ;; Lisp
    sbcl
    sbcl-slynk
-
-   ;; Utilities
-   foot
 
    trash-cli))
 

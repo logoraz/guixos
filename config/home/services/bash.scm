@@ -29,7 +29,7 @@
 (define %gosr (string-append "sudo guix system -L "
                              "~/.config/guixos/ "
                              "reconfigure "
-                             "~/.config/guixos/config/system/guixos.scm"))
+                             "~/.config/guixos/config/guixos.scm"))
 
 (define %gohr (string-append "guix home -L "
                              "~/.config/guixos/ "
@@ -50,7 +50,7 @@
                 ("ll"   . "ls -l")
                 ("la"   . "ls -la")
                 ("gosr" . ,%gosr)
-                ("gohr" . ,%gohr)
+                ;; ("gohr" . ,%gohr)
                 ("gop"  . ,%gop)))
              (bashrc
               `(,(resolve "files/bash" #:file "dot-bashrc.sh"))

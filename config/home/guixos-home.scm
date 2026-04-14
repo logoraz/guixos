@@ -12,6 +12,7 @@
   #:use-module (config home services config-files)
   #:use-module (config home services mutable-files)
   #:use-module (config home services desktop-profile)
+  #:use-module (config home services xdg-desktop-entries)
   #:use-module (config home services bash)
   #:export (guixos-home))
 
@@ -47,6 +48,19 @@
 
        ;; Set environment variables for every session
        (service home-env-vars-configuration-service-type)
+
+       ;; Remove undesired desktop entries
+       (service home-xdg-desktop-entries-service-type
+                (list
+                 (xdg-desktop-entry "emacsclient"
+                                    "Emacs (Client)"
+                                    #:no-display? #t)
+                 (xdg-desktop-entry "footclient"
+                                    "Foot Client"
+                                    #:no-display? #t)
+                 (xdg-desktop-entry "foot-server"
+                                    "Foot Server"
+                                    #:no-display? #t)))
 
        ;; Allow Nautilus to show video thumbnails
        (simple-service

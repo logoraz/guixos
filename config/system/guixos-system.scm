@@ -1,7 +1,6 @@
-(define-module (config system guixos)
+(define-module (config system guixos-system)
   #:use-module (guix gexp)
   #:use-module (guix packages)
-  #:use-module (guix transformations)
   #:use-module (gnu)
   #:use-module (gnu system nss)
   #:use-module (gnu system keyboard)
@@ -26,6 +25,7 @@
   #:use-module (gnu packages compression)
   #:use-module (gnu packages gnome)
   #:use-module (gnu packages gnome-xyz)
+  #:use-module (gnu packages terminals)
   #:use-module (gnu packages gstreamer)
   #:use-module (gnu packages video)
   #:use-module (gnu packages image)
@@ -195,6 +195,7 @@
     guile-g-golf
     guile-goblins
     emacs-pgtk
+    foot
 
     ;; File system & firmware tools
     bcachefs-tools
