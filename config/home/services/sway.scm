@@ -219,6 +219,7 @@
   `( ;; GTK
     ;; This is the only place where you must set GTK scaling
     "gsettings set $gnome_schema gtk-theme $system_theme"
+    "gsettings set $gnome_schema color-scheme 'prefer-dark'"
     "gsettings set $gnome_schema icon-theme $system_icons"
     "gsettings set $gnome_schema text-scaling-factor $system_text_scaling_factor"
     "gsettings set $gnome_schema cursor-theme $cursor_theme"
