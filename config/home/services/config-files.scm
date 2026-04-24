@@ -1,7 +1,7 @@
 (define-module (config home services config-files)
-  #:use-module (guix gexp)
   #:use-module (gnu home)
   #:use-module (gnu home services)
+  #:use-module (guix gexp)
   #:use-module (gnu home services dotfiles)
   #:export (home-config-files-service-type))
 
@@ -34,12 +34,9 @@
     (".sbclrc"
      ,(resolve "files/common-lisp" #:file "dot-sbclrc.lisp"))
 
-    ;; Terminal configurations
-    ;; (".config/foot/foot.ini"
-    ;;  ,(resolve "files/foot" #:file "foot.ini"))
-
-    ;; (".config/vterm/emacs-vterm-bash.sh"
-    ;;  ,(resolve "files/vterm" #:file "emacs-vterm-bash.sh"))
+    ;;TODO: prep for GNU guile-next release to store these in XDG_CONFIG_HOME...
+    (".config/guile/guile"
+     ,(resolve "files/guile" #:file "dot-guile"))
 
     ;; TODO
     ))

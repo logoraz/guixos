@@ -1,6 +1,6 @@
 #+title: GuixOS
-#+author: logoraz
-#+date: 2026-03-31
+#+author: Erik P Almaraz
+#+date: 2026-04-23
 #+options: toc:nil
 #+startup: overview
 #+startup: inlineimages
@@ -11,4 +11,4 @@
 #+html: <p align="center"> <img src="files/assets/graphics/gx-guixos.svg" width="300"/> </p>
 
 
-GuixOS: Flagship Guix System Configuration for GNOME...
+GuixOS: Flagship Guix System Configuration for Sway...

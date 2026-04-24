@@ -3,5 +3,5 @@
   #:use-module (config system guixos-system)
   #:re-export (%guixos))
 
-;;; Entry Point
+;;; Entry Point - Instantiate GuixOS
 %guixos

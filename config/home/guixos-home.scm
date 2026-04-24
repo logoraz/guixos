@@ -1,72 +1,93 @@
 (define-module (config home guixos-home)
-  #:use-module (guix gexp)
   #:use-module (gnu)
+  #:use-module (gnu packages guile)
+  #:use-module (gnu packages guile-xyz)
   #:use-module (gnu packages ssh)
   #:use-module (gnu home)
   #:use-module (gnu home services)
+  #:use-module (gnu home services pm)
   #:use-module (gnu home services ssh)
+  #:use-module (gnu home services shells)
   #:use-module (gnu home services sound)
   #:use-module (gnu home services desktop)
+  #:use-module (gnu home services sway)
+  #:use-module (guix gexp)
   #:use-module (config home services environment)
   #:use-module (config home services config-files)
   #:use-module (config home services mutable-files)
+  #:use-module (config home services streaming)
+  #:use-module (config home services udiskie)
   #:use-module (config home services desktop-profile)
   #:use-module (config home services xdg-desktop-entries)
-  #:use-module (config home services nautilus-thumbnails)
   #:use-module (config home services bash)
+  #:use-module (config home services sway)
   #:export (guixos-home))
+
 
 (define guixos-home
   (home-environment
-    (services
-     (append
-      (list
-       ;; Enable bluetooth connections to be handled properly
-       ;; bluetooth service only currently available at system level.
-       (service home-dbus-service-type)
+   (services
+    (append
+     (list
+      ;; Enable bluetooth connections to be handled properly
+      ;; bluetooth service only currently available at system level.
+      (service home-dbus-service-type)
 
-       ;; Enable pipewire audio
-       (service home-pipewire-service-type)
+      ;; Enable pipewire audio
+      (service home-pipewire-service-type)
 
-       ;; SSH client configuration
-       (service home-openssh-service-type
-                (home-openssh-configuration
-                  (add-keys-to-agent "yes")))
+      ;; Setup SSH for home
+      (service home-openssh-service-type
+               (home-openssh-configuration
+                 (add-keys-to-agent "yes")))
 
-       ;; SSH agent for key management
-       (service home-ssh-agent-service-type
-                (home-ssh-agent-configuration
-                  (openssh openssh-sans-x)))
+      (service home-ssh-agent-service-type
+               (home-ssh-agent-configuration
+                 (openssh openssh-sans-x)))
 
-       ;; config files configuration
-       (service home-config-files-service-type)
+      ;; Monitor battery levels
+      (service home-batsignal-service-type)
 
-       ;; Mutable symlinks configuration
-       (service home-mutable-symlinks-service-type)
+      ;; Udiskie for auto-mounting
+      (service home-udiskie-service-type)
 
-       ;; Desktop profile configuration
-       (service home-desktop-profile-service-type)
+      ;; Streaming profile service
+      (service home-streaming-service-type)
 
-       ;; Set environment variables for every session
-       (service home-env-vars-configuration-service-type)
+      ;; config files configuration
+      (service home-config-files-service-type)
 
-       ;; Remove undesired desktop entries
-       (service home-xdg-desktop-entries-service-type
-                (list
-                 (xdg-desktop-entry "emacsclient"
-                                    "Emacs (Client)"
-                                    #:no-display? #t)
-                 (xdg-desktop-entry "footclient"
-                                    "Foot Client"
-                                    #:no-display? #t)
-                 (xdg-desktop-entry "foot-server"
-                                    "Foot Server"
-                                    #:no-display? #t)))
+      ;; Mutable symlinks configuration
+      (service home-mutable-symlinks-service-type)
 
-       ;; Allow Nautilus to show video thumbnails
-       (service home-nautilus-thumbnails-service-type)
+      ;; Sway Desktop profile configuration
+      (service home-desktop-profile-service-type)
 
-       ;; Bash configuration
-       (bash-config->service))
+      ;; Set environment variables for every session
+      (service home-env-vars-configuration-service-type)
 
-      %base-home-services))))
+      ;; Sway Configuration + package profile
+      ;; Intantiate sway service with empty configuration
+      (service home-sway-service-type %empty-sway-configuration)
+      ;; extend with our custom configuration
+      (service home-sway-configuration-service-type)
+
+      ;; Remove undesired desktop entries
+      (service home-xdg-desktop-entries-service-type
+               (list
+                (xdg-desktop-entry "emacsclient"
+                                   "Emacs (Client)"
+                                   #:no-display? #t)
+                (xdg-desktop-entry "footclient"
+                                   "Foot Client"
+                                   #:no-display? #t)
+                (xdg-desktop-entry "foot-server"
+                                   "Foot Server"
+                                   #:no-display? #t)))
+
+      ;; Bash configuration
+      (bash-config->service))
+
+     %base-home-services))))
+
+guixos-home

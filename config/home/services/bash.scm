@@ -50,10 +50,9 @@
                 ("ll"   . "ls -l")
                 ("la"   . "ls -la")
                 ("gosr" . ,%gosr)
-                ;; ("gohr" . ,%gohr)
+                ("gohr" . ,%gohr)
                 ("gop"  . ,%gop)))
              (bashrc
-              `(,(resolve "files/bash" #:file "dot-bashrc.sh"))
-              )
+              `(,(resolve "files/bash" #:file "dot-bashrc.sh")))
              (bash-profile
               `(,(resolve "files/bash" #:file "dot-bash_profile.sh"))))))
