@@ -79,10 +79,10 @@
   (cons (user-group (system? #t) (name "seat"))
         %base-groups))
 
-(define %guixos-users
+(define (%guixos-users username comment)
   (cons* (user-account
-          (name (%home-user))
-          (comment "Erik P Almaraz")
+          (name (%home-user username))
+          (comment comment)
           (home-directory (string-append "/home/" (%home-user)))
           (group "users")
           (supplementary-groups '("wheel"   ;; sudo
@@ -208,7 +208,8 @@ input type:keyboard {
 
 ;;; File system & firmware tools
 (define %guixos-system-tools
-  (list bcachefs-tools
+  (list efibootmgr
+        bcachefs-tools
         polkit
         fwupd-nonfree))
 
@@ -276,6 +277,8 @@ input type:keyboard {
 
 (define* (make-guixos-system #:key
                              host-name
+                             user
+                             comment
                              file-systems
                              swap-devices
                              (extra-packages '())
@@ -296,7 +299,7 @@ EXTRA-SERVICES are optional escape hatches for host-specific additions."
     (swap-devices swap-devices)
     (file-systems file-systems)
     (groups %guixos-groups)
-    (users %guixos-users)
+    (users (%guixos-users user comment))
     (packages (append %guixos-base-packages extra-packages))
     (services (append %guixos-base-services extra-services))
     ;; Allow resolution of '.local' host names with mDNS.

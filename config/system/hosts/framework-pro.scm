@@ -1,4 +1,4 @@
-(define-module (config system hosts framework)
+(define-module (config system hosts framework-pro)
   #:use-module (gnu)
   #:use-module (gnu services)
   #:use-module (gnu services guix)             ;; guix-home-service-type
@@ -12,29 +12,33 @@
 
 
 ;;;
-;;; Framework specific hardware identifiers
+;;; Framework-Pro specific hardware identifiers
 ;;;
 
-(define %host-file-systems
   ;; Use 'blkid' to find unique file system identifiers ("UUIDs").
+(define %host-file-systems
   (cons* (file-system
-          (mount-point "/boot/efi")
-          (device (uuid "B0B0-C71A" 'fat32))
-          (type "vfat"))
+           (mount-point "/boot/efi")
+           (device (uuid "TBD" 'fat32))
+           (type "vfat"))
          (file-system
-          (mount-point "/")
-          (device (uuid "7388e57a-177d-45cf-8005-208b79eb6d2d" 'ext4))
-          (type "ext4"))
+           (mount-point "/")
+           (device (uuid "TBD" 'ext4))
+           (type "ext4"))
+         (file-system
+           (mount-point "/home")
+           (device (uuid "TBD" 'ext4))
+           (type "ext4"))
          %base-file-systems))
 
 (define %host-swap-devices
   (list (swap-space
          (target
-          (uuid "6f510da6-67f2-4de7-8b0e-0745de6457d8")))))
+          (uuid "TBD")))))
 
 
 ;;;
-;;; Framework specific service additions
+;;; Framework-Pro specific service additions
 ;;;
 
 (define %host-extra-services
@@ -46,7 +50,7 @@
    ))
 
 ;;;
-;;; Framework specific package additions
+;;; Framework-Pro specific package additions
 ;;;
 
 (define %host-extra-packages
@@ -62,9 +66,9 @@
 
 (define %guixos
   (make-guixos-system
-   #:host-name "framework"
-   #:user "logoraz"
-   #:comment "Erik P Almaraz"
+   #:host-name "framework-pro"
+   #:user "locutus"
+   #:comment "Worker Bee"
    #:file-systems %host-file-systems
    #:swap-devices %host-swap-devices
    #:extra-services %host-extra-services
