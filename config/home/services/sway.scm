@@ -252,7 +252,7 @@
 ;;; companions sway expects
 
 ;; Background, idle, & lock helpers
-(define %sway-session-helpers
+(define %sway-session
   (list swaybg
         swayidle
         wlsunset))
@@ -279,7 +279,7 @@
   (list librsvg))
 
 (define %sway-base-packages
-  (append %sway-session-helpers
+  (append %sway-session
           %sway-ui
           %sway-clipboard+screenshot
           %sway-gubar

@@ -13,7 +13,7 @@
 
   ;; Themes & icons
   #:use-module (gnu packages gnome)                ;; adwaita, gnome extra, gvfs
-  #:use-module (gnu packages gnome-xyz)            ;; papirus, matcha
+  #:use-module (gnu packages gnome-xyz)            ;; qogir, papirus, matcha
   #:use-module (gnu packages kde-frameworks)       ;; breeze-icons
 
   ;; Web & toolkit support
@@ -77,7 +77,8 @@
 
 ;; Icon & GTK themes
 (define %appearance
-  (list papirus-icon-theme
+  (list qogir-icon-theme
+        papirus-icon-theme
         adwaita-icon-theme
         breeze-icons ;; for KDE apps
         matcha-theme

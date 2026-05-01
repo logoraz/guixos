@@ -20,8 +20,7 @@
 
   ;; Fonts & Themes
   #:use-module (gnu packages fonts)
-  #:use-module (gnu packages gnome)            ;; gnome-themes-extra
-  #:use-module (gnu packages gnome-xyz)        ;; bibata-cursor, qogir-icon
+  #:use-module (gnu packages gnome-xyz)        ;; bibata-cursor
 
   ;; Hardware runtimes (audio, bluetooth, brightness, sensors)
   #:use-module (gnu packages linux)            ;; pipewire, wireplumber, brightnessctl, lm-sensors
@@ -234,9 +233,7 @@ input type:keyboard {
 
 ;;; Themes
 (define %guixos-themes
-  (list bibata-cursor-theme
-        qogir-icon-theme
-        gnome-themes-extra))
+  (list bibata-cursor-theme))
 
 ;;; Hardware runtimes
 (define %guixos-hardware-runtimes
