@@ -3,7 +3,7 @@
 ;;;
 ;;; Scheme language extensions and syntactic sugar for GuixOS config system.
 ;;;
-(define-module (config subrx)
+(define-module (config lib subrx)
   #:export (define-parameter))
 
 

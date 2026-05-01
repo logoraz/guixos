@@ -3,40 +3,27 @@
   #:use-module (gnu home services)
   #:use-module (guix gexp)
   #:use-module (gnu home services dotfiles)
+  #:use-module (config lib utils)
+  #:use-module (config system identity)
   #:export (home-config-files-service-type))
 
-
-;; Edit setting the Home User
-(define %user-name "logoraz")
-
-(define %source (string-append "/home"
-                               "/" %user-name
-                               "/.config/guixos"))
-
-(define* (resolve dir #:key file)
-  "Resolve local config dir & file"
-  (let ((filename (if file (string-append "/" file) "")))
-    (local-file (string-append
-                 %source "/"
-                 dir filename)
-                #:recursive? #t)))
 
 (define (home-config-files-service config)
   `(;; Guix Configuration Channels
     (".config/guix/channels.scm"
-     ,(resolve "config/system" #:file "channels.scm"))
+     ,(resolve (home-source) "config/system" #:file "channels.scm"))
 
     ;; Guile Configuration
     (".guile"
-     ,(resolve "files/guile" #:file "dot-guile"))
+     ,(resolve (home-source) "files/guile" #:file "dot-guile"))
 
     ;; SBCL Configuration
     (".sbclrc"
-     ,(resolve "files/common-lisp" #:file "dot-sbclrc.lisp"))
+     ,(resolve (home-source) "files/common-lisp" #:file "dot-sbclrc.lisp"))
 
     ;;TODO: prep for GNU guile-next release to store these in XDG_CONFIG_HOME...
     (".config/guile/guile"
-     ,(resolve "files/guile" #:file "dot-guile"))
+     ,(resolve (home-source) "files/guile" #:file "dot-guile"))
 
     ;; TODO
     ))

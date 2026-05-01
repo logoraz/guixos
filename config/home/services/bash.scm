@@ -1,30 +1,11 @@
 (define-module (config home services bash)
-  #:use-module (srfi srfi-1)
-  #:use-module (ice-9 format)
-  #:use-module (ice-9 match)
-  #:use-module (ice-9 ftw)
-  #:use-module (gnu)
-  #:use-module (gnu packages)
+  #:use-module (guix gexp)
   #:use-module (gnu home services)
   #:use-module (gnu home services shells)
-  #:use-module (guix gexp)
+  #:use-module (config lib utils)
+  #:use-module (config system identity)
   #:export (bash-config->service))
 
-
-;; Edit setting the Home User
-(define %user-name "logoraz")
-
-(define %source (string-append "/home"
-                               "/" %user-name
-                               "/.config/guixos"))
-
-(define* (resolve dir #:key file)
-  "Resolve local config dir & file"
-  (let ((filename (if file (string-append "/" file) "")))
-    (local-file (string-append
-                 %source "/"
-                 dir filename)
-                #:recursive? #t)))
 
 (define %gosr (string-append "sudo guix system -L "
                              "~/.config/guixos/ "
@@ -53,6 +34,8 @@
                 ("gohr" . ,%gohr)
                 ("gop"  . ,%gop)))
              (bashrc
-              `(,(resolve "files/bash" #:file "dot-bashrc.sh")))
+              `(,(resolve (home-source) "files/bash"
+                          #:file "dot-bashrc.sh")))
              (bash-profile
-              `(,(resolve "files/bash" #:file "dot-bash_profile.sh"))))))
+              `(,(resolve (home-source) "files/bash"
+                          #:file "dot-bash_profile.sh"))))))

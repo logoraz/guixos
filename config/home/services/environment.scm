@@ -39,7 +39,7 @@
 
     ;; GTK/QT/Cursor Theming
     ("GTK_THEME"            . "Adwaita:dark")
-    ("GTK_ICON_THEME"       . "Qogir-dark")
+    ("GTK_ICON_THEME"       . "Qogir-Dark")
     ("GDK_DPI_SCALE"        . "1")
     ;;TODO use gexp local-file to resolve this file...
     ("GTK2_RC_FILES"        . ,%gtk2-rc)
@@ -47,15 +47,15 @@
 
     ("QT_STYLE_OVERRIDE"    . "adwaita")
     ("QT_QPA_PLATFORMTHEME" . "gtk3")
-    ("QT_QPA_PLATFORM"      . "wayland-egl")
+    ("QT_QPA_PLATFORM"      . "wayland") ;wayland-egl ?
 
     ("XCURSOR_THEME" . "Bibata-Modern-Classic")
     ("XCURSOR_SIZE"  . "20")
 
     ;; Set XDG environment variables
     ("XDG_LOG_HOME"     . "$HOME/.local/log")
-    ("XDG_DOWNLOAD_DIR" . "$HOME/downloads")
-    ("XDG_PICTURES_DIR" . "$HOME/pictures/screenshots")
+    ("XDG_DOWNLOAD_DIR" . "$HOME/Downloads")
+    ("XDG_PICTURES_DIR" . "$HOME/Pictures/Screenshots")
 
     ;; Flatpak integration
     ("XDG_LOCAL_BIN"    . "$HOME/.local/bin")

@@ -1,4 +1,4 @@
-(define-module (config packages razemacs)
+(define-module (config packages r2emacs)
   #:use-module (guix download)
   #:use-module (guix git-download)
   #:use-module (guix packages)
@@ -11,18 +11,18 @@
 ;;; Get commit via git log
 (define-public razemacs
   (package
-   (name "razemacs")
-   (version "a9d7ce0c93dbda281348b777a1a234bf4d71994c")
+   (name "r2emacs")
+   (version "tbd")
    (source (origin
             (method git-fetch)
             (uri (git-reference
-                  (url "https://codeberg.org/logoraz/razemacs.git")
+                  (url "https://codeberg.org/logoraz/r2emacs.git")
                   (commit version)))
             (hash
              (content-hash
-              "1m6w7310prcyhg3jajwf1piw5wxm3ckj2qnlyxnbr98xpd1mrz1y"))))
+              "tbd"))))
    (build-system copy-build-system)
-   (home-page "https://codeberg.org/logoraz/razemacs")
-   (synopsis "RazEmacs")
-   (description "RazEmacs")
+   (home-page "https://codeberg.org/logoraz/r2emacs")
+   (synopsis "R2Emacs")
+   (description "R2Emacs")
    (license license:gpl3+)))

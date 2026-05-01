@@ -1,22 +1,20 @@
 (define-module (config home services sway)
-  #:use-module (srfi srfi-1)
   #:use-module (ice-9 format)
   #:use-module (ice-9 match)
-  #:use-module (ice-9 ftw)
+  #:use-module (guix gexp)
+  #:use-module (guix packages)
   #:use-module (gnu)
   #:use-module (gnu packages)
   #:use-module (gnu packages wm)
   #:use-module (gnu packages xdisorg)
   #:use-module (gnu packages gnome)
-  #:use-module (gnu packages terminals)
+  #:use-module (gnu packages guile-xyz)
   #:use-module (gnu services)
   #:use-module (gnu services configuration)
   #:use-module (gnu home services)
-  #:use-module (gnu home services shepherd)
-  #:use-module (gnu home services utils)
   #:use-module (gnu home services sway)
-  #:use-module (guix gexp)
-  #:use-module (guix packages)
+  #:use-module (config lib utils)
+  #:use-module (config system identity)
   ;; #:use-module (config packages gubar)
   #:export (sway-configuration-extension
             home-sway-configuration-service-type))
@@ -35,7 +33,7 @@
 (define %sway-config-base-variables
   `((mod . "Mod4") ;; Super key (note Super := Mod4, Alt := Mod1)
     (system_theme . "Adwaita-dark")
-    (system_icons . "Qogir-Dark")
+    (system_icons . "Qogir-dark")
     (system_font  . "Iosevka Aile 11")
     (cursor_theme . "Bibata-Modern-Classic")
     (cursor_size . "20")
@@ -231,9 +229,10 @@
     "brightnessctl -d chromeos::kbd_backlight set 10%"
     ;; Idle screen configuration
     ,(string-append "swayidle -w "
-                    "timeout 900 '$lock' "
-                    "timeout 960 'swaymsg \"output * dpms off\"' "
+                    "timeout 1800 '$lock' "
+                    "timeout 1860 'swaymsg \"output * dpms off\"' "
                     "resume 'swaymsg \"output * dpms on\"' "
+                    "timeout 7200 'loginctl suspend' "
                     "before-sleep '$lock'")
     ;; Night Light (Chicago lat/lon)
     ,(string-append "wlsunset -l 41.88 -L -87.63")
@@ -246,17 +245,45 @@
                     "--systemd DISPLAY WAYLAND_DISPLAY "
                     "XDG_CURRENT_DESKTOP=sway")))
 
-(define %sway-base-packages
+;;;
+;;; Sway companion packages
+;;;
+;;; The sway WM itself lives at system level - these are the user-session
+;;; companions sway expects
+
+;; Background, idle, & lock helpers
+(define %sway-session-helpers
   (list swaybg
         swayidle
-        fuzzel
-        wlogout
-        mako
-        grimshot ;; grimshot --notify copy area
-        wlsunset
-        wl-clipboard
-        librsvg
-        gubar))
+        wlsunset))
+
+;; Launchers, notifications, & user-input UI
+(define %sway-ui
+  (list fuzzel  ;; app launcher
+        wlogout ;; logout/lock UI
+        mako))  ;; notification daemon
+
+;; Screenshot & clipboard tooling
+(define %sway-clipboard+screenshot
+  (list grimshot
+        wl-clipboard))
+
+;; Status bar (gubar) and its Guile runtime deps
+;; guile-fibers installed system level
+(define %sway-gubar
+  (list gubar
+        guile-hall
+        (specification->package "guile-json")))
+
+(define %sway-rendering
+  (list librsvg))
+
+(define %sway-base-packages
+  (append %sway-session-helpers
+          %sway-ui
+          %sway-clipboard+screenshot
+          %sway-gubar
+          %sway-rendering))
 
 (define* (swaybar->config #:key (identifier 'bar0))
   "Return a sway-bar configuration record."
@@ -335,42 +362,27 @@
         %sway-base-packages)))))
 
 
-;; Edit setting the Home User
-(define %user-name "logoraz")
-
-(define %source (string-append "/home"
-                               "/" %user-name
-                               "/.config/guixos"))
-
-(define* (resolve dir #:key file)
-  "Resolve local config dir & file"
-  (let ((filename (if file (string-append "/" file) "")))
-    (local-file (string-append
-                 %source "/"
-                 dir filename)
-                #:recursive? #t)))
-
 (define (home-sway-files-service config)
   "Provide symlinks for other programs configs that Sway uses."
   `(;; Sway Bar --> gubar Configuration
     (".config/gubar"
-     ,(resolve "files/gubar"))
+     ,(resolve (home-source) "files/gubar"))
 
     ;; Application Selector
     (".config/mako"
-     ,(resolve "files/mako"))
+     ,(resolve (home-source) "files/mako"))
 
     ;; Screen Locking
     (".config/fuzzel"
-     ,(resolve "files/fuzzel"))
+     ,(resolve (home-source) "files/fuzzel"))
 
     ;; UI Logout Application
     (".config/wlogout"
-     ,(resolve "files/wlogout"))
+     ,(resolve (home-source) "files/wlogout"))
 
     ;; Default Sway/Wayland Terminal
     (".config/foot"
-     ,(resolve "files/foot"))))
+     ,(resolve (home-source) "files/foot"))))
 
 (define home-sway-configuration-service-type
   (service-type

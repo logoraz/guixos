@@ -4,27 +4,20 @@
   #:use-module (gnu home services)
   #:use-module (guix gexp)
   #:use-module (gnu home services dotfiles)
+  #:use-module (config lib utils)
+  #:use-module (config system identity)
   #:use-module (config home services impure-symlinks)
   #:export (home-mutable-symlinks-service-type))
 
-(define %user-name "logoraz")
-
-(define %guixos-path (string-append "/home"
-                                    "/" %user-name
-                                    "/.config/guixos/"))
 
 (define (home-mutable-symlinks-service config)
-  `(;; GTK Configuration
+  `( ;; GTK Configuration
     (".config/gtk-3.0/settings.ini"
-     ,(string-append
-       %guixos-path
-       "files/gtk/settings.ini"))
+     ,(resolve (home-source) "files/gtk" #:file "settings.ini" #:string? #t))
 
     ;; Zathura Configuration File
     (".config/zathura/zathurarc"
-     ,(string-append
-       %guixos-path
-       "files/zathura/zathurarc"))))
+     ,(resolve (home-source) "files/zathura" #:file "zathurarc" #:string? #t))))
 
 (define home-mutable-symlinks-service-type
   (service-type (name 'home-mutable-files)

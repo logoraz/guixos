@@ -1,58 +1,69 @@
 (define-module (config home services desktop-profile)
+  ;; Guix DSL
+  #:use-module (guix gexp)
   #:use-module (gnu)
-  #:use-module (gnu packages guile-xyz)
-  #:use-module (gnu packages lisp-xyz)
-  #:use-module (gnu packages fonts)
-  #:use-module (gnu packages wm)
-  #:use-module (gnu packages networking)
-  #:use-module (gnu packages xorg)
-  #:use-module (gnu packages xdisorg)
-  #:use-module (gnu packages freedesktop)
-  #:use-module (gnu packages fontutils)
-  #:use-module (gnu packages linux)
+  #:use-module (gnu home services)
+
+  ;; Flatpak, XDG plumbing & cross-toolkit compatibility
+  #:use-module (gnu packages package-management)   ;; flatpak
+  #:use-module (gnu packages fontutils)            ;; fontconfig
+  #:use-module (gnu packages freedesktop)          ;; xdg-*
   #:use-module (gnu packages glib)
-  #:use-module (gnu packages gnome)
-  #:use-module (gnu packages gnome-xyz)
-  #:use-module (gnu packages kde-frameworks)
-  #:use-module (gnu packages gstreamer)
-  #:use-module (gnu packages compression)
-  #:use-module (gnu packages gnuzilla)
-  #:use-module (gnu packages text-editors) ;;lem
-  #:use-module (gnu packages tls)
-  #:use-module (gnu packages graphics)
-  #:use-module (gnu packages libreoffice)
-  #:use-module (gnu packages image)
-  #:use-module (gnu packages music)
-  #:use-module (gnu packages pulseaudio)
-  #:use-module (gnu packages xiph)
-  #:use-module (gnu packages video)
-  #:use-module (gnu packages gl)
-  #:use-module (gnu packages speech)
-  #:use-module (gnu packages mail)
-  #:use-module (gnu packages qt)
-  #:use-module (gnu packages package-management)
-  #:use-module (gnu packages password-utils)
+  #:use-module (gnu packages xorg)                 ;; xorg-server-xwayland
+
+  ;; Themes & icons
+  #:use-module (gnu packages gnome)                ;; adwaita, gnome extra, gvfs
+  #:use-module (gnu packages gnome-xyz)            ;; papirus, matcha
+  #:use-module (gnu packages kde-frameworks)       ;; breeze-icons
+
+  ;; Web & toolkit support
+  #:use-module (gnu packages qt)                   ;; qtwayland
   #:use-module (gnu packages enchant)
-  #:use-module (gnu packages gnupg)
+  #:use-module (gnu packages speech)               ;; speech-dispatcher
+  #:use-module (gnu packages node)
+
+  ;; Authentication
+  #:use-module (gnu packages gnupg)                ;; gnupg, pinentry
+  #:use-module (gnu packages password-utils)       ;; keepassxc, password-store
+
+  ;; Media codecs + playback
+  #:use-module (gnu packages gstreamer)            ;; gstreamer + plugins
+  #:use-module (gnu packages video)                ;; ffmpeg*, mpv*, yt-dlp
+  #:use-module (gnu packages music)                ;; playerctl
+  #:use-module (gnu packages pulseaudio)           ;; pavucontrol
+  #:use-module (gnu packages games)                ;; steam-devices-udev-rules
+
+  ;; Document Tools & Viewers
+  #:use-module (gnu packages pdf)                  ;; zathura*,mupdf,poppler
+  #:use-module (gnu packages haskell-xyz)          ;; pandoc
+  #:use-module (gnu packages image-viewers)        ;; imv
+  #:use-module (gnu packages ocr)                  ;; tesseract-ocr
+  #:use-module (gnu packages libreoffice)
+
+  ;; Applications
   #:use-module (gnu packages gnucash)
   #:use-module (gnu packages gimp)
   #:use-module (gnu packages inkscape)
-  #:use-module (gnu packages games)
-  #:use-module (gnu packages maths)
-  #:use-module (gnu packages pdf)
-  #:use-module (gnu packages shellutils)
-  #:use-module (gnu packages node)
-  #:use-module (gnu services configuration)
-  #:use-module (gnu home services)
-  #:use-module (guix gexp)
-  #:use-module (guix transformations)
+  #:use-module (gnu packages graphics)             ;; blender
+
+
+  ;; Hardware & extra utilities
+  #:use-module (gnu packages tls)                  ;; openssl, aws-lc
+  #:use-module (gnu packages xdisorg)              ;; wev
+  #:use-module (gnu packages linux)                ;; alsa-*, tlp
+  #:use-module (gnu packages networking)           ;; nm applet, blueman
+  #:use-module (gnu packages shellutils)           ;; trash-cli, udiskie
+
   #:export (home-desktop-profile-service-type))
 
 
-;;; Package Transformations
-(define (home-desktop-profile-service config)
-  (list ;; XDG Utilities
-        flatpak
+;;;
+;;; Home Desktop Profile Packages
+;;;
+
+;; Flatpak, XDG plumbing & cross-toolkit compatibility
+(define %flatpak+xdg
+  (list flatpak
         fontconfig
         xdg-desktop-portal
         xdg-desktop-portal-gtk
@@ -62,93 +73,64 @@
         shared-mime-info
         (list glib "bin")
         ;; Compatibility for older Xorg applications
-        xorg-server-xwayland
+        xorg-server-xwayland))
 
-        ;; Appearance
-        papirus-icon-theme
+;; Icon & GTK themes
+(define %appearance
+  (list papirus-icon-theme
         adwaita-icon-theme
         breeze-icons ;; for KDE apps
         matcha-theme
-        gnome-themes-extra
+        gnome-themes-extra))
 
-        ;; Fonts
-        font-jetbrains-mono
-        font-fira-code
-        font-liberation
-        font-iosevka-aile
-        font-awesome
-        font-google-noto
-        font-google-noto-emoji
-        font-google-noto-sans-cjk
-
-        ;; Browsers
-        ;; zen-browser-bin
-        ;; icecat
+(define %web-utils
+  (list qtwayland
         enchant
         speech-dispatcher
-        node
-        qtwayland ;;(specification->package "qtwayland@5")
+        node))
 
-        ;; Authentication
-        gnupg
+(define %authentication
+  (list gnupg
         pinentry
-        keepassxc
-        password-store ;; move to password-store eventually...
+        keepassxc    ;; move to password-store eventually (?)
+        password-store))
 
-        ;; Audio devices & Media playback
-        mpv
-        mpv-mpris
-        yt-dlp
-        playerctl
-        gstreamer
+;; Media codec stack
+(define %media-codecs+playback
+  (list gstreamer
         gst-plugins-base
         gst-plugins-good
         gst-plugins-bad
         gst-plugins-ugly
         gst-libav
         ffmpeg
-        opus
         ffmpegthumbnailer
+        mpv
+        mpv-mpris
+        yt-dlp
+        playerctl
         pavucontrol
-        steam-devices-udev-rules
+        steam-devices-udev-rules))
 
-        ;; Mail & Document Utilities
-        ;; texlive
-        ;; texinfo
-        ;; texi2html
-        zathura
+;; Document Tools/Viewers
+(define %documents
+  (list zathura
         zathura-pdf-mupdf
+        libreoffice
+        mupdf
+        poppler
+        pandoc
+        imv
+        tesseract-ocr))
 
-        ;; Applications
-        gnucash
+(define %applications
+  (list gnucash
         gimp-3
         inkscape
-        blender
-        libreoffice
+        blender))
 
-        ;; Sway base packages (temporary)
-        ;; swaybg
-        ;; swayidle
-        ;; fuzzel
-        ;; wlogout
-        ;; mako
-        ;; grimshot
-        ;; wlsunset
-        ;; wl-clipboard
-        ;; librsvg
-        ;; gubar
-
-        ;; Lambda
-        ;; guile-ares-rs
-        ;; guile-fibers
-        ;; guile-hall
-        ;; guile-hoot
-        ;; guile-g-golf
-        ;; guile-goblins
-        sbcl-slynk
-
-        ;; Utilities
-        openssl
+(define %xtra-utilities
+  (list openssl
         aws-lc
         wev
         alsa-lib
@@ -159,6 +141,16 @@
         network-manager-applet
         udiskie
         trash-cli))
+
+(define (home-desktop-profile-service config)
+  (append %flatpak+xdg
+          %appearance
+          %web-utils
+          %authentication
+          %media-codecs+playback
+          %documents
+          %applications
+          %xtra-utilities))
 
 (define home-desktop-profile-service-type
   (service-type (name 'home-sway-desktop-config)
