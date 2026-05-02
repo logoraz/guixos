@@ -115,9 +115,7 @@
 
 ;; Document Tools/Viewers
 (define %documents
-  (list zathura
-        zathura-pdf-mupdf
-        libreoffice
+  (list libreoffice
         mupdf
         poppler
         pandoc

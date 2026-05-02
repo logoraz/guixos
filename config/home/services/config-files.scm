@@ -9,11 +9,7 @@
 
 
 (define (home-config-files-service config)
-  `(;; Guix Configuration Channels
-    (".config/guix/channels.scm"
-     ,(resolve (home-source) "config/system" #:file "channels.scm"))
-
-    ;; Guile Configuration
+  `(;; Guile Configuration
     (".guile"
      ,(resolve (home-source) "files/guile" #:file "dot-guile"))
 

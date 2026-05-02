@@ -11,13 +11,16 @@
 
 
 (define (home-mutable-symlinks-service config)
-  `( ;; GTK Configuration
+  `(;; Guix Configuration Channels
+    (".config/guix/channels.scm"
+     ,(resolve (home-source) "config/system" #:file "channels.scm" #:string? #t))
+
+    ;; GTK Configuration
     (".config/gtk-3.0/settings.ini"
      ,(resolve (home-source) "files/gtk" #:file "settings.ini" #:string? #t))
 
-    ;; Zathura Configuration File
-    (".config/zathura/zathurarc"
-     ,(resolve (home-source) "files/zathura" #:file "zathurarc" #:string? #t))))
+    ;;TODO
+    ))
 
 (define home-mutable-symlinks-service-type
   (service-type (name 'home-mutable-files)

@@ -9,7 +9,7 @@
 ;;;
 ;;; or to premptively pin at latest master do:
 ;;;
-;;; git ls-remote https://git.guix.gnu.org/guix.git master
+;;; git ls-remote https://codeberg.org/guix/guix.git master
 ;;; git ls-remote https://gitlab.com/nonguix/nonguix master
 
 ;;;
@@ -18,9 +18,9 @@
 (define %nonguix-channel
   (channel
     (name 'nonguix)
-    (url "https://gitlab.com/nonguix/nonguix")
+    (url "https://gitlab.com/nonguix/nonguix.git")
     (branch "master")
-    (commit "c4541fdb0b472664dafe5d7b1ec2e51e4ef7b772")
+    (commit "5f2630e69fbbe9e79c350a67545f0fef7e93e223")
     (introduction
      (make-channel-introduction
       "897c1a470da759236cc11798f4e0a5f7d4d59fbc"
@@ -30,9 +30,9 @@
 (define %guix-channel
   (channel
     (name 'guix)
-    (url "https://git.guix.gnu.org/guix.git")
+    (url "https://codeberg.org/guix/guix.git")
     (branch "master")
-    (commit "af9b985f139016d2544335bcf64c2dd32a4638f3")
+    (commit "7911de258df53e5ec6dca6b4e04f16b1afa1d327")
     (introduction
      (make-channel-introduction
       "9edb3f66fd807b096b48283debdcddccfea34bad"

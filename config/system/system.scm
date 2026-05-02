@@ -16,6 +16,7 @@
 
   ;; WM, Login & Terminal
   #:use-module (gnu packages wm)               ;; sway, swaylock-effects
+  #:use-module (gnu packages gnome)            ;; librsvg
   #:use-module (gnu packages terminals)        ;; foot
 
   ;; Fonts & Themes
@@ -23,7 +24,7 @@
   #:use-module (gnu packages gnome-xyz)        ;; bibata-cursor
 
   ;; Hardware runtimes (audio, bluetooth, brightness, sensors)
-  #:use-module (gnu packages linux)            ;; pipewire, wireplumber, brightnessctl, lm-sensors
+  #:use-module (gnu packages linux)
 
   ;; Filesystem & firmware
   #:use-module (gnu packages file-systems)     ;; bcachefs-tools
@@ -102,7 +103,7 @@
 
 ;;; Greetd Configuration
 (define %greetd-backsplash
-  (local-file "../../files/assets/wallpapers/greetd-backsplash.jpg"))
+  (local-file "../../files/assets/wallpapers/guix-bottom-checkered-16-9.svg"))
 
 (define %greetd-conf
   (mixed-text-file "sway-greetd.conf"
@@ -217,6 +218,7 @@ input type:keyboard {
 (define %guixos-wm
   (list sway
         swaylock-effects
+        librsvg
         foot))
 
 ;;; Fonts

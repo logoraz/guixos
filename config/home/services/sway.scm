@@ -7,7 +7,6 @@
   #:use-module (gnu packages)
   #:use-module (gnu packages wm)
   #:use-module (gnu packages xdisorg)
-  #:use-module (gnu packages gnome)
   #:use-module (gnu packages guile-xyz)
   #:use-module (gnu services)
   #:use-module (gnu services configuration)
@@ -20,7 +19,7 @@
             home-sway-configuration-service-type))
 
 (define %bg-path
-  (local-file "../../../files/assets/wallpapers/primary-wall.svg"))
+  (local-file "../../../files/assets/wallpapers/guix-checkered-16-9.svg"))
 
 (define workspace-list
   '((ws0 "0" "$laptop")
@@ -157,7 +156,7 @@
     ;; Lock Screen
     ($mod+Shift+o . "exec $qlock")
     ;; Sway session controls
-    ($mod+Shift+space . "exec wlogout -p layer-shell")
+    ($mod+Shift+space . "exec wlogout -p layer-shell -m 300")
     ;; Screenshots
     (Print . "exec grimshot --notify save output")
     (Alt+Print . "exec grimshot --notify save area")))
@@ -275,15 +274,11 @@
         guile-hall
         (specification->package "guile-json")))
 
-(define %sway-rendering
-  (list librsvg))
-
 (define %sway-base-packages
   (append %sway-session
           %sway-ui
           %sway-clipboard+screenshot
-          %sway-gubar
-          %sway-rendering))
+          %sway-gubar))
 
 (define* (swaybar->config #:key (identifier 'bar0))
   "Return a sway-bar configuration record."
