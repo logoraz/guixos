@@ -1,3 +1,4 @@
+;; -*- mode: scheme -*-
 (define-module (files gubar blocks network-manager-wifi2)
   #:use-module (gubar gublock)
   #:use-module (gubar swaybar-protocol)

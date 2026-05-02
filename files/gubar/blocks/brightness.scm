@@ -1,3 +1,4 @@
+;; -*- mode: scheme -*-
 (define-module (files gubar blocks brightness)
   #:use-module (gubar gublock)
   #:use-module (gubar swaybar-protocol)

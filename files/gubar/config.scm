@@ -1,3 +1,4 @@
+;; -*- mode: scheme -*-
 (define-module (files gubar config)
   #:use-module (gubar gublock)
   #:use-module (gubar swaybar-protocol)
