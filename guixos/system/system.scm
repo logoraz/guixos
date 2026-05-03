@@ -122,30 +122,44 @@ input type:keyboard {
 }
 "))
 
+(define %sway-logged
+  (program-file
+   "sway-logged"
+   #~(begin
+       (use-modules (ice-9 popen))
+       ;; Open the log for append, redirect both stdout and stderr to it,
+       ;; then exec sway so it inherits those fds and replaces this process.
+       (let ((log (open-file "/tmp/greetd-sway.log" "a")))
+         (dup2 (fileno log) 1)
+         (dup2 (fileno log) 2)
+         (close-port log))
+       (execl #$(file-append sway "/bin/sway")
+              "sway"))))
+
 (define %guixos-base-services
   (cons*
    (service screen-locker-service-type
             (screen-locker-configuration
-             (name "swaylock")
-             (program (file-append swaylock-effects "/bin/swaylock"))
-             (using-pam? #t)
-             (using-setuid? #f)))
+              (name "swaylock")
+              (program (file-append swaylock-effects "/bin/swaylock"))
+              (using-pam? #t)
+              (using-setuid? #f)))
 
    (service bluetooth-service-type
             (bluetooth-configuration
-             (auto-enable? #t)))
+              (auto-enable? #t)))
 
    (service cups-service-type
             (cups-configuration
-             (web-interface? #t)
-             (default-paper-size "Letter")
-             (extensions (list cups-filters hplip-minimal))))
+              (web-interface? #t)
+              (default-paper-size "Letter")
+              (extensions (list cups-filters hplip-minimal))))
 
    ;; ssh user@host -p 2222
    (service openssh-service-type
             (openssh-configuration
-             (openssh openssh-sans-x)
-             (port-number 2222)))
+              (openssh openssh-sans-x)
+              (port-number 2222)))
 
    ;; TODO: New - need to look into & configure!!
    (service tor-service-type)
@@ -154,23 +168,23 @@ input type:keyboard {
    ;; see fwuupd-service-type
    (service greetd-service-type
             (greetd-configuration
-             (greeter-supplementary-groups '("video" "input" "seat" "users"))
-             (terminals
-              (list
-               (greetd-terminal-configuration
-                (terminal-vt "1")
-                (terminal-switch #t)
-                (default-session-command
-                 (greetd-wlgreet-sway-session
-                  (sway sway)
-                  (sway-configuration %greetd-conf)
-                  (command (file-append sway "/bin/sway")))))
-               (greetd-terminal-configuration (terminal-vt "2"))
-               (greetd-terminal-configuration (terminal-vt "3"))
-               (greetd-terminal-configuration (terminal-vt "4"))
-               (greetd-terminal-configuration (terminal-vt "5"))
-               (greetd-terminal-configuration (terminal-vt "6"))
-               (greetd-terminal-configuration (terminal-vt "7"))))))
+              (greeter-supplementary-groups '("video" "input" "seat" "users"))
+              (terminals
+               (list
+                (greetd-terminal-configuration
+                  (terminal-vt "1")
+                  (terminal-switch #t)
+                  (default-session-command
+                    (greetd-wlgreet-sway-session
+                      (sway sway)
+                      (sway-configuration %greetd-conf)
+                      (command %sway-logged))))
+                (greetd-terminal-configuration (terminal-vt "2"))
+                (greetd-terminal-configuration (terminal-vt "3"))
+                (greetd-terminal-configuration (terminal-vt "4"))
+                (greetd-terminal-configuration (terminal-vt "5"))
+                (greetd-terminal-configuration (terminal-vt "6"))
+                (greetd-terminal-configuration (terminal-vt "7"))))))
 
    ;; Firmware Updating Service via fwupd
    (service fwupd-service-type)

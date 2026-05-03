@@ -19,9 +19,68 @@
   #:export (sway-configuration-extension
             home-sway-configuration-service-type))
 
+;;;
+;;; Build-Time Assets
+;;;
 (define %bg-path
   (local-file "../../../files/assets/wallpapers/guix-checkered-16-9.svg"))
 
+(define %swaylock-cmd
+  (file-append swaylock-effects "/bin/swaylock"))
+
+(define %sway-session-end
+  (program-file
+   "sway-session-end"
+   #~(let* ((args (command-line))
+            (action (if (> (length args) 1) (cadr args) "exit"))
+            (final-cmd
+             (cond
+              ((string=? action "exit")
+               (string-append #$(file-append sway "/bin/swaymsg") " exit"))
+              ((string=? action "reboot")    "loginctl reboot")
+              ((string=? action "poweroff")  "loginctl poweroff")
+              ((string=? action "suspend")   "loginctl suspend")
+              ((string=? action "hibernate") "loginctl hibernate")
+              (else
+               (string-append #$(file-append sway "/bin/swaymsg") " exit")))))
+       (system* "/bin/sh" "-c"
+                (string-append
+                 "exec >>/tmp/sway-exit.log 2>&1; "
+                 "echo \"--- " action " at $(date) ---\"; "
+                 "pkill -TERM -x mako || true; "
+                 "pkill -TERM -x blueman-applet || true; "
+                 "pkill -TERM -x udiskie || true; "
+                 "pkill -TERM -x wlsunset || true; "
+                 "pkill -TERM -x swayidle || true; "
+                 "sleep 0.25; "
+                 final-cmd)))))
+
+(define %wlogout-layout
+  (mixed-text-file
+   "wlogout-layout"
+   "{ \"label\": \"lock\","
+   " \"action\": \"" %swaylock-cmd
+   " -f --screenshots --clock --effect-blur 9x7 --effect-vignette 0.25:0.5\","
+   " \"text\": \"Lock\", \"keybind\": \"l\" }\n"
+   "{ \"label\": \"logout\","
+   " \"action\": \"" %sway-session-end " exit\","
+   " \"text\": \"Logout\", \"keybind\": \"e\" }\n"
+   "{ \"label\": \"reboot\","
+   " \"action\": \"" %sway-session-end " reboot\","
+   " \"text\": \"Reboot\", \"keybind\": \"r\" }\n"
+   "{ \"label\": \"shutdown\","
+   " \"action\": \"" %sway-session-end " poweroff\","
+   " \"text\": \"Shutdown\", \"keybind\": \"s\" }\n"
+   "{ \"label\": \"suspend\","
+   " \"action\": \"" %sway-session-end " suspend\","
+   " \"text\": \"Suspend\", \"keybind\": \"u\" }\n"
+   "{ \"label\": \"hibernate\","
+   " \"action\": \"" %sway-session-end " hibernate\","
+   " \"text\": \"Hibernate\", \"keybind\": \"h\" }\n"))
+
+;;;
+;;; Sway Configuration Data
+;;;
 (define workspace-list
   '((ws0 "0" "$laptop")
     (ws2 "2" "$laptop")
@@ -109,7 +168,7 @@
 (define %sway-config-base-keybindings
   `( ;; Sway System Controls
     ($mod+Shift+q . "kill")
-    ($mod+Shift+x . "exit")
+    ($mod+Shift+x . ,#~(string-append "exec " #$%sway-session-end " exit"))
     ($mod+Shift+r . "reload")
     ;; Toggle Trackpad
     ($mod+Shift+t . ,(string-append
@@ -309,6 +368,9 @@
        "tray_bindsym button1 Activate"
        "tray_bindsym button2 ContextMenu"))))
 
+;;;
+;;; Service Composition
+;;;
 (define (sway-configuration-extension config)
   (let ((base (or config %empty-sway-configuration)))
     (sway-configuration
@@ -373,8 +435,11 @@
      ,(resolve (home-source) "files/fuzzel"))
 
     ;; UI Logout Application
-    (".config/wlogout"
-     ,(resolve (home-source) "files/wlogout"))
+    (".config/wlogout/layout" ,%wlogout-layout)
+    (".config/wlogout/style.css"
+     ,(resolve (home-source) "files/wlogout/style.css"))
+    (".config/wlogout/icons"
+     ,(resolve (home-source) "files/wlogout/icons"))
 
     ;; Default Sway/Wayland Terminal
     (".config/foot"
