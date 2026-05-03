@@ -53,9 +53,10 @@
     ("XCURSOR_SIZE"  . "20")
 
     ;; Set XDG environment variables
-    ("XDG_LOG_HOME"     . "$HOME/.local/log")
-    ("XDG_DOWNLOAD_DIR" . "$HOME/Downloads")
-    ("XDG_PICTURES_DIR" . "$HOME/Pictures/Screenshots")
+    ("XDG_LOG_HOME"        . "$HOME/.local/log")
+    ("XDG_DOWNLOAD_DIR"    . "$HOME/Downloads")
+    ("XDG_PICTURES_DIR"    . "$HOME/Pictures")
+    ("XDG_SCREENSHOTS_DIR" . "$HOME/Pictures/Screenshots")
 
     ;; Flatpak integration
     ("XDG_LOCAL_BIN"    . "$HOME/.local/bin")
