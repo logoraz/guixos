@@ -443,8 +443,10 @@
 
     ;; UI Logout Application
     (".config/wlogout/layout" ,%wlogout-layout)
+
     (".config/wlogout/style.css"
      ,(resolve (home-source) "files/wlogout/style.css"))
+
     (".config/wlogout/icons"
      ,(resolve (home-source) "files/wlogout/icons"))
 
@@ -453,9 +455,9 @@
      ,(resolve (home-source) "files/foot"))))
 
 (define (home-sway-gubar-symlink-service config)
-  `(;; Sway Bar --> gubar Configuration
+  `(;; Sway Bar --> gubar Configuration (Dev)
     (".config/gubar"
-     ,(resolve (home-source) "files/gubar"))
+     ,(resolve (home-source) "files/gubar" #:string? #t))
     ))
 
 (define home-sway-configuration-service-type
