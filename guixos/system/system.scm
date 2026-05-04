@@ -45,6 +45,7 @@
   #:use-module (gnu packages wget)
 
   ;; Services
+  #:use-module (gnu services shepherd)
   #:use-module (gnu services cups)
   #:use-module (gnu services desktop)
   #:use-module (gnu services guix)
@@ -199,6 +200,12 @@ input type:keyboard {
 
      ;; and can be used in place of mingetty-service-type
      (delete mingetty-service-type)
+
+     (shepherd-system-log-service-type
+      config =>
+      (system-log-configuration
+        (inherit config)
+        (max-silent-time #f)))
 
      (guix-service-type
       config =>
