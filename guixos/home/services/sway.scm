@@ -81,6 +81,14 @@
 ;;;
 ;;; Sway Configuration Data
 ;;;
+(define %text-scale "1")
+
+(define (dpi-scale identifier)
+  (case identifier
+    ((eDP-1)    "1.75")
+    ((HDMI-A-1) "1.5")
+    (else       "1")))
+
 (define workspace-list
   '((ws0 "0" "$laptop")
     (ws2 "2" "$laptop")
@@ -98,8 +106,7 @@
     (cursor_size . "20")
     (titlebar_font . "Iosevka Aile")
     (titlebar_text_size . "11")
-    (system_dpi_scaling_factor . "1.7")
-    (system_text_scaling_factor . "1")
+    (system_text_scaling_factor . ,%text-scale)
 
     (gnome_schema . "org.gnome.desktop.interface")
     (laptop  . "eDP-1")
@@ -152,15 +159,15 @@
     (sway-output
       (identifier 'eDP-1)
       (position (point (x 1920) (y 0)))
-      (extra-content '("scale 1.7")))
+      (extra-content (list (string-append "scale " (dpi-scale 'eDP-1)))))
     (sway-output
       (identifier "Acer Technologies K243Y TN6AA0018513")
       (position (point (x 0) (y 0)))
-      (extra-content '("scale 1")))
+      (extra-content (list (string-append "scale " (dpi-scale 'DP)))))
     (sway-output
       (identifier "VIZIO, Inc E32-C1 0x01010101")
-      (position (point (x 3614) (y 0)))
-      (extra-content '("scale 1")))
+      (position (point (x 3566) (y 0)))
+      (extra-content (list (string-append "scale " (dpi-scale 'DP)))))
     (sway-output
       (identifier '*)
       (background `(,%bg-path . fill))))))

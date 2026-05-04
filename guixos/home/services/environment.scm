@@ -40,7 +40,6 @@
     ;; GTK/QT/Cursor Theming
     ("GTK_THEME"            . "Adwaita:dark")
     ("GTK_ICON_THEME"       . "Qogir-Dark")
-    ("GDK_DPI_SCALE"        . "1")
     ;;TODO use gexp local-file to resolve this file...
     ("GTK2_RC_FILES"        . ,%gtk2-rc)
 
