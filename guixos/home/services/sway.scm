@@ -8,6 +8,7 @@
   #:use-module (gnu packages wm)
   #:use-module (gnu packages xdisorg)
   #:use-module (gnu packages guile-xyz)
+  #:use-module (gnu packages web)
   #:use-module (gnu services)
   #:use-module (gnu services configuration)
   #:use-module (gnu home services)
@@ -77,6 +78,17 @@
    "{ \"label\": \"hibernate\","
    " \"action\": \"" %sway-session-end " hibernate\","
    " \"text\": \"Hibernate\", \"keybind\": \"h\" }\n"))
+
+(define %sway-new-workspace
+  (program-file
+   "sway-new-workspace"
+   #~(system*
+      "/bin/sh" "-c"
+      (string-append
+       "next=$(swaymsg -t get_workspaces | "
+       #$(file-append jq "/bin/jq")
+       " 'map(.num) | max + 1'); "
+       "swaymsg workspace number $next"))))
 
 ;;;
 ;;; Sway Configuration Data
@@ -205,6 +217,10 @@
     ($mod+space . ,#~(string-append "exec "
                                     #$fuzzel
                                     "/bin/fuzzel"))
+
+    ;; Create New Workspaces dynamically
+    ($mod+n . ,#~(string-append "exec " #$%sway-new-workspace))
+
     ;; Switch to workspace
     ($mod+grave . "workspace $ws0")
     ($mod+1     . "workspace $ws1")
@@ -212,6 +228,11 @@
     ($mod+3     . "workspace $ws3")
     ($mod+4     . "workspace $ws4")
     ($mod+5     . "workspace $ws5")
+
+    ;; Other workspace gymnastics
+    ($mod+Tab        . "workspace back_and_forth")
+    ($mod+period     . "workspace next")
+    ($mod+comma      . "workspace prev")
 
     ;; Move focused container to workspace
     ($mod+Shift+grave . "move container to workspace $ws0")
@@ -321,7 +342,8 @@
 (define %sway-session
   (list swaybg
         swayidle
-        wlsunset))
+        wlsunset
+        jq))
 
 ;; Launchers, notifications, & user-input UI
 (define %sway-ui
