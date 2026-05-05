@@ -1,0 +1,13 @@
+[Desktop Entry]
+Name=Fastmail
+Exec=/home/logoraz/.guix-home/profile/bin/flatpak run --branch=stable --arch=x86_64 --command=fastmail --file-forwarding com.fastmail.Fastmail @@u %U @@
+Terminal=false
+Type=Application
+Icon=/home/logoraz/.local/share/flatpak/exports/share/icons/hicolor/256x256/apps/com.fastmail.Fastmail.png
+StartupWMClass=com.fastmail.Fastmail
+X-AppImage-Version=1.2.1.2169
+MimeType=x-scheme-handler/mailto;x-scheme-handler/fastmail;
+Comment=Email and calendar made better
+Categories=Network;Email;
+X-Desktop-File-Install-Version=0.28
+X-Flatpak=com.fastmail.Fastmail

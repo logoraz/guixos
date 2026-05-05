@@ -9,9 +9,16 @@
   #:use-module (guixos home services impure-symlinks)
   #:export (home-mutable-symlinks-service-type))
 
+(define (desktop-overrides-symlinks files)
+  (map (lambda (filename)
+         `(,(string-append ".local/share/applications/" filename)
+           ,(resolve (home-source)
+                     (string-append "files/desktop-entries/" filename)
+                     #:string? #t)))
+       files))
 
 (define (home-mutable-symlinks-service config)
-  `(;; Guix Configuration Channels
+  `( ;; Guix Configuration Channels
     (".config/guix/channels.scm"
      ,(resolve (home-source) "config/system" #:file "channels.scm" #:string? #t))
 
@@ -19,7 +26,18 @@
     (".config/gtk-3.0/settings.ini"
      ,(resolve (home-source) "files/gtk" #:file "settings.ini" #:string? #t))
 
-    ;;TODO
+    ;; Corrected Desktop Entries
+    ,@(desktop-overrides-symlinks
+       '("com.fastmail.Fastmail.desktop"
+         "libreoffice-base.desktop"
+         "libreoffice-calc.desktop"
+         "libreoffice-draw.desktop"
+         "libreoffice-impress.desktop"
+         "libreoffice-math.desktop"
+         "libreoffice-startcenter.desktop"
+         "libreoffice-writer.desktop"))
+
+    ;; TODO
     ))
 
 (define home-mutable-symlinks-service-type
