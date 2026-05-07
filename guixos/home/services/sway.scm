@@ -125,12 +125,18 @@
     (acer    . "'Acer Technologies K243Y TN6AA0018513'")
     (tv      . "'VIZIO, Inc E32-C1 0x01010101'")
 
+    ;; Define workspace numbers
     (ws0 . "0")
     (ws1 . "1")
     (ws2 . "2")
     (ws3 . "3")
     (ws4 . "4")
     (ws5 . "5")
+    ;; Additional non-pinned workspaces
+    (ws6 . "6")
+    (ws7 . "7")
+    (ws8 . "8")
+    (ws9 . "9")
 
     (bgcolor . "#1d1f21dd")
     (bordercolor . "#5e81accc")
@@ -228,6 +234,11 @@
     ($mod+3     . "workspace $ws3")
     ($mod+4     . "workspace $ws4")
     ($mod+5     . "workspace $ws5")
+    ;; additional workspaces
+    ($mod+6 . "workspace $ws6")
+    ($mod+7 . "workspace $ws7")
+    ($mod+8 . "workspace $ws8")
+    ($mod+9 . "workspace $ws9")
 
     ;; Other workspace gymnastics
     ($mod+Tab        . "workspace back_and_forth")
@@ -241,6 +252,12 @@
     ($mod+Shift+3 . "move container to workspace $ws3")
     ($mod+Shift+4 . "move container to workspace $ws4")
     ($mod+Shift+5 . "move container to workspace $ws5")
+    ;; additional workspaces
+    ($mod+Shift+6 . "move container to workspace $ws6")
+    ($mod+Shift+7 . "move container to workspace $ws7")
+    ($mod+Shift+8 . "move container to workspace $ws8")
+    ($mod+Shift+9 . "move container to workspace $ws9")
+
     ;; Lock Screen
     ($mod+Shift+o . "exec $qlock")
     ;; Sway session controls
@@ -289,7 +306,7 @@
     ;; Floating Screens
     "floating_modifier $mod"
 
-    ;; Workspaces
+    ;; Pin Workspaces
     ,@(map (match-lambda
              ((ws num outputs)
               (format #f "workspace $~a output ~a" ws outputs)))
