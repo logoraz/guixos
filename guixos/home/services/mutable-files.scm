@@ -20,7 +20,7 @@
 (define (home-mutable-symlinks-service config)
   `( ;; Guix Configuration Channels
     (".config/guix/channels.scm"
-     ,(resolve (home-source) "config/system" #:file "channels.scm" #:string? #t))
+     ,(resolve (home-source) "guixos/system" #:file "channels.scm" #:string? #t))
 
     ;; GTK Configuration
     (".config/gtk-3.0/settings.ini"
