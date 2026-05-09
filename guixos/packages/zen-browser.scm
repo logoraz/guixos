@@ -23,14 +23,16 @@
   #:use-module (gnu packages xorg)
   #:export (zen-browser-bin))
 
-;; To Update the Hash
+;; Notes on Updating to latest version:
+;; curl -s https://api.github.com/repos/zen-browser/desktop/releases/latest | \
+;;      grep '"tag_name"'
 ;; wget https://github.com/zen-browser/desktop/releases/download/ \
 ;;      <version>/zen.linux-x86_64.tar.xz
 ;; guix hash zen.linux-x86_64.tar.xz
 
 
-(define %version "1.19.8b")
-(define %zen-hash "12ggj481dfi9hizpah77drd5rh3y55k9yfccigb305c6zz8a5h3v")
+(define %version "1.19.12b")
+(define %zen-hash "0y83l1i12cbjbvvmlf81k1namjanscsggz6mzla5ar2i7a6bcvqm")
 
 (define zen-browser-bin
   (package
