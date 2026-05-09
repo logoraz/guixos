@@ -287,6 +287,7 @@
 (define %sway-config-base-extra-content
   `( ;; Mouse
     "seat seat0 xcursor_theme $cursor_theme $cursor_size"
+    "mouse_warping output"
 
     ;; Fonts
     "font pango:$titlebar_font $titlebar_text_size"
@@ -346,9 +347,12 @@
     "gsettings set $gnome_schema cursor-size $cursor_size"))
 
 (define %sway-base-config-startup-programs
-  `( ;; Set default brightness & backlight
+  `(;; Set default brightness & backlight
     "brightnessctl set 50%"
     "brightnessctl -d chromeos::kbd_backlight set 10%"
+
+    ;; Mouse
+    "exec swaymsg focus output $laptop"
 
     ;; Idle screen configuration
     ,(string-append "swayidle -w "
