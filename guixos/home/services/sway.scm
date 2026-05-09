@@ -132,6 +132,7 @@
     (ws3 . "3")
     (ws4 . "4")
     (ws5 . "5")
+
     ;; Additional non-pinned workspaces
     (ws6 . "6")
     (ws7 . "7")
@@ -191,10 +192,11 @@
       (background `(,%bg-path . fill))))))
 
 (define %sway-config-base-keybindings
-  `( ;; Sway System Controls
+  `(;; Sway System Controls
     ($mod+Shift+q . "kill")
     ($mod+Shift+x . ,#~(string-append "exec " #$%sway-session-end " exit"))
     ($mod+Shift+r . "reload")
+
     ;; Toggle Trackpad
     ($mod+Shift+t . ,(string-append
                       "exec swaymsg"
@@ -203,22 +205,34 @@
     ;; Window Focus
     ($mod+h . "focus left")
     ($mod+l . "focus right")
+
     ;; Move workspace to display (Alt --> Mod1)
     ($mod+Alt+h . "move workspace to output left")
     ($mod+Alt+l . "move workspace to output right")
     ($mod+Alt+Left . "move workspace to output left")
     ($mod+Alt+Right .  "move workspace to output right")
+
     ;; Alternatively, you can use cursor keys:
     ($mod+Shift+h . "move left 30 px")
     ($mod+Shift+j . "move down 30 px")
     ($mod+Shift+k . "move up 30 px")
     ($mod+Shift+l . "move right 30 px")
 
-    ($mod+f . "fullscreen toggle")
+    ;; Window State
+    ($mod+f       . "fullscreen toggle")
     ($mod+Shift+f . "floating toggle")
     ($mod+Shift+p . "sticky toggle")
+
+    ;; Layout State
+    ($mod+s . "layout stacking")
+    ($mod+w . "layout tabbed")
+    ($mod+e . "layout toggle split")
+    ($mod+b . "splith")
+    ($mod+v . "splitv")
+
     ;; change focus between tiling / floating windows
     ($mod+Control+space . "focus mode_toggle")
+
     ;; App launcher - configured in fuzzel.ini (example of g-exp!)
     ($mod+space . ,#~(string-append "exec "
                                     #$fuzzel
@@ -234,6 +248,7 @@
     ($mod+3     . "workspace $ws3")
     ($mod+4     . "workspace $ws4")
     ($mod+5     . "workspace $ws5")
+
     ;; additional workspaces
     ($mod+6 . "workspace $ws6")
     ($mod+7 . "workspace $ws7")
@@ -252,6 +267,7 @@
     ($mod+Shift+3 . "move container to workspace $ws3")
     ($mod+Shift+4 . "move container to workspace $ws4")
     ($mod+Shift+5 . "move container to workspace $ws5")
+
     ;; additional workspaces
     ($mod+Shift+6 . "move container to workspace $ws6")
     ($mod+Shift+7 . "move container to workspace $ws7")
@@ -260,8 +276,10 @@
 
     ;; Lock Screen
     ($mod+Shift+o . "exec $qlock")
+
     ;; Sway session controls
     ($mod+Shift+space . "exec wlogout -p layer-shell -m 300")
+
     ;; Screenshots
     (Print . "exec grimshot --notify save output")
     (Alt+Print . "exec grimshot --notify save area")))
@@ -331,6 +349,7 @@
   `( ;; Set default brightness & backlight
     "brightnessctl set 50%"
     "brightnessctl -d chromeos::kbd_backlight set 10%"
+
     ;; Idle screen configuration
     ,(string-append "swayidle -w "
                     "timeout 1800 '$lock' "
@@ -338,12 +357,15 @@
                     "resume 'swaymsg \"output * dpms on\"' "
                     "timeout 7200 'loginctl suspend' "
                     "before-sleep '$lock'")
+
     ;; Night Light (Chicago lat/lon)
     ,(string-append "wlsunset -l 41.88 -L -87.63")
+
     ;; Utility applications
     "mako"
     "udiskie -s"
     "blueman-applet"
+
     ;;Update DBUS activation records to ensure Flatpak apps work
     ,(string-append "dbus-update-activation-environment "
                     "--systemd DISPLAY WAYLAND_DISPLAY "
