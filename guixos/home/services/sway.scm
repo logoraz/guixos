@@ -111,8 +111,8 @@
 
 (define %sway-config-base-variables
   `((mod . "Mod4") ;; Super key (note Super := Mod4, Alt := Mod1)
-    (system_theme . "Adwaita-dark")
-    (system_icons . "Qogir-dark")
+    (system_theme . "Adwaita")
+    (system_icons . "Qogir-Dark")
     (system_font  . "Iosevka Aile 11")
     (cursor_theme . "Bibata-Modern-Classic")
     (cursor_size . "20")
