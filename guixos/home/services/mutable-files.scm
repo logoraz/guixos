@@ -37,6 +37,11 @@
          "libreoffice-startcenter.desktop"
          "libreoffice-writer.desktop"))
 
+    ;; Pipewire no-suspend
+    (".config/pipewire/pipewire.conf.d/no-suspend.conf"
+     ,(resolve (home-source) "files/pipewire"
+               #:file "no-suspend.conf" #:string? #t))
+
     ;; TODO
     ))
 
