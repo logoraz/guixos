@@ -94,7 +94,7 @@
   (plain-file
    "foot.ini"
    "# Base16 Monokai - foot color config
-font=Fira Code:size=11
+font=Fira Code:size=10
 dpi-aware=no
 initial-window-size-chars=140x40 # Columns x Rows in Characters
 
