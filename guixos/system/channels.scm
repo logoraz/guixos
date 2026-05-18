@@ -12,7 +12,6 @@
 ;;; git ls-remote https://gitlab.com/nonguix/nonguix master
 ;;; git ls-remote https://codeberg.org/guix/guix.git master
 
-
 ;;;
 ;;; Main Channels
 ;;;
