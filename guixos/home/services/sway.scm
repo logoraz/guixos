@@ -56,6 +56,17 @@
                  "sleep 0.25; "
                  final-cmd)))))
 
+(define %sway-new-workspace
+  (program-file
+   "sway-new-workspace"
+   #~(system*
+      "/bin/sh" "-c"
+      (string-append
+       "next=$(swaymsg -t get_workspaces | "
+       #$(file-append jq "/bin/jq")
+       " 'map(.num) | max + 1'); "
+       "swaymsg workspace number $next"))))
+
 (define %wlogout-layout
   (mixed-text-file
    "wlogout-layout"
@@ -79,16 +90,35 @@
    " \"action\": \"" %sway-session-end " hibernate\","
    " \"text\": \"Hibernate\", \"keybind\": \"h\" }\n"))
 
-(define %sway-new-workspace
-  (program-file
-   "sway-new-workspace"
-   #~(system*
-      "/bin/sh" "-c"
-      (string-append
-       "next=$(swaymsg -t get_workspaces | "
-       #$(file-append jq "/bin/jq")
-       " 'map(.num) | max + 1'); "
-       "swaymsg workspace number $next"))))
+(define %foot-config
+  (plain-file
+   "foot.ini"
+   "# Base16 Monokai - foot color config
+font=Fira Code:size=11
+dpi-aware=no
+initial-window-size-chars=140x40 # Columns x Rows in Characters
+
+[bell]
+urgent=no
+notify=no
+visual=no
+
+[scrollback]
+lines=5000
+
+[csd]
+preferred=client # Use client-side decorations
+color=2e3440     # Keep 5000 lines of history (default is 1000)
+border-width=1
+border-color=81a1c1
+button-color=88c0d0
+
+[colors-dark]
+alpha=0.80
+background=383838 # Nord Black Polar Night
+foreground=eceff4 # Nord White Snow Storm
+"))
+
 
 ;;;
 ;;; Sway Configuration Data
@@ -494,7 +524,7 @@
 
 (define (home-sway-files-service config)
   "Provide symlinks for other programs configs that Sway uses."
-  `(;; Sway Bar --> gubar Configuration
+  `( ;; Sway Bar --> gubar Configuration
     ;; (".config/gubar"
     ;;  ,(resolve (home-source) "files/gubar"))
 
@@ -516,8 +546,7 @@
      ,(resolve (home-source) "files/wlogout/icons"))
 
     ;; Default Sway/Wayland Terminal
-    (".config/foot"
-     ,(resolve (home-source) "files/foot"))))
+    (".config/foot/foot.ini" ,%foot-config)))
 
 (define (home-sway-gubar-symlink-service config)
   `(;; Sway Bar --> gubar Configuration (Dev)
