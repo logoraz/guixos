@@ -1,7 +1,9 @@
 (define-module (guixos system identity)
   #:use-module (guixos lib subrx)
   #:export (%home-user
-            home-source))
+            config-source
+            guixos-system-config
+            guixos-home-config))
 
 ;;;
 ;;; Identity values shared across the GuixOS configuration.
@@ -14,5 +16,11 @@
 
 (define-parameter %home-user "logoraz")
 
-(define (home-source)
+(define (config-source)
   (string-append "/home/" (%home-user) "/.config/guixos"))
+
+(define (guixos-system-config)
+  (string-append (config-source) "/guixos/guixos.scm"))
+
+(define (guixos-home-config)
+  (string-append (config-source) "/guixos/home/guixos-home.scm"))

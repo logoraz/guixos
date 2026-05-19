@@ -12,7 +12,7 @@
 (define (desktop-overrides-symlinks files)
   (map (lambda (filename)
          `(,(string-append ".local/share/applications/" filename)
-           ,(resolve (home-source)
+           ,(resolve (config-source)
                      (string-append "files/desktop-entries/" filename)
                      #:string? #t)))
        files))
@@ -20,11 +20,11 @@
 (define (home-mutable-symlinks-service config)
   `( ;; Guix Configuration Channels
     (".config/guix/channels.scm"
-     ,(resolve (home-source) "guixos/system" #:file "channels.scm" #:string? #t))
+     ,(resolve (config-source) "guixos/system" #:file "channels.scm" #:string? #t))
 
     ;; GTK Configuration
     (".config/gtk-3.0/settings.ini"
-     ,(resolve (home-source) "files/gtk" #:file "settings.ini" #:string? #t))
+     ,(resolve (config-source) "files/gtk" #:file "settings.ini" #:string? #t))
 
     ;; Corrected Desktop Entries
     ,@(desktop-overrides-symlinks
@@ -39,7 +39,7 @@
 
     ;; wireplumber no-suspend
     (".config/wireplumber/wireplumber.conf.d/52-disable-suspend.conf"
-     ,(resolve (home-source) "files/wireplumber"
+     ,(resolve (config-source) "files/wireplumber"
                #:file "52-disable-suspend.conf" #:string? #t))
 
     ;; TODO

@@ -11,15 +11,15 @@
 (define (home-config-files-service config)
   `(;; Guile Configuration
     (".guile"
-     ,(resolve (home-source) "files/guile" #:file "dot-guile"))
+     ,(resolve (config-source) "files/guile" #:file "dot-guile"))
 
     ;; SBCL Configuration
     (".sbclrc"
-     ,(resolve (home-source) "files/common-lisp" #:file "dot-sbclrc.lisp"))
+     ,(resolve (config-source) "files/common-lisp" #:file "dot-sbclrc.lisp"))
 
     ;;TODO: prep for GNU guile-next release to store these in XDG_CONFIG_HOME...
     (".config/guile/guile"
-     ,(resolve (home-source) "files/guile" #:file "dot-guile"))
+     ,(resolve (config-source) "files/guile" #:file "dot-guile"))
 
     ;; TODO
     ))

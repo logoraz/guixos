@@ -526,24 +526,24 @@ foreground=eceff4 # Nord White Snow Storm
   "Provide symlinks for other programs configs that Sway uses."
   `( ;; Sway Bar --> gubar Configuration
     ;; (".config/gubar"
-    ;;  ,(resolve (home-source) "files/gubar"))
+    ;;  ,(resolve (config-source) "files/gubar"))
 
     ;; Application Selector
     (".config/mako"
-     ,(resolve (home-source) "files/mako"))
+     ,(resolve (config-source) "files/mako"))
 
     ;; Screen Locking
     (".config/fuzzel"
-     ,(resolve (home-source) "files/fuzzel"))
+     ,(resolve (config-source) "files/fuzzel"))
 
     ;; UI Logout Application
     (".config/wlogout/layout" ,%wlogout-layout)
 
     (".config/wlogout/style.css"
-     ,(resolve (home-source) "files/wlogout/style.css"))
+     ,(resolve (config-source) "files/wlogout/style.css"))
 
     (".config/wlogout/icons"
-     ,(resolve (home-source) "files/wlogout/icons"))
+     ,(resolve (config-source) "files/wlogout/icons"))
 
     ;; Default Sway/Wayland Terminal
     (".config/foot/foot.ini" ,%foot-config)))
@@ -551,7 +551,7 @@ foreground=eceff4 # Nord White Snow Storm
 (define (home-sway-gubar-symlink-service config)
   `(;; Sway Bar --> gubar Configuration (Dev)
     (".config/gubar"
-     ,(resolve (home-source) "files/gubar" #:string? #t))
+     ,(resolve (config-source) "files/gubar" #:string? #t))
     ))
 
 (define home-sway-configuration-service-type

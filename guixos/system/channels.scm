@@ -42,38 +42,7 @@
 ;;;
 ;;; Auxiliary Channels
 ;;;
-(define %rde-channel
-  (channel
-    (name 'rde)
-    (url "https://git.sr.ht/~abcdw/rde")
-    (branch "master")
-    (introduction
-     (make-channel-introduction
-      "257cebd587b66e4d865b3537a9a88cccd7107c95"
-      (openpgp-fingerprint
-       "2841 9AC6 5038 7440 C7E9  2FFA 2208 D209 58C1 DEB0")))))
 
-(define %guixrus-channel
-  (channel
-    (name 'guixrus)
-    (url "https://git.sr.ht/~whereiseveryone/guixrus")
-    (branch "master")
-    (introduction
-     (make-channel-introduction
-      "7c67c3a9f299517bfc4ce8235628657898dd26b2"
-      (openpgp-fingerprint
-       "CD2D 5EAA A98C CB37 DA91  D6B0 5F58 1664 7F8B E551")))))
-
-(define %saayix-channel
-  (channel
-    (name 'saayix)
-    (url "https://codeberg.org/look/saayix")
-    (branch "main")
-    (introduction
-     (make-channel-introduction
-      "12540f593092e9a177eb8a974a57bb4892327752"
-      (openpgp-fingerprint
-       "3FFA 7335 973E 0A49 47FC  0A8C 38D5 96BE 07D3 34AB")))))
 
 
 ;;;
