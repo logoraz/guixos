@@ -40,10 +40,8 @@
 (define %host-extra-services
   (list
    ;; Integrate home configuration into system reconfigure
-   ;; (uncomment to activate)
-   ;; (service guix-home-service-type
-   ;;          `((,(%home-user) ,guixos-home)))
-   ))
+   (service guix-home-service-type
+            `((,(%home-user) ,guixos-home)))))
 
 ;;;
 ;;; Framework specific package additions
