@@ -3,6 +3,7 @@
   #:use-module (gnu services)
   #:use-module (gnu services guix)             ;; guix-home-service-type
   ;; Local config
+  #:use-module (guixos services bluetooth)
   #:use-module (guixos system system)
   #:use-module (guixos system identity)        ;; %home-user
   ;; Integrate home into system
@@ -45,7 +46,12 @@
   (list
    ;; Integrate home configuration into system reconfigure
    (service guix-home-service-type
-            `((,(%home-user) ,guixos-home)))))
+            `((,(%home-user) ,guixos-home)))
+
+   (service bluetooth-block-service-type
+            (bluetooth-block-configuration
+             (vendor-id "0e8d")
+             (product-id "0717")))))
 
 ;;;
 ;;; Framework-Pro specific package additions
