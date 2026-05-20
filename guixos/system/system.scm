@@ -3,6 +3,7 @@
   #:use-module (gnu)
   #:use-module (gnu packages)
   #:use-module (guix gexp)
+  #:use-module (guix channels)
 
   ;; System primitives
   #:use-module (gnu system keyboard)
@@ -56,7 +57,6 @@
   ;; Local config modules
   #:use-module (guixos packages zen-browser)
   #:use-module (guixos services firmware)      ;; fwupd-service-type
-  #:use-module (guixos system channels)
   #:use-module (guixos system identity)        ;; %home-user
   #:use-module (guixos system substitutes)
 
@@ -211,7 +211,8 @@ input type:keyboard {
       config =>
       (substitutes->services
        config
-       #:channels %guixos-channels)))))
+       #:channels (load (string-append (config-source)
+                                       "/guixos/system/channels.scm")))))))
 
 
 ;;;
