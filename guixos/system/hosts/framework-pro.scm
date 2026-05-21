@@ -16,7 +16,7 @@
 ;;; Framework-Pro specific hardware identifiers
 ;;;
 
-  ;; Use 'blkid' to find unique file system identifiers ("UUIDs").
+;; Use 'blkid' to find unique file system identifiers ("UUIDs").
 (define %host-file-systems
   (cons* (file-system
            (mount-point "/boot/efi")
@@ -60,7 +60,6 @@
 (define %host-extra-packages
   (list
    ;; Add specific packages for this hosts' system
-   ;; (uncomment to activate)
    ))
 
 

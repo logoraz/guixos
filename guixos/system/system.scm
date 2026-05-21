@@ -37,6 +37,11 @@
   ;; Printing
   #:use-module (gnu packages cups)             ;; cups-filters, hplip-minimal
 
+  ;; Containers
+  #:use-module (gnu system accounts)
+  #:use-module (gnu services containers)
+  #:use-module (gnu packages containers)
+
   ;; CLI essentials
   #:use-module (gnu packages admin)            ;; tree
   #:use-module (gnu packages compression)      ;; zip, unzip
@@ -87,14 +92,15 @@
           (comment comment)
           (home-directory (string-append "/home/" (%home-user)))
           (group "users")
-          (supplementary-groups '("wheel"   ;; sudo
-                                  "seat"    ;; greetd/wlgreet
-                                  "netdev"  ;; network devices
-                                  "tty"     ;; -
-                                  "input"   ;; -
-                                  "lp"      ;; control bluetooth devices
-                                  "audio"   ;; control audio devices
-                                  "video")));; control video devices
+          (supplementary-groups '("wheel"    ;; sudo
+                                  "seat"     ;; greetd/wlgreet
+                                  "netdev"   ;; network devices
+                                  "tty"      ;; -
+                                  "input"    ;; -
+                                  "lp"       ;; control bluetooth devices
+                                  "audio"    ;; control audio devices
+                                  "video"    ;; control video devices
+                                  "cgroup")));; rootless podman delegation
          %base-user-accounts))
 
 
@@ -190,6 +196,12 @@ input type:keyboard {
    ;; Firmware Updating Service via fwupd
    (service fwupd-service-type)
 
+   ;; Rootless containers for distrobox
+   (service rootless-podman-service-type
+            (rootless-podman-configuration
+              (subgids (list (subid-range (name (%home-user)))))
+              (subuids (list (subid-range (name (%home-user)))))))
+
    ;; See: https://guix.gnu.org/manual/en/html_node/Desktop-Services.html
    (modify-services %desktop-services
      ;; remove gdm-service-type
@@ -272,6 +284,11 @@ input type:keyboard {
 (define %guixos-browsers
   (list zen-browser-bin))
 
+;;; Containers
+(define %guixos-containers
+  (list distrobox
+        podman))
+
 ;;; CLI essentials
 (define %guixos-cli
   (list openssh-sans-x
@@ -291,6 +308,7 @@ input type:keyboard {
           %guixos-themes
           %guixos-hardware-runtimes
           %guixos-browsers
+          %guixos-containers
           %guixos-cli
           %base-packages))
 

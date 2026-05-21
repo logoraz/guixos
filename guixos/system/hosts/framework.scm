@@ -56,7 +56,6 @@
 (define %host-extra-packages
   (list
    ;; Add specific packages for this hosts' system
-   ;; (uncomment to activate)
    ))
 
 
