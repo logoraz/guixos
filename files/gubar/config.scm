@@ -17,7 +17,7 @@
 ;; (use-modules (files gubar blocks battery))
 
 ;; (load "/home/logoraz/.config/gubar/blocks/network-manager-wifi2.scm")
-;; (use-modules (files gubar blocks network-manager-wifi2))
+;; (use-modules (files gubar blocks network-manager-wifi2))~Rm"VadA,^m4Aw_
 
 ;; (load "/home/logoraz/.config/gubar/blocks/brightness.scm")
 ;; (use-modules (files gubar blocks brightness))
@@ -25,8 +25,8 @@
 ;;; Configure sway-bar
 (list
  (label "GuixOS" #:color "#81a1c1")
- (volume-pipewire)
- (brightness #:nerd-icons #t)
- (battery #:nerd-icons #t)
  (network-manager-wifi #:ssid #t)
+ (brightness #:nerd-icons #t)
+ (volume-pipewire)
+ (battery #:nerd-icons #t)
  (date-time #:interval 0.1 #:format "%a %b %d %Y %-I:%M:%S %p"))
