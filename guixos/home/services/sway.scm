@@ -93,32 +93,31 @@
 (define %foot-config
   (plain-file
    "foot.ini"
-   "# Base16 Monokai - foot color config
-font=Fira Code:size=10
-dpi-aware=no
-initial-window-size-chars=140x40 # Columns x Rows in Characters
-
-[bell]
-urgent=no
-notify=no
-visual=no
-
-[scrollback]
-lines=5000
-
-[csd]
-preferred=client # Use client-side decorations
-color=2e3440     # Keep 5000 lines of history (default is 1000)
-border-width=1
-border-color=81a1c1
-button-color=88c0d0
-
-[colors-dark]
-alpha=0.80
-background=383838 # Nord Black Polar Night
-foreground=eceff4 # Nord White Snow Storm
-"))
-
+   (string-append
+    "# Base16 Monokai - foot color config\n"
+    "font=Fira Code:size=10\n"
+    "dpi-aware=no\n"
+    "initial-window-size-chars=140x40 # Columns x Rows in Characters\n"
+    "\n"
+    "[bell]\n"
+    "urgent=no\n"
+    "notify=no\n"
+    "visual=no\n"
+    "\n"
+    "[scrollback]\n"
+    "lines=5000\n"
+    "\n"
+    "[csd]\n"
+    "preferred=client # Use client-side decorations\n"
+    "color=2e3440     # Keep 5000 lines of history (default is 1000)\n"
+    "border-width=1\n"
+    "border-color=81a1c1\n"
+    "button-color=88c0d0\n"
+    "\n"
+    "[colors-dark]\n"
+    "alpha=0.80\n"
+    "background=383838 # Nord Black Polar Night\n"
+    "foreground=eceff4 # Nord White Snow Storm\n")))
 
 ;;;
 ;;; Sway Configuration Data
