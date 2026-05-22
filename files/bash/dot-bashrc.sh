@@ -43,3 +43,14 @@ fi
 # then
 #     source $emacs_vterm_path/emacs-vterm-bash.sh
 # fi
+
+# containers
+distrobox-run() {
+    if [ -z "$1" ]; then
+        echo "usage: distrobox-run <container> [command...]" >&2
+        return 1
+    fi
+    local container="$1"
+    shift
+    TERM=xterm-256color distrobox enter "$container" "$@"
+}

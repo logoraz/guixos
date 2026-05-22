@@ -6,6 +6,10 @@
   #:use-module (guixos system identity)
   #:export (bash-config->service))
 
+;;;
+;;; Build-Time Assets
+;;;
+;; TODO: Add dot-bashrc and dot-bash_profile configs here using gexp's
 
 (define %gosr (string-append "sudo guix system -L "
                              (config-source) " "
