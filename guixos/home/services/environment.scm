@@ -1,9 +1,18 @@
 (define-module (guixos home services environment)
   #:use-module (gnu home)
   #:use-module (gnu home services)
+  #:use-module (gnu home services dotfiles)
   #:use-module (guix gexp)
   #:export (home-env-vars-configuration-service-type))
 
+;;;
+;;; GTK Configuration Data
+;;;
+(define %gtk-theme         "Adwaita:dark")
+(define %gtk-theme-name    "Adwaita-dark")  ; settings.ini wants the bare name
+(define %gtk-icon-theme    "Qogir-Dark")
+(define %xcursor-theme     "Bibata-Modern-Classic")
+(define %xcursor-size      "20")
 
 (define %gtk2-rc (string-append "$HOME/.guix-home/profile/share/"
                                 "themes/Adwaita-dark/gtk-2.0/gtkrc"))
@@ -12,6 +21,21 @@
                                       "/run/current-system/profile/share:"
                                       "$XDG_DATA_HOME/flatpak/exports/share:"))
 
+;;;
+;;; Built-Time Assets
+;;;
+(define %gtk3-settings
+  (mixed-text-file
+   "settings.ini"
+   "[Settings]\n"
+   "gtk-theme-name=" %gtk-theme-name "\n"
+   "gtk-icon-theme-name=" %gtk-icon-theme "\n"
+   "gtk-cursor-theme-name=" %xcursor-theme "\n"
+   "gtk-cursor-theme-size=" %xcursor-size "\n"))
+
+;;;
+;;; Service Composition
+;;;
 ;; borrowed from https://codeberg.org/daviwil/dotfiles/daviwil/systems/common.scm
 (define (home-env-vars-config-gexp config)
   `( ;; Sort hidden (dot) files first in ls listings
@@ -38,18 +62,16 @@
     ("ECORE_EVAS_ENGINE"   . "wayland-egl")
 
     ;; GTK/QT/Cursor Theming
-    ("GTK_THEME"            . "Adwaita:dark")
-    ("GTK_ICON_THEME"       . "Qogir-Dark")
-    ;;TODO use gexp local-file to resolve this file...
+    ("GTK_THEME"            . ,%gtk-theme)
+    ("GTK_ICON_THEME"       . ,%gtk-icon-theme)
     ("GTK2_RC_FILES"        . ,%gtk2-rc)
-
 
     ("QT_STYLE_OVERRIDE"    . "adwaita")
     ("QT_QPA_PLATFORMTHEME" . "gtk3")
     ("QT_QPA_PLATFORM"      . "wayland") ;wayland-egl ?
 
-    ("XCURSOR_THEME" . "Bibata-Modern-Classic")
-    ("XCURSOR_SIZE"  . "20")
+    ("XCURSOR_THEME" . ,%xcursor-theme)
+    ("XCURSOR_SIZE"  . ,%xcursor-size)
 
     ;; Set XDG environment variables
     ("XDG_LOG_HOME"        . "$HOME/.local/log")
@@ -61,6 +83,8 @@
     ("XDG_LOCAL_BIN"    . "$HOME/.local/bin")
     ("XDG_DATA_DIRS"    . ,%xdg-data-dirs)))
 
+(define (home-env-vars-files-service config)
+  `((".config/gtk-3.0/settings.ini" ,%gtk3-settings)))
 
 (define home-env-vars-configuration-service-type
   (service-type (name 'home-profile-env-vars-service)
@@ -68,5 +92,8 @@
                 (extensions
                  (list (service-extension
                         home-environment-variables-service-type
-                        home-env-vars-config-gexp)))
+                        home-env-vars-config-gexp)
+                       (service-extension
+                        home-files-service-type
+                        home-env-vars-files-service)))
                 (default-value #f)))

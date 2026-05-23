@@ -9,6 +9,9 @@
   #:use-module (guixos home services impure-symlinks)
   #:export (home-mutable-symlinks-service-type))
 
+;;;
+;;; Build-Time Assets
+;;;
 (define (desktop-overrides-symlinks files)
   (map (lambda (filename)
          `(,(string-append ".local/share/applications/" filename)
@@ -17,14 +20,14 @@
                      #:string? #t)))
        files))
 
+
+;;;
+;;; Service Composition
+;;;
 (define (home-mutable-symlinks-service config)
   `( ;; Guix Configuration Channels
     (".config/guix/channels.scm"
      ,(resolve (config-source) "guixos/system" #:file "channels.scm" #:string? #t))
-
-    ;; GTK Configuration
-    (".config/gtk-3.0/settings.ini"
-     ,(resolve (config-source) "files/gtk" #:file "settings.ini" #:string? #t))
 
     ;; Corrected Desktop Entries
     ,@(desktop-overrides-symlinks
