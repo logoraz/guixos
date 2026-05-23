@@ -12,7 +12,23 @@
 ;;; Build-Time Assets
 ;;;
 (define %dot-guile
-  (resolve (config-source) "files/guile" #:file "dot-guile"))
+  (mixed-text-file
+   "dot-guile"
+   ";; -*- mode: scheme; -*-\n"
+   "\n"
+   ";; Use globally\n"
+   "(use-modules (ice-9 readline)\n"
+   "             (ice-9 format)\n"
+   "             (ice-9 pretty-print)\n"
+   "             (ice-9 colorized))\n"
+   "\n"
+   "(activate-readline)\n"
+   "(activate-colorized)\n"
+   "\n"
+   ";; G-Golf recommended duplicate binding handler\n"
+   "(use-modules (oop goops))\n"
+   "(default-duplicate-binding-handler\n"
+   "  '(merge-generics replace warn-override-core warn last))\n"))
 
 (define %podman-registries
   (mixed-text-file
@@ -27,6 +43,9 @@
    "# Use the short-name aliases table for common images\n"
    "short-name-mode = \"permissive\"\n"))
 
+;;;
+;;; Service Composition
+;;;
 (define (home-config-files-service config)
   `( ;; Guile Configuration
     (".guile" ,%dot-guile)
