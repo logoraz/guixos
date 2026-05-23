@@ -40,10 +40,9 @@
          "libreoffice-startcenter.desktop"
          "libreoffice-writer.desktop"))
 
-    ;; wireplumber no-suspend
-    (".config/wireplumber/wireplumber.conf.d/52-disable-suspend.conf"
-     ,(resolve (config-source) "files/wireplumber"
-               #:file "52-disable-suspend.conf" #:string? #t))
+    ;; SBCL Configuration
+    (".sbclrc"
+     ,(resolve (config-source) "files/common-lisp" #:file "dot-sbclrc.lisp"))
 
     ;; TODO
     ))

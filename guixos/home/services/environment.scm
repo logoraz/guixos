@@ -22,7 +22,7 @@
                                       "$XDG_DATA_HOME/flatpak/exports/share:"))
 
 ;;;
-;;; Built-Time Assets
+;;; Build-Time Assets
 ;;;
 (define %gtk3-settings
   (mixed-text-file
@@ -32,6 +32,39 @@
    "gtk-icon-theme-name=" %gtk-icon-theme "\n"
    "gtk-cursor-theme-name=" %xcursor-theme "\n"
    "gtk-cursor-theme-size=" %xcursor-size "\n"))
+
+;; Disable session suspend on ALSA/BlueZ nodes so audio devices
+;; don't drop in/out on idle.
+(define %wireplumber-no-suspend
+  (mixed-text-file
+   "52-disable-suspend.conf"
+   "monitor.alsa.rules = [\n"
+   "  {\n"
+   "    matches = [\n"
+   "      { node.name = \"~alsa_input.*\" }\n"
+   "      { node.name = \"~alsa_output.*\" }\n"
+   "    ]\n"
+   "    actions = {\n"
+   "      update-props = {\n"
+   "        session.suspend-timeout-seconds = 0\n"
+   "      }\n"
+   "    }\n"
+   "  }\n"
+   "]\n"
+   "\n"
+   "monitor.bluez.rules = [\n"
+   "  {\n"
+   "    matches = [\n"
+   "      { node.name = \"~bluez_input.*\" }\n"
+   "      { node.name = \"~bluez_output.*\" }\n"
+   "    ]\n"
+   "    actions = {\n"
+   "      update-props = {\n"
+   "        session.suspend-timeout-seconds = 0\n"
+   "      }\n"
+   "    }\n"
+   "  }\n"
+   "]\n"))
 
 ;;;
 ;;; Service Composition
@@ -84,11 +117,13 @@
     ("XDG_DATA_DIRS"    . ,%xdg-data-dirs)))
 
 (define (home-env-vars-files-service config)
-  `((".config/gtk-3.0/settings.ini" ,%gtk3-settings)))
+  `((".config/gtk-3.0/settings.ini" ,%gtk3-settings)
+    (".config/wireplumber/wireplumber.conf.d/52-disable-suspend.conf"
+     ,%wireplumber-no-suspend)))
 
 (define home-env-vars-configuration-service-type
   (service-type (name 'home-profile-env-vars-service)
-                (description "Service for setting up profile env vars.")
+                (description "Service for profile env vars & related runtime config")
                 (extensions
                  (list (service-extension
                         home-environment-variables-service-type

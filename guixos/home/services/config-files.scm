@@ -53,10 +53,6 @@
     ;;TODO: prep for GNU guile-next release to store these in XDG_CONFIG_HOME...
     (".config/guile/guile" ,%dot-guile)
 
-    ;; SBCL Configuration
-    (".sbclrc"
-     ,(resolve (config-source) "files/common-lisp" #:file "dot-sbclrc.lisp"))
-
     (".config/containers/registries.conf" ,%podman-registries)
 
     ;; TODO
