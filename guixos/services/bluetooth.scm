@@ -16,14 +16,13 @@
   (list
    (file->udev-rule
     "70-block-internal-bt.rules"
-    (plain-file
+    (mixed-text-file
      "70-block-internal-bt.rules"
-     (string-append
-      "# Prevent btusb from binding to internal Bluetooth controller\n"
-      "ACTION==\"add\", SUBSYSTEM==\"usb\", "
-      "ATTR{idVendor}==\"" (bluetooth-block-vendor-id config) "\", "
-      "ATTR{idProduct}==\"" (bluetooth-block-product-id config) "\", "
-      "ATTR{authorized}=\"0\"\n")))))
+     "# Prevent btusb from binding to internal Bluetooth controller\n"
+     "ACTION==\"add\", SUBSYSTEM==\"usb\", "
+     "ATTR{idVendor}==\"" (bluetooth-block-vendor-id config) "\", "
+     "ATTR{idProduct}==\"" (bluetooth-block-product-id config) "\", "
+     "ATTR{authorized}=\"0\"\n"))))
 
 (define bluetooth-block-service-type
   (service-type

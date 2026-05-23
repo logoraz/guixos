@@ -7,35 +7,36 @@
   #:use-module (guixos system identity)
   #:export (home-config-files-service-type))
 
+
 ;;;
 ;;; Build-Time Assets
 ;;;
+(define %dot-guile
+  (resolve (config-source) "files/guile" #:file "dot-guile"))
+
 (define %podman-registries
-  (plain-file
+  (mixed-text-file
    "registries.conf"
-   (string-append
-    "unqualified-search-registries = [\n"
-    "  \"docker.io\",\n"
-    "  \"registry.opensuse.org\",\n"
-    "  \"registry.fedora.org\",\n"
-    "  \"quay.io\",\n"
-    "  \"ghcr.io\"\n"
-    "]\n\n"
-    "# Use the short-name aliases table for common images\n"
-    "short-name-mode = \"permissive\"\n")))
+   "unqualified-search-registries = [\n"
+   "  \"docker.io\",\n"
+   "  \"registry.opensuse.org\",\n"
+   "  \"registry.fedora.org\",\n"
+   "  \"quay.io\",\n"
+   "  \"ghcr.io\"\n"
+   "]\n\n"
+   "# Use the short-name aliases table for common images\n"
+   "short-name-mode = \"permissive\"\n"))
 
 (define (home-config-files-service config)
   `( ;; Guile Configuration
-    (".guile"
-     ,(resolve (config-source) "files/guile" #:file "dot-guile"))
+    (".guile" ,%dot-guile)
+
+    ;;TODO: prep for GNU guile-next release to store these in XDG_CONFIG_HOME...
+    (".config/guile/guile" ,%dot-guile)
 
     ;; SBCL Configuration
     (".sbclrc"
      ,(resolve (config-source) "files/common-lisp" #:file "dot-sbclrc.lisp"))
-
-    ;;TODO: prep for GNU guile-next release to store these in XDG_CONFIG_HOME...
-    (".config/guile/guile"
-     ,(resolve (config-source) "files/guile" #:file "dot-guile"))
 
     (".config/containers/registries.conf" ,%podman-registries)
 

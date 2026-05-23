@@ -35,13 +35,12 @@
         (type      (xdg-desktop-entry-type entry))
         (hidden?   (xdg-desktop-entry-no-display? entry)))
     `(,(string-append "applications/" file-name ".desktop")
-      ,(plain-file
+      ,(mixed-text-file
         (string-append file-name ".desktop")
-        (string-append
-         "[Desktop Entry]\n"
-         "Type=" type "\n"
-         "Name=" name "\n"
-         (if hidden? "NoDisplay=true\n" ""))))))
+        "[Desktop Entry]\n"
+        "Type=" type "\n"
+        "Name=" name "\n"
+        (if hidden? "NoDisplay=true\n" "")))))
 
 (define (home-xdg-desktop-entries-service entries)
   (map xdg-desktop-entry->file entries))

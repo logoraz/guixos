@@ -6,10 +6,80 @@
   #:use-module (guixos system identity)
   #:export (bash-config->service))
 
+
+;;;
+;;; Bash Prompt Data
+;;;
+(define %ps1-user "\\[\\033[01;32m\\]\\u@\\h\\[\\033[00m\\]")
+(define %ps1-path "\\[\\033[01;34m\\]\\w\\[\\033[00m\\]")
+
+(define %ps1-env
+  (string-append "PS1='" %ps1-user ":" %ps1-path " [env]\\$ '"))
+
+(define %ps1-default
+  (string-append "PS1='" %ps1-user ":" %ps1-path "\\$ '"))
+
 ;;;
 ;;; Build-Time Assets
 ;;;
-;; TODO: Add dot-bashrc and dot-bash_profile configs here using gexp's
+(define %dot-bash-profile
+  (mixed-text-file
+   "dot-bash_profile.sh"
+   "# Add ~/.guix-profile if it exists\n"
+   "if [ -L \"$HOME/.guix-profile\" ]; then\n"
+   "    GUIX_PROFILE=\"$HOME/.guix-profile\"\n"
+   "    . \"$GUIX_PROFILE/etc/profile\"\n"
+   "fi\n"))
+
+(define %dot-bashrc
+  (mixed-text-file
+   "dot-bashrc.sh"
+   "# Bash initialization for interactive non-login shells and\n"
+   "# for remote shells (info \"(bash) Bash Startup Files\").\n"
+   "\n"
+   "# Export 'SHELL' to child processes.  Programs such as 'screen'\n"
+   "# honor it and otherwise use /bin/sh.\n"
+   "export SHELL\n"
+   "\n"
+   "if [[ $- != *i* ]]\n"
+   "then\n"
+   "    # We are being invoked from a non-interactive shell.  If this\n"
+   "    # is an SSH session (as in \"ssh host command\"), source\n"
+   "    # /etc/profile so we get PATH and other essential variables.\n"
+   "    [[ -n \"$SSH_CLIENT\" ]] && source /etc/profile\n"
+   "\n"
+   "    # Don't do anything else.\n"
+   "    return\n"
+   "fi\n"
+   "\n"
+   "# Source the system-wide file.\n"
+   "if [[ -e /etc/bashrc ]]; then\n"
+   "    source /etc/bashrc\n"
+   "fi\n"
+   "\n"
+   "# Adjust the prompt depending on whether we're in 'guix environment'.\n"
+   "# Custom prompt with color\n"
+   "if [[ -n \"$GUIX_ENVIRONMENT\" ]]\n"
+   "then\n"
+   "    " %ps1-env "\n"
+   "else\n"
+   "    " %ps1-default "\n"
+   "fi\n"
+   "\n"
+   "# containers\n"
+   "distrobox-run() {\n"
+   "    if [ -z \"$1\" ]; then\n"
+   "        echo \"usage: distrobox-run <container> [command...]\" >&2\n"
+   "        return 1\n"
+   "    fi\n"
+   "    local container=\"$1\"\n"
+   "    shift\n"
+   "    TERM=xterm-256color distrobox enter \"$container\" \"$@\"\n"
+   "}\n"))
+
+;;;
+;;; Aliases
+;;;
 
 (define %gosr (string-append "sudo guix system -L "
                              (config-source) " "
@@ -34,6 +104,9 @@
                               "reconfigure --allow-downgrades "
                               (guixos-home-config)))
 
+;;;
+;;; Service Composition
+;;;
 (define* (bash-config->service #:key
                                (test #f))
   (service home-bash-service-type
@@ -49,9 +122,5 @@
                 ("gop"   . ,%gop)
                 ("gostm" . ,%gostm)
                 ("gohtm" . ,%gohtm)))
-             (bashrc
-              `(,(resolve (config-source) "files/bash"
-                          #:file "dot-bashrc.sh")))
-             (bash-profile
-              `(,(resolve (config-source) "files/bash"
-                          #:file "dot-bash_profile.sh"))))))
+             (bashrc (list %dot-bashrc))
+             (bash-profile (list %dot-bash-profile)))))
