@@ -43,6 +43,23 @@
    "# Use the short-name aliases table for common images\n"
    "short-name-mode = \"permissive\"\n"))
 
+;; Requires one to first create the labview distrobox container
+(define %labview-desktop
+  (mixed-text-file
+   "labview.desktop"
+   "[Desktop Entry]\n"
+   "Name=LabVIEW\n"
+   "GenericName=LabVIEW Community Edition\n"
+   "Comment=Launch LabVIEW Community Edition in distrobox container\n"
+   "Categories=Distrobox;Development;Science;\n"
+   "Exec=env TERM=xterm-256color distrobox enter labview -- labview\n"
+   "Icon=/home/" (%home-user) "/.local/share/icons/distrobox/opensuse-leap.png\n"
+   "Keywords=labview;distrobox;\n"
+   "NoDisplay=false\n"
+   "Terminal=false\n"
+   "TryExec=distrobox\n"
+   "Type=Application\n"))
+
 ;;;
 ;;; Service Composition
 ;;;
@@ -54,6 +71,8 @@
     (".config/guile/guile" ,%dot-guile)
 
     (".config/containers/registries.conf" ,%podman-registries)
+
+    (".local/share/applications/labview.desktop" ,%labview-desktop)
 
     ;; TODO
     ))
