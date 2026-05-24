@@ -27,7 +27,8 @@
 (define (home-mutable-symlinks-service config)
   `( ;; Guix Configuration Channels
     (".config/guix/channels.scm"
-     ,(resolve (config-source) "guixos/system" #:file "channels.scm" #:string? #t))
+     ,(resolve (config-source) "guixos/system"
+               #:file "channels.scm" #:string? #t))
 
     ;; Corrected Desktop Entries
     ,@(desktop-overrides-symlinks
@@ -42,7 +43,8 @@
 
     ;; SBCL Configuration
     (".sbclrc"
-     ,(resolve (config-source) "files/common-lisp" #:file "dot-sbclrc.lisp"))
+     ,(resolve (config-source) "files/common-lisp"
+               #:file "dot-sbclrc.lisp" #:string? #t))
 
     ;; TODO
     ))
