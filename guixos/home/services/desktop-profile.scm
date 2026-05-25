@@ -48,6 +48,7 @@
 
 
   ;; Hardware & extra utilities
+  #:use-module (gnu packages polkit)
   #:use-module (gnu packages tls)                  ;; openssl, aws-lc
   #:use-module (gnu packages xdisorg)              ;; wev
   #:use-module (gnu packages linux)                ;; alsa-*, tlp
@@ -135,6 +136,7 @@
         alsa-lib
         alsa-utils
         alsa-plugins
+        polkit-gnome
         tlp ;; --> alternate for bluetooth & wifi controls
         blueman
         network-manager-applet

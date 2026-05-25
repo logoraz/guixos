@@ -1,9 +1,9 @@
 (define-module (guixos system hosts framework)
+  #:use-module (guix gexp)
   #:use-module (gnu)
   #:use-module (gnu services)
   #:use-module (gnu services guix)             ;; guix-home-service-type
   ;; Local config
-  #:use-module (guixos services bluetooth)
   #:use-module (guixos system system)
   #:use-module (guixos system identity)        ;; %home-user
   ;; Integrate home into system
@@ -40,14 +40,34 @@
 
 (define %host-extra-services
   (list
+   ;; Workaround: force NetworkManager to write /etc/resolv.conf directly
+   ;; instead of delegating to openresolv.  openresolv >= 3.17 broke NM's
+   ;; auto-detected resolvconf integration: NM thinks resolvconf is handling
+   ;; DNS, openresolv silently no-ops, and /etc/resolv.conf is left as the
+   ;; Guix placeholder -- breaking all DNS resolution despite a healthy
+   ;; connection.  Setting rc-manager=file bypasses openresolv entirely.
+   ;;
+   ;; Upstream issue: https://github.com/NetworkConfiguration/openresolv/issues/38
+   ;; Other distros hitting it: https://github.com/void-linux/void-packages/issues/54888
+   ;;
+   ;; Remove once openresolv ships a fix and Guix picks it up.
+   (simple-service 'nm-rc-manager
+                   activation-service-type
+                   #~(begin
+                       (use-modules (guix build utils))
+                       (mkdir-p "/etc/NetworkManager/conf.d")
+                       (call-with-output-file
+                           "/etc/NetworkManager/conf.d/rc-manager.conf"
+                         (lambda (port)
+                           (display "[main]\nrc-manager=file\n" port)))))
+
    ;; Integrate home configuration into system reconfigure
    (service guix-home-service-type
             `((,(%home-user) ,guixos-home)))
 
-   (service bluetooth-block-service-type
-            (bluetooth-block-configuration
-             (vendor-id "0e8d")
-             (product-id "0717")))))
+
+   ;; TODO
+   ))
 
 ;;;
 ;;; Framework specific package additions
