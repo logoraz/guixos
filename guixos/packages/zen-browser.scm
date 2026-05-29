@@ -30,8 +30,8 @@
 ;;      <version>/zen.linux-x86_64.tar.xz
 ;; guix hash zen.linux-x86_64.tar.xz
 
-(define %version "1.20b")
-(define %zen-hash "0n3yv7f4di814pb3cqfkz7d5ri8wydrwyg2m6kgj1jqvgfy1rnai")
+(define %version "1.20.1b")
+(define %zen-hash "16n0fpjmdv2hd12z120j0zfg1af0dzpfhyzxchqlf2yn0bg8ryj3")
 
 (define zen-browser-bin
   (package
