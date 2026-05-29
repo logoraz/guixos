@@ -238,6 +238,7 @@ input type:keyboard {
         guile-fibers
         guile-g-golf
         guile-hall
+        guile-hoot
         sbcl
         emacs-pgtk))
 
