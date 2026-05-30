@@ -197,8 +197,9 @@
   '((ws0 "0" "$laptop")
     (ws2 "2" "$laptop")
     (ws3 "3" "$laptop")
-    (ws4 "4" "$acer $laptop")
-    (ws5 "5" "$tv $laptop")
+    (ws4 "4" "$laptop")
+    (ws5 "5" "$acer $laptop")
+    (ws6 "6" "$tv $laptop")
     (ws1 "1" "$laptop")))
 
 (define %sway-config-base-variables
@@ -224,8 +225,6 @@
     (ws3 . "3")
     (ws4 . "4")
     (ws5 . "5")
-
-    ;; Additional non-pinned workspaces
     (ws6 . "6")
     (ws7 . "7")
     (ws8 . "8")
