@@ -1,0 +1,13 @@
+[Desktop Entry]
+Name=Jitsi Meet
+Exec=/home/logoraz/.guix-home/profile/bin/flatpak run --branch=stable --arch=x86_64 --command=jitsi-meet-run --file-forwarding org.jitsi.jitsi-meet @@u %u @@
+Terminal=false
+Type=Application
+Icon=/home/logoraz/.local/share/flatpak/exports/share/icons/hicolor/512x512/apps/org.jitsi.jitsi-meet.png
+StartupWMClass=Jitsi Meet
+X-AppImage-Version=2026.5.0
+Comment=Jitsi Meet Desktop App
+MimeType=x-scheme-handler/jitsi-meet;
+Categories=VideoConference;AudioVideo;Audio;Video;Network;
+X-Desktop-File-Install-Version=0.28
+X-Flatpak=org.jitsi.jitsi-meet

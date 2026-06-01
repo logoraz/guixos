@@ -33,6 +33,7 @@
     ;; Corrected Desktop Entries
     ,@(desktop-overrides-symlinks
        '("com.fastmail.Fastmail.desktop"
+         "org.jitsi.jitsi-meet.desktop"
          "libreoffice-base.desktop"
          "libreoffice-calc.desktop"
          "libreoffice-draw.desktop"
