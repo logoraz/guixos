@@ -2,6 +2,7 @@
   #:use-module (guix gexp)
   #:export (resolve))
 
+
 ;;;
 ;;; Configuration Helpers
 ;;;

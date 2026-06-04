@@ -9,11 +9,12 @@
   #:use-module (gnu system keyboard)
   #:use-module (gnu system nss)
 
-  ;; Lisp Stack
+  ;; Lisp Dev Stack
   #:use-module (gnu packages emacs)
   #:use-module (gnu packages guile)
   #:use-module (gnu packages guile-xyz)
   #:use-module (gnu packages lisp)
+  #:use-module (gnu packages zig)
 
   ;; WM, Login & Terminal
   #:use-module (gnu packages wm)               ;; sway, swaylock-effects
@@ -64,7 +65,6 @@
   #:use-module (guixos services firmware)      ;; fwupd-service-type
   #:use-module (guixos system identity)        ;; %home-user
   #:use-module (guixos system substitutes)
-
   #:export (make-guixos-system))
 
 
@@ -239,6 +239,7 @@ input type:keyboard {
         guile-g-golf
         guile-hall
         guile-hoot
+        zig
         sbcl
         emacs-pgtk))
 

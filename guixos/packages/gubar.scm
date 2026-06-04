@@ -13,6 +13,7 @@
   #:use-module (guix git-download)
   #:use-module (srfi srfi-1))
 
+
 ;; Generate content hash
 ;; guix hash --serializer=nar .
 (define-public gubar

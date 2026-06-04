@@ -23,6 +23,7 @@
   #:use-module (gnu packages xorg)
   #:export (zen-browser-bin))
 
+
 ;; Notes on Updating to latest version:
 ;; curl -s https://api.github.com/repos/zen-browser/desktop/releases/latest | \
 ;;      grep '"tag_name"'

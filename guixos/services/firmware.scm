@@ -7,6 +7,7 @@
   #:use-module (guix records)
   #:use-module (nongnu packages firmware))
 
+
 (define-record-type* <fwupd-configuration>
   fwupd-configuration make-fwupd-configuration
   fwupd-configuration?

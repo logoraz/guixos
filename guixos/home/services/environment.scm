@@ -5,6 +5,7 @@
   #:use-module (guix gexp)
   #:export (home-env-vars-configuration-service-type))
 
+
 ;;;
 ;;; GTK Configuration Data
 ;;;

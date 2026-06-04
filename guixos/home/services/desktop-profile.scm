@@ -20,7 +20,6 @@
   #:use-module (gnu packages qt)                   ;; qtwayland
   #:use-module (gnu packages enchant)
   #:use-module (gnu packages speech)               ;; speech-dispatcher
-  #:use-module (gnu packages node)
 
   ;; Authentication
   #:use-module (gnu packages gnupg)                ;; gnupg, pinentry
@@ -46,7 +45,6 @@
   #:use-module (gnu packages inkscape)
   #:use-module (gnu packages graphics)             ;; blender
 
-
   ;; Hardware & extra utilities
   #:use-module (gnu packages polkit)
   #:use-module (gnu packages tls)                  ;; openssl, aws-lc
@@ -54,7 +52,6 @@
   #:use-module (gnu packages linux)                ;; alsa-*, tlp
   #:use-module (gnu packages networking)           ;; nm applet, blueman
   #:use-module (gnu packages shellutils)           ;; trash-cli, udiskie
-
   #:export (home-desktop-profile-service-type))
 
 
@@ -87,9 +84,8 @@
 
 (define %web-utils
   (list qtwayland
-        enchant
         speech-dispatcher
-        node))
+        enchant))
 
 (define %authentication
   (list gnupg

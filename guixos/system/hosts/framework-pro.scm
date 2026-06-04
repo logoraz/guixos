@@ -8,7 +8,6 @@
   #:use-module (guixos system identity)        ;; %home-user
   ;; Integrate home into system
   #:use-module (guixos home guixos-home)       ;; guixos-home
-
   #:export (%guixos))
 
 

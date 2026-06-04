@@ -5,6 +5,7 @@
             guixos-system-config
             guixos-home-config))
 
+
 ;;;
 ;;; Identity values shared across the GuixOS configuration.
 ;;;

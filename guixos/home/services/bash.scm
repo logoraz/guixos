@@ -104,6 +104,10 @@
                               "reconfigure --allow-downgrades "
                               (guixos-home-config)))
 
+;; Run mermaid-cli inside its distrobox container (create it once, see
+;; the mermaid container notes).  Args after `mmdc' pass straight through.
+(define %mmdc "distrobox enter mermaid -- mmdc")
+
 ;;;
 ;;; Service Composition
 ;;;
@@ -117,10 +121,11 @@
                 ("ls"    . "ls -p --color=auto")
                 ("ll"    . "ls -l")
                 ("la"    . "ls -la")
-                ("gosr"  . ,%gosr)
-                ("gohr"  . ,%gohr)
-                ("gop"   . ,%gop)
+                ("mmdc"  . ,%mmdc)
+                ("gohtm" . ,%gohtm)
                 ("gostm" . ,%gostm)
-                ("gohtm" . ,%gohtm)))
+                ("gop"   . ,%gop)
+                ("gohr"  . ,%gohr)
+                ("gosr"  . ,%gosr)))
              (bashrc (list %dot-bashrc))
              (bash-profile (list %dot-bash-profile)))))
