@@ -100,6 +100,7 @@
                                   "lp"       ;; control bluetooth devices
                                   "audio"    ;; control audio devices
                                   "video"    ;; control video devices
+                                  "dialout"  ;; serial port access
                                   "cgroup")));; rootless podman delegation
          %base-user-accounts))
 
