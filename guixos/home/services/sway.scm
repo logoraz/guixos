@@ -198,8 +198,8 @@
     (ws2 "2" "$laptop")
     (ws3 "3" "$laptop")
     (ws4 "4" "$laptop")
-    (ws5 "5" "$acer $laptop")
-    (ws6 "6" "$tv $laptop")
+    (ws5 "5" "$acer $dellM $laptop")
+    (ws6 "6" "$tv   $dellS $laptop")
     (ws1 "1" "$laptop")))
 
 (define %sway-config-base-variables
@@ -212,11 +212,14 @@
     (titlebar_font . "Iosevka Aile")
     (titlebar_text_size . "11")
     (system_text_scaling_factor . ,%text-scale)
-
     (gnome_schema . "org.gnome.desktop.interface")
     (laptop  . "eDP-1")
+    ;; Home Monitors/Screens
     (acer    . "'Acer Technologies K243Y TN6AA0018513'")
     (tv      . "'VIZIO, Inc E32-C1 0x01010101'")
+    ;; Work Monitors/Screens
+    (dellM   . "'Dell Inc. DELL P2425HE 1C5FN84'") ;; Main w/ hub
+    (dellS   . "'Dell Inc. DELL P2425H CNGJK94'")  ;; Secondary
 
     ;; Define workspace numbers
     (ws0 . "0")
@@ -270,14 +273,25 @@
       (identifier 'eDP-1)
       (position (point (x 1920) (y 0)))
       (extra-content (list (string-append "scale " (dpi-scale 'eDP-1)))))
+    ;; Home Monitor Setup
     (sway-output
       (identifier "Acer Technologies K243Y TN6AA0018513")
       (position (point (x 0) (y 0)))
-      (extra-content (list (string-append "scale " (dpi-scale 'DP)))))
+      (extra-content (list (string-append "scale " (dpi-scale 'acer)))))
     (sway-output
       (identifier "VIZIO, Inc E32-C1 0x01010101")
       (position (point (x 3566) (y 0)))
-      (extra-content (list (string-append "scale " (dpi-scale 'DP)))))
+      (extra-content (list (string-append "scale " (dpi-scale 'tv)))))
+    ;; Work Monitor Setup
+    (sway-output
+      (identifier "Dell Inc. DELL P2425HE 1C5FN84")
+      (position (point (x 0) (y 0)))
+      (extra-content (list (string-append "scale " (dpi-scale 'dellM)))))
+    (sway-output
+      (identifier "Dell Inc. DELL P2425H CNGJK94")
+      (position (point (x 3566) (y 0)))
+      (extra-content (list (string-append "scale " (dpi-scale 'dellS)))))
+    ;; Base
     (sway-output
       (identifier '*)
       (background `(,%bg-path . fill))))))
