@@ -46,6 +46,7 @@
   #:use-module (gnu packages graphics)             ;; blender
 
   ;; Hardware & extra utilities
+  #:use-module (gnu packages photo)                ;; gphoto2
   #:use-module (gnu packages polkit)
   #:use-module (gnu packages tls)                  ;; openssl, aws-lc
   #:use-module (gnu packages xdisorg)              ;; wev
@@ -136,6 +137,7 @@
         tlp ;; --> alternate for bluetooth & wifi controls
         blueman
         network-manager-applet
+        gphoto2
         udiskie
         trash-cli))
 
