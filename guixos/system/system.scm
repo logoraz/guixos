@@ -115,20 +115,41 @@
 
 (define %greetd-conf
   (mixed-text-file "sway-greetd.conf"
-                   "# sway greetd configuration file
+    "# sway greetd configuration file\n"
+    "\n"
+    "# Configure Mouse & Scale\n"
+    "seat seat0 xcursor_theme Bibata-Modern-Classic 20\n"
+    "output eDP-1 scale 1.6\n"
+    "\n"
+    "# Disable external outputs for greeter\n"
+    "output DP-1 disable\n"
+    "output DP-2 disable\n"
+    "output DP-3 disable\n"
+    "\n"
+    ;; "# Background image (resolved at build time)\n"
+    ;; "output eDP-1 bg " %greetd-backsplash " fill\n"
+    ;; "\n"
+    "input type:keyboard {\n"
+    "  xkb_layout us\n"
+    "  xkb_options ctrl:nocaps\n"
+    "}\n"))
 
-# Configure Mouse & Scale
-seat seat0 xcursor_theme Bibata-Modern-Classic 20
-output eDP-1 scale 1.6
-
-# Background image (resolved at build time)
-output * bg " %greetd-backsplash " fill
-
-input type:keyboard {
-  xkb_layout us
-  xkb_options ctrl:nocaps
-}
-"))
+(define %gtkgreet-style
+  (mixed-text-file "gtkgreet.css"
+    "window {\n"
+    "  background-image: url(\"file://" %greetd-backsplash "\");\n"
+    "  background-size: cover;\n"
+    "  background-position: center;\n"
+    "}\n"
+    "box#body {\n"
+    "  background-color: rgba(46, 52, 64, 0.85);\n"
+    "  border-radius: 10px;\n"
+    "  padding: 50px;\n"
+    "}\n"
+    "entry { background-color: #3b4252; color: #d8dee9; }\n"
+    "button > label { color: #2e3440; }\n"
+    "button:hover > label { color: #BF616A; }\n"
+    "label { color: #d8dee9; }\n"))
 
 (define %sway-logged
   (program-file
@@ -183,9 +204,10 @@ input type:keyboard {
                   (terminal-vt "1")
                   (terminal-switch #t)
                   (default-session-command
-                    (greetd-wlgreet-sway-session
+                    (greetd-gtkgreet-sway-session
                       (sway sway)
                       (sway-configuration %greetd-conf)
+                      (gtkgreet-style %gtkgreet-style)
                       (command %sway-logged))))
                 (greetd-terminal-configuration (terminal-vt "2"))
                 (greetd-terminal-configuration (terminal-vt "3"))
