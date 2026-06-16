@@ -6,29 +6,31 @@
   #:use-module (gnu packages pkg-config)
   #:use-module (gnu packages texinfo)
   #:use-module (guix build-system gnu)
-  #:use-module (guix download)
   #:use-module (guix gexp)
   #:use-module ((guix licenses) #:prefix license:)
   #:use-module (guix packages)
-  #:use-module (guix git-download)
-  #:use-module (srfi srfi-1))
+  #:use-module (guix git-download))
 
 
 ;; Generate content hash
+;; guix download https://codeberg.org/logoraz/gubar/archive/<commit>.tar.gz
+;; or
 ;; guix hash --serializer=nar .
+
+(define %version "9b91bdb")
+(define %hash "11l6had5d1n56h9c65hhrhcz8h45lxsx2lq5r169l79pkni0gn18")
+
 (define-public gubar
   (package
     (name "gubar")
-    (version "4777186") ;; --> main
+    (version %version) ;; --> main
     (source (origin
               (method git-fetch)
               (uri (git-reference
-                     (url "https://codeberg.org/trevarj/gubar")
+                     (url "https://codeberg.org/logoraz/gubar")
                      (commit version)))
               (file-name (git-file-name name version))
-              (hash
-               (content-hash
-                "19ipikcmw735qmq6wh3ydy1z778z1amsr4pi1fi1b878ii1zmgmc"))))
+              (hash (content-hash (base32 %hash) sha256))))
     (build-system gnu-build-system)
     (arguments
      (list #:modules

@@ -16,7 +16,7 @@
   #:use-module (guixos lib utils)
   #:use-module (guixos system identity)
   #:use-module (guixos home services impure-symlinks)
-  ;; #:use-module (guixos packages gubar)
+  #:use-module (guixos packages gubar)
   #:export (sway-configuration-extension
             home-sway-configuration-service-type))
 

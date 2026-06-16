@@ -7,15 +7,15 @@
   #:use-module (gubar blocks volume-pipewire)
   #:use-module (gubar blocks brightness)
   #:use-module (gubar blocks battery)
-  #:use-module (gubar blocks network-manager-wifi)
+  #:use-module (gubar blocks network-manager)
   #:use-module (srfi srfi-1))
 
 
 ;;; Load Custom Gublocks
-(load "/home/logoraz/.config/gubar/blocks/network-manager.scm")
-(load "/home/logoraz/.config/gubar/blocks/date-time-2.scm")
-(use-modules (files gubar blocks network-manager)
-             (files gubar blocks date-time-2))
+;; (load "/home/logoraz/.config/gubar/blocks/network-manager.scm")
+;; (load "/home/logoraz/.config/gubar/blocks/date-time-2.scm")
+;; (use-modules (files gubar blocks network-manager)
+;;              (files gubar blocks date-time-2))
 
 
 ;;; Configure sway-bar
@@ -25,4 +25,4 @@
  (brightness #:nerd-icons #t)
  (volume-pipewire)
  (battery #:nerd-icons #t)
- (date-time-2 #:format "%a %b %d %Y %-I:%M:%S %p"))
+ (date-time #:format "%a %b %d %Y %-I:%M:%S %p"))
