@@ -182,6 +182,16 @@
    "[dmenu]\n"
    "exit-immediately-if-empty=yes\n"))
 
+(define* (kbd-backlight-cmd direction #:optional (step 10))
+  "Generate a bindsym command for keyboard backlight adjustment.
+DIRECTION is either \"-\" or \"+\", STEP is the percentage integer."
+  (string-append
+   "exec brightnessctl -d chromeos::kbd_backlight set "
+   (number->string step) "%" direction
+   " && notify-send 'Keyboard Backlight'"
+   " \"$(brightnessctl -d chromeos::kbd_backlight"
+   " -m | cut -d, -f4)\""))
+
 ;;;
 ;;; Sway Configuration Data
 ;;;
@@ -402,6 +412,14 @@
     "bindsym $rbrt_down exec pkill -SIGRTMIN+4 -n gubar"
     "bindsym $lbrt_up exec brightnessctl set 5%+"
     "bindsym $rbrt_up exec pkill -SIGRTMIN+4 -n gubar"
+
+    ;; Backlight control
+    ,(string-append
+      "bindsym --locked $mod+XF86MonBrightnessDown "
+      (kbd-backlight-cmd "-"))
+    ,(string-append
+      "bindsym --locked $mod+XF86MonBrightnessUp "
+      (kbd-backlight-cmd "+"))
 
     ;; Volume control
     "bindsym $lad_mute exec pactl set-sink-mute @DEFAULT_SINK@ toggle"

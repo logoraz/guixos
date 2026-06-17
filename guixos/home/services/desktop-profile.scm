@@ -138,6 +138,7 @@
         blueman
         network-manager-applet
         gphoto2
+        libnotify
         udiskie
         trash-cli))
 
