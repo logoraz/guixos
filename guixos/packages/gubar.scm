@@ -12,13 +12,8 @@
   #:use-module (guix git-download))
 
 
-;; Generate content hash
-;; guix download https://codeberg.org/logoraz/gubar/archive/<commit>.tar.gz
-;; or
-;; guix hash --serializer=nar .
-
-(define %version "9b91bdb")
-(define %hash "11l6had5d1n56h9c65hhrhcz8h45lxsx2lq5r169l79pkni0gn18")
+(define %version "fece55a")
+(define %hash "0lhimbvgi3y5n1053rxw56czyz8b5vflmljqc2lvkiy179cf9s56")
 
 (define-public gubar
   (package
