@@ -31,8 +31,8 @@
 ;;      <version>/zen.linux-x86_64.tar.xz
 ;; guix hash zen.linux-x86_64.tar.xz
 
-(define %version "1.21.1b")
-(define %zen-hash "1n8f23laasmf5bydqzq0qsijawzglpc96gdgql5lyq7y28zwzym7")
+(define %version "1.21.3b")
+(define %zen-hash "0kxfhhwbyxs262v497jsp3j11svy4kmg9bjgvqvpqpf167wymkm0")
 
 (define zen-browser-bin
   (package
@@ -158,6 +158,7 @@
                         '("glxtest"
                           "updater"
                           "vaapitest"
+                          "vulkantest"
                           "zen"
                           "zen-bin"
                           "pingsender"))

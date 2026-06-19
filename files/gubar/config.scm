@@ -2,12 +2,12 @@
 (define-module (files gubar config)
   #:use-module (gubar gublock)
   #:use-module (gubar swaybar-protocol)
-  #:use-module (gubar blocks date-time)
   #:use-module (gubar blocks label)
-  #:use-module (gubar blocks volume-pipewire)
-  #:use-module (gubar blocks brightness)
-  #:use-module (gubar blocks battery)
   #:use-module (gubar blocks network-manager)
+  #:use-module (gubar blocks brightness)
+  #:use-module (gubar blocks volume-pipewire)
+  #:use-module (gubar blocks battery)
+  #:use-module (gubar blocks date-time)
   #:use-module (srfi srfi-1))
 
 
@@ -25,4 +25,4 @@
  (brightness #:nerd-icons #t)
  (volume-pipewire)
  (battery #:nerd-icons #t)
- (date-time #:format "%a %b %d %Y %-I:%M:%S %p"))
+ (date-time #:format "%a %b %d %Y %-I:%M:%S %p" #:interval 'persistent))
