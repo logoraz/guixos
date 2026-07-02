@@ -114,17 +114,13 @@
   (local-file "../../files/assets/wallpapers/guix-bottom-checkered-16-9.svg"))
 
 (define %greetd-conf
-  (mixed-text-file "sway-greetd.conf"
-    "# sway greetd configuration file\n"
+  (mixed-text-file
+   "sway-greetd.conf"
+   "# sway greetd configuration file\n"
     "\n"
-    "# Configure Mouse & Scale\n"
+    ;; Configure Mouse & Scale
     "seat seat0 xcursor_theme Bibata-Modern-Classic 20\n"
     "output eDP-1 scale 1.6\n"
-    "\n"
-    "# Disable external outputs for greeter\n"
-    "output DP-1 disable\n"
-    "output DP-2 disable\n"
-    "output DP-3 disable\n"
     "\n"
     ;; "# Background image (resolved at build time)\n"
     ;; "output eDP-1 bg " %greetd-backsplash " fill\n"

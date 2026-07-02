@@ -12,8 +12,8 @@
   #:use-module (guix git-download))
 
 
-(define %version "7d1d8d8")
-(define %hash "05m4s4pnw8vm0k00didjrr1x9fb288vqy35ylk9wnwnkh2m0khkw")
+(define %version "54c084b")
+(define %hash "0cjbfv1rf92jl7dj2nfyylxp15dl033c53rvbrbsnpgm72dc4280")
 
 (define-public gubar
   (package
