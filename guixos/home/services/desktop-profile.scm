@@ -44,6 +44,7 @@
   #:use-module (gnu packages gimp)
   #:use-module (gnu packages inkscape)
   #:use-module (gnu packages graphics)             ;; blender
+  #:use-module (gnu packages engineering)          ;; freecad
 
   ;; Hardware & extra utilities
   #:use-module (gnu packages photo)                ;; gphoto2
@@ -124,7 +125,8 @@
   (list gnucash
         gimp-3
         inkscape
-        blender))
+        blender
+        freecad))
 
 (define %xtra-utilities
   (list openssl
