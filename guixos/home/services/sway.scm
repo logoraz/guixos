@@ -212,6 +212,15 @@ DIRECTION is either \"-\" or \"+\", STEP is the percentage integer."
     (ws6 "6" "$tv   $dellS $laptop")
     (ws1 "1" "$laptop")))
 
+;; Windows that should always spawn floating.
+;; Each entry: (name criteria-type criteria-value)
+(define floating-app-list
+  '((gcalc       app_id "org.gcalc.example")
+    (mpv         app_id "mpv")
+    (pavucontrol app_id "pavucontrol")
+    (nm-editor   app_id "nm-connection-editor")
+    (blueman     app_id ".blueman-manager-real")))
+
 (define %sway-config-base-variables
   `((mod . "Mod4") ;; Super key (note Super := Mod4, Alt := Mod1)
     (system_theme . "Adwaita")
@@ -447,6 +456,13 @@ DIRECTION is either \"-\" or \"+\", STEP is the percentage integer."
 
     ;; Floating Screens
     "floating_modifier $mod"
+
+    ;; Auto-float specific windows
+    ,@(map (match-lambda
+             ((name criteria-type criteria-value)
+              (format #f "for_window [~a=\"~a\"] floating enable"
+                      criteria-type criteria-value)))
+           floating-app-list)
 
     ;; Pin Workspaces
     ,@(map (match-lambda
