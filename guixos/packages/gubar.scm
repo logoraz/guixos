@@ -12,17 +12,17 @@
   #:use-module (guix git-download))
 
 
-(define %version "54c084b")
-(define %hash "0cjbfv1rf92jl7dj2nfyylxp15dl033c53rvbrbsnpgm72dc4280")
+(define %version "667d72f")
+(define %hash "1kkl722aw2imsxvk9sd0jmyb4f4rahbk7b7b9x3apwamaq93plfp")
 
 (define-public gubar
   (package
     (name "gubar")
-    (version %version) ;; --> main
+    (version %version)
     (source (origin
               (method git-fetch)
               (uri (git-reference
-                     (url "https://codeberg.org/logoraz/gubar")
+                     (url "https://codeberg.org/trevarj/gubar")
                      (commit version)))
               (file-name (git-file-name name version))
               (hash (content-hash (base32 %hash) sha256))))
