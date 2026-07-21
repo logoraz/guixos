@@ -121,6 +121,10 @@
     ;; Configure Mouse & Scale
     "seat seat0 xcursor_theme Bibata-Modern-Classic 20\n"
     "output eDP-1 scale 1.6\n"
+    ;; Output layout
+    "output * disable\n"
+    "output eDP-1 enable\n"
+    "output eDP-1 position 1920 0\n"
     "\n"
     ;; "# Background image (resolved at build time)\n"
     ;; "output eDP-1 bg " %greetd-backsplash " fill\n"
