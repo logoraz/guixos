@@ -38,6 +38,7 @@
   #:use-module (gnu packages image-viewers)        ;; imv
   #:use-module (gnu packages ocr)                  ;; tesseract-ocr
   #:use-module (gnu packages libreoffice)
+  #:use-module (gnu packages tex)                  ;; texlive-*
 
   ;; Applications
   #:use-module (gnu packages gnucash)
@@ -119,7 +120,13 @@
         poppler
         pandoc
         imv
-        tesseract-ocr))
+        tesseract-ocr
+        texlive-scheme-basic
+        texlive-dvisvgm
+        texlive-preview
+        texlive-listings
+        texlive-collection-latexrecommended
+        texlive-collection-fontsrecommended))
 
 (define %applications
   (list gnucash
