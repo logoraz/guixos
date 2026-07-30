@@ -123,8 +123,7 @@
         tesseract-ocr
         texlive-scheme-basic
         texlive-dvisvgm
-        texlive-preview
-        texlive-listings
+        texlive-collection-latexextra
         texlive-collection-latexrecommended
         texlive-collection-fontsrecommended))
 
