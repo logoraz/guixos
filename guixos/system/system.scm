@@ -14,6 +14,7 @@
   #:use-module (gnu packages guile)
   #:use-module (gnu packages guile-xyz)
   #:use-module (gnu packages lisp)
+  #:use-module (gnu packages libffi)
   #:use-module (gnu packages zig)
 
   ;; WM, Login & Terminal
@@ -263,6 +264,7 @@
         guile-hall
         guile-hoot
         zig
+        libffi
         sbcl
         emacs-pgtk))
 
