@@ -115,7 +115,10 @@
 
     ;; Flatpak integration
     ("XDG_LOCAL_BIN"    . "$HOME/.local/bin")
-    ("XDG_DATA_DIRS"    . ,%xdg-data-dirs)))
+    ("XDG_DATA_DIRS"    . ,%xdg-data-dirs)
+
+    ;; Local user binaries (e.g. ocicl, cargo, etc.) on PATH
+    ("PATH" . "$XDG_LOCAL_BIN:$PATH")))
 
 (define (home-env-vars-files-service config)
   `((".config/gtk-3.0/settings.ini" ,%gtk3-settings)

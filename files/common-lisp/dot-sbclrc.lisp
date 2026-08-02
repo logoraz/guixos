@@ -60,7 +60,8 @@
       (load ocicl-runtime)))
   (asdf:initialize-source-registry
    (list :source-registry
-         ;; Keyword :tree needed to find self-vendored non-available ocicl systems in ocicl/
+         ;; Keyword :tree needed to find self-vendored non-available ocicl
+         ;; systems in ocicl/
          (list :tree (uiop:getcwd))
          :inherit-configuration)))
 
