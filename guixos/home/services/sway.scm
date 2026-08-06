@@ -215,8 +215,7 @@ DIRECTION is either \"-\" or \"+\", STEP is the percentage integer."
 ;; Windows that should always spawn floating.
 ;; Each entry: (name criteria-type criteria-value)
 (define floating-app-list
-  '((gcalc       app_id "org.gcalc.example")
-    (mpv         app_id "mpv")
+  '((mpv         app_id "mpv")
     (pavucontrol app_id "pavucontrol")
     (nm-editor   app_id "nm-connection-editor")
     (blueman     app_id ".blueman-manager-real")))
