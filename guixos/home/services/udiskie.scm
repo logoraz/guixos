@@ -16,8 +16,20 @@
   (list
    (shepherd-service
     (provision '(udiskie))
+    (auto-start? #f)
     (documentation "Run and control udiskie.")
-    (start #~(make-forkexec-constructor '("udiskie" "-t")))
+    (start
+     #~(lambda _
+         ((make-forkexec-constructor
+           '("udiskie" "-s")
+           #:environment-variables
+           (append
+            (map (lambda (p) (string-append (car p) "=" (cdr p)))
+                 (call-with-input-file
+                     (string-append (getenv "XDG_RUNTIME_DIR")
+                                    "/sway-session-env")
+                   read))
+            (environ))))))
     (stop #~(make-kill-destructor)))))
 
 (define home-udiskie-service-type

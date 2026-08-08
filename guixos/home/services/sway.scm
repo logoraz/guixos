@@ -29,6 +29,24 @@
 (define %swaylock-cmd
   (file-append swaylock-effects "/bin/swaylock"))
 
+(define %sway-udiskie-start
+  (program-file
+   "sway-udiskie-start"
+   #~(begin
+       (call-with-output-file
+           (string-append (getenv "XDG_RUNTIME_DIR") "/sway-session-env")
+         (lambda (port)
+           (write
+            (let loop ((vs '("WAYLAND_DISPLAY" "DISPLAY" "DBUS_SESSION_BUS_ADDRESS"))
+                       (acc '()))
+              (if (null? vs)
+                  (reverse acc)
+                  (let ((val (getenv (car vs))))
+                    (loop (cdr vs)
+                          (if val (cons (cons (car vs) val) acc) acc)))))
+            port)))
+       (system* "herd" "start" "udiskie"))))
+
 (define %sway-session-end
   (program-file
    "sway-session-end"
@@ -505,7 +523,7 @@ DIRECTION is either \"-\" or \"+\", STEP is the percentage integer."
 
     ;; Utility applications
     "mako"
-    "udiskie -s"
+    ,#~(string-append #$%sway-udiskie-start)
     "blueman-applet"
 
     ;;Update DBUS activation records to ensure Flatpak apps work
