@@ -8,6 +8,7 @@
             xdg-desktop-entry-file-name
             xdg-desktop-entry-name
             xdg-desktop-entry-type
+            xdg-desktop-entry-exec
             xdg-desktop-entry-no-display?
             home-xdg-desktop-entries-service-type))
 
@@ -16,23 +17,26 @@
 ;;;
 
 (define-record-type <xdg-desktop-entry>
-  (make-xdg-desktop-entry file-name name type no-display?)
+  (make-xdg-desktop-entry file-name name type exec no-display?)
   xdg-desktop-entry?
   (file-name    xdg-desktop-entry-file-name)
   (name         xdg-desktop-entry-name)
   (type         xdg-desktop-entry-type)
+  (exec         xdg-desktop-entry-exec)
   (no-display?  xdg-desktop-entry-no-display?))
 
 (define* (xdg-desktop-entry file-name name
                              #:key
                              (type "Application")
+                             (exec #f)
                              (no-display? #f))
-  (make-xdg-desktop-entry file-name name type no-display?))
+  (make-xdg-desktop-entry file-name name type exec no-display?))
 
 (define (xdg-desktop-entry->file entry)
   (let ((file-name (xdg-desktop-entry-file-name entry))
         (name      (xdg-desktop-entry-name entry))
         (type      (xdg-desktop-entry-type entry))
+        (exec      (xdg-desktop-entry-exec entry))
         (hidden?   (xdg-desktop-entry-no-display? entry)))
     `(,(string-append "applications/" file-name ".desktop")
       ,(mixed-text-file
@@ -40,6 +44,7 @@
         "[Desktop Entry]\n"
         "Type=" type "\n"
         "Name=" name "\n"
+        (if exec (string-append "Exec=" exec "\n") "")
         (if hidden? "NoDisplay=true\n" "")))))
 
 (define (home-xdg-desktop-entries-service entries)

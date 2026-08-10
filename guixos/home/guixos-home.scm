@@ -75,15 +75,21 @@
       ;; Remove undesired desktop entries
       (service home-xdg-desktop-entries-service-type
                (list
-                (xdg-desktop-entry "emacsclient"
-                                   "Emacs (Client)"
-                                   #:no-display? #t)
-                (xdg-desktop-entry "footclient"
-                                   "Foot Client"
-                                   #:no-display? #t)
-                (xdg-desktop-entry "foot-server"
-                                   "Foot Server"
-                                   #:no-display? #t)))
+                (xdg-desktop-entry
+                  "emacsclient"
+                  "Emacs (Client)"
+                  #:exec "emacsclient --alternate-editor= --create-frame %F"
+                  #:no-display? #t)
+                (xdg-desktop-entry
+                  "footclient"
+                  "Foot Client"
+                  #:exec "footclient"
+                  #:no-display? #t)
+                (xdg-desktop-entry
+                  "foot-server"
+                  "Foot Server"
+                  #:exec "foot --server"
+                  #:no-display? #t)))
 
       ;; Bash configuration
       (bash-config->service))
