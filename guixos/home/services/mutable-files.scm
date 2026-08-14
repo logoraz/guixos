@@ -42,6 +42,11 @@
          "libreoffice-startcenter.desktop"
          "libreoffice-writer.desktop"))
 
+    ;; Common Lisp is Lord...
+    (".sbclrc"
+     ,(resolve (config-source) "files/common-lisp"
+               #:file "dot-sbclrc.lisp" #:string? #t))
+
     ;; TODO
     ))
 
