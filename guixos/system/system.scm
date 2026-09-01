@@ -10,12 +10,14 @@
   #:use-module (gnu system nss)
 
   ;; Lisp Dev Stack
+  #:use-module (gnu packages lisp)
+  #:use-module (gnu packages lisp-xyz)
   #:use-module (gnu packages emacs)
   #:use-module (gnu packages guile)
   #:use-module (gnu packages guile-xyz)
-  #:use-module (gnu packages lisp)
-  #:use-module (gnu packages libffi)
   #:use-module (gnu packages zig)
+  #:use-module (gnu packages libffi)
+
 
   ;; WM, Login & Terminal
   #:use-module (gnu packages wm)               ;; sway, swaylock-effects
@@ -257,16 +259,14 @@
 
 ;;; Lisp Machine
 (define %guixos-lisp-stack
-  (list guile-colorized
+  (list sbcl
+        clasp-cl
+        ccl
+        emacs-pgtk
+        guile-colorized
         guile-ares-rs
-        guile-fibers
-        guile-g-golf
-        guile-hall
-        guile-hoot
         zig
-        libffi
-        sbcl
-        emacs-pgtk))
+        libffi))
 
 ;;; File system & firmware tools
 (define %guixos-system-tools
