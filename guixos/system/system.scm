@@ -86,8 +86,9 @@
 
 (define %guixos-groups
   ;; Add the 'seat' group
-  (cons (user-group (system? #t) (name "seat"))
-        %base-groups))
+  (cons* (user-group (system? #t) (name "seat"))
+         (user-group (system? #t) (name "adbusers"))
+         %base-groups))
 
 (define (%guixos-users username comment)
   (cons* (user-account
@@ -104,6 +105,7 @@
                                   "audio"    ;; control audio devices
                                   "video"    ;; control video devices
                                   "dialout"  ;; serial port access
+                                  "adbusers" ;; fastboot/adb without root
                                   "cgroup")));; rootless podman delegation
          %base-user-accounts))
 
@@ -227,6 +229,9 @@
             (rootless-podman-configuration
               (subgids (list (subid-range (name (%home-user)))))
               (subuids (list (subid-range (name (%home-user)))))))
+
+   ;; Udev rules to bootstrap android phones
+   (udev-rules-service 'android android-udev-rules)
 
    ;; See: https://guix.gnu.org/manual/en/html_node/Desktop-Services.html
    (modify-services %desktop-services
