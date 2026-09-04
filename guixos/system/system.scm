@@ -20,9 +20,10 @@
 
 
   ;; WM, Login & Terminal
-  #:use-module (gnu packages wm)               ;; sway, swaylock-effects
-  #:use-module (gnu packages gnome)            ;; librsvg
-  #:use-module (gnu packages terminals)        ;; foot
+  #:use-module (gnu packages window-management) ;; sway, swaylock-effects
+  #:use-module (gnu packages gnome)             ;; librsvg
+  #:use-module (gnu packages terminals)         ;; foot
+
 
   ;; Fonts & Themes
   #:use-module (gnu packages fonts)
@@ -37,6 +38,9 @@
   #:use-module (nongnu packages firmware)      ;; fwupd-nonfree, linux-firmware
   #:use-module (nongnu packages linux)         ;; linux (kernel)
   #:use-module (nongnu system linux-initrd)    ;; microcode-initrd
+
+  ;; Android / mobile device tooling
+  #:use-module (gnu packages android)          ;; android-udev-rules
 
   ;; Printing
   #:use-module (gnu packages cups)             ;; cups-filters, hplip-minimal
@@ -68,7 +72,8 @@
   #:use-module (guixos services firmware)      ;; fwupd-service-type
   #:use-module (guixos system identity)        ;; %home-user
   #:use-module (guixos system substitutes)
-  #:export (make-guixos-system))
+  #:export (make-guixos-system)
+  #:declarative? #f)
 
 
 ;;;
