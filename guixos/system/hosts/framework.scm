@@ -58,15 +58,7 @@
                        (call-with-output-file
                            "/etc/NetworkManager/conf.d/rc-manager.conf"
                          (lambda (port)
-                           (display "[main]\nrc-manager=file\n" port)))))
-
-   ;; Integrate home configuration into system reconfigure
-   (service guix-home-service-type
-            `((,(%home-user) ,guixos-home)))
-
-
-   ;; TODO
-   ))
+                           (display "[main]\nrc-manager=file\n" port)))))))
 
 ;;;
 ;;; Framework specific package additions

@@ -3,7 +3,6 @@
   #:use-module (gnu)
   #:use-module (gnu packages)
   #:use-module (guix gexp)
-  #:use-module (guix channels)
 
   ;; System primitives
   #:use-module (gnu system keyboard)
@@ -72,6 +71,7 @@
   #:use-module (guixos services firmware)      ;; fwupd-service-type
   #:use-module (guixos system identity)        ;; %home-user
   #:use-module (guixos system substitutes)
+
   #:export (make-guixos-system)
   #:declarative? #f)
 
@@ -257,10 +257,7 @@
 
      (guix-service-type
       config =>
-      (substitutes->services
-       config
-       #:channels (load (string-append (config-source)
-                                       "/guixos/system/channels.scm")))))))
+      (substitutes->services config)))))
 
 
 ;;;

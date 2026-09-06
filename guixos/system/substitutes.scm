@@ -2,9 +2,6 @@
   #:use-module (ice-9 optargs)
   #:use-module (ice-9 ftw)
   #:use-module (gnu)
-  #:use-module (gnu packages package-management)
-  #:use-module (guix gexp)
-  #:use-module (guix ci)
   #:use-module (guix packages)
   #:use-module (guix download)
   #:export (substitutes->services
@@ -27,20 +24,15 @@
             "0j66nq1bxvbxf5n8q2py14sjbkn57my0mjwq7k1qm9ddghca7177")))
          %default-authorized-guix-keys))
 
-;; Use Package substitutes instead of compiling everything & specify channels
+;; Use Package substitutes instead of compiling everything
 ;; https://guix.gnu.org/manual/en/html_node/\
 ;; Getting-Substitutes-from-Other-Servers.html
-(define* (substitutes->services config #:key channels)
-  (if channels
-      (guix-configuration
-       (inherit config)
-       (substitute-urls %guixos-substitute-urls)
-       (authorized-keys %guixos-authorized-keys)
-       ;; ref https://guix.gnu.org/manual/devel/en/html_node/Customizing-the-System_002dWide-Guix.html
-       (channels channels)
-       (guix (guix-for-channels channels)))
-    ;;else
-    (guix-configuration
-     (inherit config)
-     (substitute-urls %guixos-substitute-urls)
-     (authorized-keys %guixos-authorized-keys))))
+;;
+;; We update channels via guix pull as opposed to using guix-for-channels
+;; as it wasn't using the latest channels.scm
+
+(define* (substitutes->services config)
+  (guix-configuration
+    (inherit config)
+    (substitute-urls %guixos-substitute-urls)
+    (authorized-keys %guixos-authorized-keys)))
