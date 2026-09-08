@@ -5,7 +5,7 @@
   #:use-module (guix packages)
   #:use-module (gnu)
   #:use-module (gnu packages)
-  #:use-module (gnu packages wm)
+  #:use-module (gnu packages window-management)
   #:use-module (gnu packages xdisorg)
   #:use-module (gnu packages guile-xyz)
   #:use-module (gnu packages web)

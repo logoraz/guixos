@@ -11,4 +11,64 @@
 #+html: <p align="center"> <img src="files/assets/graphics/gx-guixos.svg" width="300"/> </p>
 
 
-GuixOS: Flagship Guix System Configuration for Sway and Mahogany...
+GuixOS: Flagship Guix System Configuration for Sway (WIP Mahogany) and more...
+
+
+* Overview
+
+Declarative Guix System + Home config, parameterized per host and per window
+manager. This configuration is setup as a Guile program.
+
+
+* Architecture
+
+- ~make-guixos-system~ and ~make-guixos-home~ build an
+  ~operating-system/home-environment~ from keyword arguments —
+  host name, file-systems, WM choice, extra packages/services.
+- Each host is a thin file under ~system/hosts/~ that calls these
+  constructors with its own hardware identifiers and WM pin.
+- Nothing host-specific lives in the constructors themselves; nothing
+  shared lives in a host file.
+- Expected at ~~/.config/guixos~ — ~config-source~ hardcodes this
+  path; anything else requires editing ~identity.scm~.
+
+
+* Hosts
+
+- ~framework~ — primary laptop, Sway.
+- ~framework-pro~ — planned second machine; same config, WM to be
+  decided (Sway or Mahogany) at that host's file, nothing else
+  changes.
+
+
+* Window Managers
+
+- *Sway* — complete. Config, keybindings, status bar (gubar), and
+  session lifecycle live under ~home/window-manager/sway.scm~ and
+  ~system/window-manager/sway.scm~.
+- *Mahogany* — in progress (see [[mahogany-preview]]). Same two-file
+  split once ready; a host switches WM by changing one keyword.
+- WM-agnostic desktop packages (themes, codecs, office, etc.) live in
+  ~desktop-profile.scm~ and apply regardless of WM choice.
+
+
+* Channels & Substitutes
+
+- Pinned via ~channels.scm~, resolved through a plain ~guix pull~ —
+  not ~guix-for-channels~, which silently went stale.
+- Substitute servers: nonguix, ci.guix.gnu.org, bordeaux.
+
+
+* Usage
+
+- ~guix pull~ / ~sudo guix system reconfigure~ — system generation.
+- ~guix home reconfigure~ — home generation, independent of system.
+- Shell aliases (~gosr~, ~gohr~, ~gostm~, ~gohtm~) wrap the above with
+  the right ~-L~ load path baked in.
+
+
+* Status
+
+- [ ] Split ~sway.scm~ into WM-specific vs. shared desktop-utilities
+- [ ] Parameterize ~make-guixos-system~/~make-guixos-home~ by ~#:window-manager~
+- [ ] Stand up ~window-manager/mahogany.scm~ (system + home)
