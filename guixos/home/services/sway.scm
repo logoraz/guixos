@@ -294,7 +294,8 @@ DIRECTION is either \"-\" or \"+\", STEP is the percentage integer."
 (define %sway-config-base-inputs
   (list (sway-input
           (identifier "type:keyboard")
-          (layout (keyboard-layout "us,il" #:options '("ctrl:nocaps"))))
+          ;; (layout (keyboard-layout "us,il" #:options '("ctrl:nocaps")))
+          (layout (keyboard-layout "us,ar")))
         (sway-input
           (identifier "type:touchpad")
           (tap #t)
