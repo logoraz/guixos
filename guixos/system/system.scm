@@ -7,6 +7,7 @@
   ;; System primitives
   #:use-module (gnu system keyboard)
   #:use-module (gnu system nss)
+  #:use-module (gnu system privilege)
 
   ;; Lisp Dev Stack
   #:use-module (gnu packages lisp)
@@ -118,6 +119,11 @@
 ;;;
 ;;; System Services
 ;;;
+
+;; doas.conf — available alongside sudo; actual switch lives in bash.scm's
+;; %use-doas?
+(define %doas-conf
+  (plain-file "doas.conf" "permit persist :wheel\n"))
 
 ;;; Greetd Configuration
 (define %greetd-backsplash
@@ -237,6 +243,10 @@
 
    ;; Udev rules to bootstrap android phones
    (udev-rules-service 'android android-udev-rules)
+
+   ;; Set doas configuration file
+   (service special-files-service-type
+            `(("/etc/doas.conf" ,%doas-conf)))
 
    ;; See: https://guix.gnu.org/manual/en/html_node/Desktop-Services.html
    (modify-services %desktop-services
@@ -375,6 +385,11 @@ EXTRA-SERVICES are optional escape hatches for host-specific additions."
     (swap-devices swap-devices)
     (file-systems file-systems)
     (groups %guixos-groups)
+    (privileged-programs
+     (cons (privileged-program
+             (program (file-append opendoas "/bin/doas"))
+             (setuid? #t))
+           %default-privileged-programs))
     (users (%guixos-users user comment))
     (packages (append %guixos-base-packages extra-packages))
     (services (append %guixos-base-services extra-services))
