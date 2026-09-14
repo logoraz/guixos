@@ -91,22 +91,22 @@
    "{ \"label\": \"lock\","
    " \"action\": \"" %swaylock-cmd
    " -f --screenshots --clock --effect-blur 9x7 --effect-vignette 0.25:0.5\","
-   " \"text\": \"Lock\", \"keybind\": \"l\" }\n"
+   " \"text\": \"Lock (l)\", \"keybind\": \"l\" }\n"
    "{ \"label\": \"logout\","
    " \"action\": \"" %sway-session-end " exit\","
-   " \"text\": \"Logout\", \"keybind\": \"e\" }\n"
+   " \"text\": \"Logout (e)\", \"keybind\": \"e\" }\n"
    "{ \"label\": \"reboot\","
    " \"action\": \"" %sway-session-end " reboot\","
-   " \"text\": \"Reboot\", \"keybind\": \"r\" }\n"
+   " \"text\": \"Reboot (r)\", \"keybind\": \"r\" }\n"
    "{ \"label\": \"shutdown\","
    " \"action\": \"" %sway-session-end " poweroff\","
-   " \"text\": \"Shutdown\", \"keybind\": \"s\" }\n"
+   " \"text\": \"Shutdown (s)\", \"keybind\": \"s\" }\n"
    "{ \"label\": \"suspend\","
    " \"action\": \"" %sway-session-end " suspend\","
-   " \"text\": \"Suspend\", \"keybind\": \"u\" }\n"
+   " \"text\": \"Suspend (u)\", \"keybind\": \"u\" }\n"
    "{ \"label\": \"hibernate\","
    " \"action\": \"" %sway-session-end " hibernate\","
-   " \"text\": \"Hibernate\", \"keybind\": \"h\" }\n"))
+   " \"text\": \"Hibernate (h)\", \"keybind\": \"h\" }\n"))
 
 (define %foot-config
   (mixed-text-file
