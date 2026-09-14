@@ -47,6 +47,10 @@
      ,(resolve (config-source) "files/common-lisp"
                #:file "dot-sbclrc.lisp" #:string? #t))
 
+    (".clasprc"
+     ,(resolve (config-source) "files/common-lisp"
+               #:file "dot-clasp.lisp" #:string? #t))
+
     ;; TODO
     ))
 
