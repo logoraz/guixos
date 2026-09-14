@@ -81,23 +81,30 @@
 ;;; Aliases
 ;;;
 
-(define %gosr (string-append "sudo guix system -L "
+(define %use-doas? #f)  ;; flip to #t and `gohr` when ready to switch
+
+(define %priv (if %use-doas? "doas" "sudo"))
+
+;; Channels
+(define %gop (string-append "guix pull -L "
+                            (config-source)))
+
+;; System Configuration
+(define %gosr (string-append %priv " guix system -L "
                              (config-source) " "
                              "reconfigure "
                              (guixos-system-config)))
 
+(define %gostm (string-append %priv " guix time-machine -- "
+                              "system -L " (config-source) " "
+                              "reconfigure --allow-downgrades "
+                              (guixos-system-config)))
+
+;; Home Configuration
 (define %gohr (string-append "guix home -L "
                              (config-source) " "
                              "reconfigure "
                              (guixos-home-config)))
-
-(define %gop (string-append "guix pull -L "
-                            (config-source)))
-
-(define %gostm (string-append "sudo guix time-machine -- "
-                              "system -L " (config-source) " "
-                              "reconfigure --allow-downgrades "
-                              (guixos-system-config)))
 
 (define %gohtm (string-append "guix time-machine -- "
                               "home -L " (config-source) " "

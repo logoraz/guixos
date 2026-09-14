@@ -268,7 +268,6 @@
 (define %guixos-lisp-stack
   (list sbcl
         clasp-cl
-        ccl
         emacs-pgtk
         guile-colorized
         guile-ares-rs
@@ -279,6 +278,7 @@
 (define %guixos-system-tools
   (list efibootmgr
         bcachefs-tools
+        opendoas
         polkit
         fwupd-nonfree))
 
