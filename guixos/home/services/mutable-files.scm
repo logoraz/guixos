@@ -49,7 +49,7 @@
 
     (".clasprc"
      ,(resolve (config-source) "files/common-lisp"
-               #:file "dot-clasp.lisp" #:string? #t))
+               #:file "dot-clasprc.lisp" #:string? #t))
 
     ;; TODO
     ))
