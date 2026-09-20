@@ -449,11 +449,11 @@ DIRECTION is either \"-\" or \"+\", STEP is the percentage integer."
       (kbd-backlight-cmd "+"))
 
     ;; Volume control
-    "bindsym $lad_mute exec pactl set-sink-mute @DEFAULT_SINK@ toggle"
+    "bindsym $lad_mute exec wpctl set-mute @DEFAULT_SINK@ toggle"
     "bindsym $rad_mute exec pkill -SIGRTMIN+2 -n gubar"
-    "bindsym $lad_lv exec pactl set-sink-volume @DEFAULT_SINK@ -5%"
+    "bindsym $lad_lv exec wpctl set-volume @DEFAULT_SINK@ 5%-"
     "bindsym $rad_lv exec pkill -SIGRTMIN+2 -n gubar"
-    "bindsym $lad_rv exec pactl set-sink-volume @DEFAULT_SINK@ +5%"
+    "bindsym $lad_rv exec wpctl set-volume -l 1.25 @DEFAULT_SINK@ 5%+"
     "bindsym $rad_rv exec pkill -SIGRTMIN+2 -n gubar"
 
     ;; Audio Player controls
