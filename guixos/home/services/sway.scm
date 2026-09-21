@@ -85,6 +85,48 @@
        " 'map(.num) | max + 1'); "
        "swaymsg workspace number $next"))))
 
+(define %sway-idle-toggle
+  (program-file
+   "sway-idle-toggle"
+   #~(let* ((args (command-line))
+            (mode (if (> (length args) 1) (cadr args) "off"))
+            (minutes (if (> (length args) 2)
+                         (string->number (caddr args))
+                         30))
+            (lock-secs (* minutes 60))
+            (dpms-secs (+ lock-secs 60))
+            ;; Keep suspend at the original 7200s (2hr) default for any
+            ;; interval that doesn't conflict with it; only push it
+            ;; later, always at least an hour past dpms-secs, once a
+            ;; chosen interval would otherwise invert the order.
+            (suspend-secs (max 7200 (+ dpms-secs 3600)))
+            (lock-cmd #$(file-append swaylock-effects "/bin/swaylock")))
+       ;; swayidle can't be reconfigured live, always kill any
+       ;; running instance first, only the caller decides whether to
+       ;; relaunch it.
+       (system* "pkill" "-x" "swayidle")
+
+       (if (string=? mode "on")
+           (begin
+             (system* "/bin/sh" "-c"
+                      (string-append
+                       "swayidle -w "
+                       "timeout " (number->string lock-secs) " '"
+                       lock-cmd " -f --screenshots --clock "
+                       "--effect-blur 9x7 --effect-vignette 0.25:0.5' "
+                       "timeout " (number->string dpms-secs)
+                       " 'swaymsg \"output * dpms off\"' "
+                       "resume 'swaymsg \"output * dpms on\"' "
+                       "timeout " (number->string suspend-secs)
+                       " 'loginctl suspend' "
+                       "before-sleep '" lock-cmd
+                       " -f --screenshots --clock "
+                       "--effect-blur 9x7 --effect-vignette 0.25:0.5' &"))
+             (system* "notify-send" "Idle Timeout"
+                      (string-append "Locks in " (number->string minutes)
+                                     " min")))
+           (system* "notify-send" "Idle Timeout" "Off")))))
+
 (define %wlogout-layout
   (mixed-text-file
    "wlogout-layout"
@@ -419,6 +461,12 @@ DIRECTION is either \"-\" or \"+\", STEP is the percentage integer."
     ;; Lock Screen
     ($mod+Shift+o . "exec $qlock")
 
+    ;; Idle timeout toggle (prompts for minutes) / off
+    ($mod+Shift+i . ,#~(string-append
+                        "exec " #$%sway-idle-toggle
+                        " on $(fuzzel --dmenu -p 'Idle minutes: ')"))
+    ($mod+Shift+u . ,#~(string-append "exec " #$%sway-idle-toggle " off"))
+
     ;; Sway session controls
     ($mod+Shift+space . "exec wlogout -p layer-shell -m 300")
 
@@ -511,21 +559,22 @@ DIRECTION is either \"-\" or \"+\", STEP is the percentage integer."
     ;; Mouse
     "exec swaymsg focus output $laptop"
 
-    ;; Idle screen configuration
-    ,(string-append "swayidle -w "
-                    "timeout 1800 '$lock' "
-                    "timeout 1860 'swaymsg \"output * dpms off\"' "
-                    "resume 'swaymsg \"output * dpms on\"' "
-                    "timeout 7200 'loginctl suspend' "
-                    "before-sleep '$lock'")
-
-    ;; Night Light (Chicago lat/lon)
-    ,(string-append "wlsunset -l 41.88 -L -87.63")
-
-    ;; Utility applications
+    ;; Utility applications (mako must start before the idle toggle
+    ;; below, since it calls notify-send on startup too)
     "mako"
     ,#~(string-append #$%sway-udiskie-start)
     "blueman-applet"
+
+    ;; Idle screen configuration: on by default at 30 min, routed
+    ;; through %sway-idle-toggle so the same mechanism handles the
+    ;; default startup state and later on/off/interval changes.
+    ;; (startup-programs entries are bare commands, sway's own
+    ;; config generator prepends "exec", same as the "mako" entry
+    ;; above needs no "exec" of its own.)
+    ,#~(string-append #$%sway-idle-toggle " on 30")
+
+    ;; Night Light (Chicago lat/lon)
+    ,(string-append "wlsunset -l 41.88 -L -87.63")
 
     ;;Update DBUS activation records to ensure Flatpak apps work
     ,(string-append "dbus-update-activation-environment "
