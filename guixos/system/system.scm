@@ -67,6 +67,7 @@
   #:use-module (gnu services xorg)             ;; screen-locker, gdm-service-type
 
   ;; Local config modules
+  #:use-module (guixos packages neomacs)
   #:use-module (guixos packages zen-browser)
   #:use-module (guixos services firmware)      ;; fwupd-service-type
   #:use-module (guixos system identity)        ;; %home-user
@@ -278,6 +279,7 @@
   (list sbcl
         clasp-cl
         emacs-pgtk
+        neomacs-bin
         guile-colorized
         guile-ares-rs
         libffi))
