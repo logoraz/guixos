@@ -90,8 +90,8 @@
    "sway-idle-toggle"
    #~(let* ((args (command-line))
             (mode (if (> (length args) 1) (cadr args) "off"))
-            (minutes (if (> (length args) 2)
-                         (string->number (caddr args))
+            (minutes (or (and (> (length args) 2)
+                               (string->number (caddr args)))
                          30))
             (lock-secs (* minutes 60))
             (dpms-secs (+ lock-secs 60))
@@ -462,11 +462,18 @@ DIRECTION is either \"-\" or \"+\", STEP is the percentage integer."
     ($mod+Shift+o . "exec $qlock")
 
     ;; Idle timeout toggle (prompts for minutes) / off
+    ;; fuzzel's stdin redirected from /dev/null: sway's exec doesn't
+    ;; give children a real terminal stdin, and fuzzel's dmenu mode
+    ;; blocks waiting for piped candidates when stdin isn't a tty.
+    ;; That empty stdin now also trips exit-immediately-if-empty (a
+    ;; global fuzzel.ini setting meant for real piped-candidate uses),
+    ;; so it's overridden off just for this one invocation.
     ($mod+Shift+i . ,#~(string-append
                         "exec " #$%sway-idle-toggle
-                        " on $(fuzzel --dmenu -p 'Idle minutes: ')"))
+                        " on $(fuzzel --dmenu -p 'Idle minutes: ' "
+                        "--override=dmenu.exit-immediately-if-empty=no "
+                        "< /dev/null)"))
     ($mod+Shift+u . ,#~(string-append "exec " #$%sway-idle-toggle " off"))
-
     ;; Sway session controls
     ($mod+Shift+space . "exec wlogout -p layer-shell -m 300")
 
