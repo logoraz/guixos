@@ -15,7 +15,6 @@
   #:use-module (gnu packages emacs)
   #:use-module (gnu packages guile)
   #:use-module (gnu packages guile-xyz)
-  #:use-module (gnu packages zig)
   #:use-module (gnu packages libffi)
 
 
@@ -281,7 +280,6 @@
         emacs-pgtk
         guile-colorized
         guile-ares-rs
-        zig
         libffi))
 
 ;;; File system & firmware tools
