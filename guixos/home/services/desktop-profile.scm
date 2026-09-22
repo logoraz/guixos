@@ -46,6 +46,7 @@
   #:use-module (gnu packages inkscape)
   #:use-module (gnu packages graphics)             ;; blender
   #:use-module (gnu packages engineering)          ;; freecad
+  #:use-module (guixos packages lem)               ;; lem
 
   ;; Hardware & extra utilities
   #:use-module (gnu packages photo)                ;; gphoto2
@@ -128,7 +129,8 @@
         texlive-collection-fontsrecommended))
 
 (define %applications
-  (list gnucash
+  (list lem
+        gnucash
         gimp-3
         inkscape
         blender
