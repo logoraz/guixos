@@ -277,6 +277,7 @@
 (define %guixos-lisp-stack
   (list sbcl
         clasp-cl
+        cl-slynk
         emacs-pgtk
         guile-colorized
         guile-ares-rs

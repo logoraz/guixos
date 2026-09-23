@@ -4,6 +4,10 @@
   #:use-module (gnu)
   #:use-module (gnu home services)
 
+  ;; Lisp Stack Extra
+  #:use-module (guixos packages lem)
+  #:use-module (gnu packages lisp-xyz)
+
   ;; Flatpak, XDG plumbing & cross-toolkit compatibility
   #:use-module (gnu packages package-management)   ;; flatpak
   #:use-module (gnu packages fontutils)            ;; fontconfig
@@ -46,7 +50,6 @@
   #:use-module (gnu packages inkscape)
   #:use-module (gnu packages graphics)             ;; blender
   #:use-module (gnu packages engineering)          ;; freecad
-  #:use-module (guixos packages lem)               ;; lem
 
   ;; Hardware & extra utilities
   #:use-module (gnu packages photo)                ;; gphoto2
@@ -62,6 +65,10 @@
 ;;;
 ;;; Home Desktop Profile Packages
 ;;;
+
+(define %lisp-stack-xyz
+  (list lem
+        cl-micros))
 
 ;; Flatpak, XDG plumbing & cross-toolkit compatibility
 (define %flatpak+xdg
@@ -129,8 +136,7 @@
         texlive-collection-fontsrecommended))
 
 (define %applications
-  (list lem
-        gnucash
+  (list gnucash
         gimp-3
         inkscape
         blender
@@ -153,7 +159,8 @@
         trash-cli))
 
 (define (home-desktop-profile-service config)
-  (append %flatpak+xdg
+  (append %lisp-stack-xyz
+          %flatpak+xdg
           %appearance
           %web-utils
           %authentication
