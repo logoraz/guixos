@@ -34,6 +34,9 @@
        (list :directory (uiop:getcwd))
        :inherit-configuration))
 
+;; Let's make sure we see what ocicl is doing...
+(setf ocicl-runtime:*verbose* t)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
 ;;; Other
