@@ -131,8 +131,9 @@
         tesseract-ocr
         texlive-scheme-basic
         texlive-dvisvgm
-        texlive-collection-latexextra
-        texlive-collection-latexrecommended
+        texlive-preview
+        texlive-wrapfig
+        texlive-capt-of
         texlive-collection-fontsrecommended))
 
 (define %applications
