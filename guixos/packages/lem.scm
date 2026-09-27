@@ -20,11 +20,16 @@
 ;;; Updating Lem
 ;;;
 ;;; git clone https://github.com/lem-project/lem.git
-;;; cd lem && git checkout <new-commit>
-;;; cd .. && guix hash -r -x lem/
+;;; cd lem
+;;; guix hash -r -x .
 ;;;
 ;;; guix build -L ~/.config/guixos --expression='(@ (guixos packages lem) lem)'
 ;;;
+
+(define %lem-ver "2.3.0")
+(define %lem-rev "3")
+(define %lem-commit "ef6c48eb56575bb3ffe648c30846321b2a5d7e2f")
+(define %lem-hash "16y2rkzc9hg7mp1cbazcsbyiziwzl08k4xn0ffirmm70y1b0xdpv")
 
 
 ;;;
@@ -248,9 +253,9 @@ pattern queries.")
 ;;; inherited build-program phase never touches.
 ;;;
 (define-public lem
-  (let* ((commit "8cb20907afff571dddf2baa8feef606b9d2ad648")
-         (revision "2")
-         (pinned-version (git-version "2.3.0" revision commit)))
+  (let* ((commit %lem-commit)
+         (revision %lem-rev)
+         (pinned-version (git-version %lem-ver revision commit)))
     (package
       (inherit upstream:lem)
       (version pinned-version)
@@ -262,8 +267,7 @@ pattern queries.")
                (commit commit)))
          (file-name (git-file-name "lem" pinned-version))
          (sha256
-          (base32
-           "19fmg0ak2wix9ymflhz3y8ghrkfhfqys1yh9aqx0dw76zr0fjdqc"))
+          (base32 %lem-hash))
          (snippet
           #~(begin
               (use-modules (guix build utils))
