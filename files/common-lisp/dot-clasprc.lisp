@@ -40,9 +40,3 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
 ;;; Other
-
-#+nil
-(asdf:initialize-output-translations
- (list :output-translations
-       :enable-user-cache
-       :inherit-configuration))
