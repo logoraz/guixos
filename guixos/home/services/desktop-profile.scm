@@ -21,6 +21,7 @@
   #:use-module (gnu packages kde-frameworks)       ;; breeze-icons
 
   ;; Web & toolkit support
+  #:use-module (guixos packages zen-browser)
   #:use-module (gnu packages qt)                   ;; qtwayland
   #:use-module (gnu packages enchant)
   #:use-module (gnu packages speech)               ;; speech-dispatcher
@@ -94,7 +95,8 @@
         gnome-themes-extra))
 
 (define %web-utils
-  (list qtwayland
+  (list zen-browser-bin
+        qtwayland
         speech-dispatcher
         enchant))
 

@@ -67,7 +67,6 @@
   #:use-module (gnu services xorg)             ;; screen-locker, gdm-service-type
 
   ;; Local config modules
-  #:use-module (guixos packages zen-browser)
   #:use-module (guixos services firmware)      ;; fwupd-service-type
   #:use-module (guixos system identity)        ;; %home-user
   #:use-module (guixos system substitutes)
@@ -323,10 +322,6 @@
         brightnessctl
         lm-sensors))
 
-;;; Browser
-(define %guixos-browsers
-  (list zen-browser-bin))
-
 ;;; Containers
 (define %guixos-containers
   (list distrobox
@@ -350,7 +345,6 @@
           %guixos-fonts
           %guixos-themes
           %guixos-hardware-runtimes
-          %guixos-browsers
           %guixos-containers
           %guixos-cli
           %base-packages))
