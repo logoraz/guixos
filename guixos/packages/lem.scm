@@ -334,7 +334,7 @@ pattern queries.")
                   "\"lem-mcp-server\" \"lem-transient\" \"lem-tree-sitter\" "
                   "\"lem-git-gutter\" \"lem-skk-mode\" "
                   "\"lem-emacs-help-mode\" \"lem-display-time-mode\" "
-                  "\"lem-tramp\"))\n")))))))
+                  "\"lem-trailing-spaces\" \"lem-tramp\"))\n")))))))
       (inputs
        (modify-inputs (package-inputs upstream:lem)
          (prepend sbcl-webview sbcl-command-line-arguments
