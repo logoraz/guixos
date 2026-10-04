@@ -33,6 +33,9 @@
              version "/clasp-" version ".tar.gz"))
        (hash (content-hash (base32 %clasp-hash) sha256))))
     (arguments
+     ;; Need to modify guix upstream recipe:
+     ;; --build-mode=bytecode-faso is an invalid key for koga, instead needs
+     ;; --build-mode=bytecode
      (substitute-keyword-arguments (package-arguments clasp-cl)
        ((#:phases phases)
         #~(modify-phases #$phases
