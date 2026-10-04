@@ -12,6 +12,7 @@
   ;; Lisp Dev Stack
   #:use-module (gnu packages lisp)
   #:use-module (gnu packages lisp-xyz)
+  #:use-module (guixos packages clasp)
   #:use-module (gnu packages emacs)
   #:use-module (gnu packages guile)
   #:use-module (gnu packages guile-xyz)
@@ -275,7 +276,7 @@
 ;;; Lisp Machine
 (define %guixos-lisp-stack
   (list sbcl
-        clasp-cl
+        clasp-cl-latest
         cl-slynk
         emacs-pgtk
         guile-colorized

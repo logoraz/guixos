@@ -140,7 +140,7 @@
 
 (define %applications
   (list gnucash
-        gimp-3
+        gimp
         inkscape
         blender
         freecad))
@@ -173,8 +173,8 @@
           %xtra-utilities))
 
 (define home-desktop-profile-service-type
-  (service-type (name 'home-sway-desktop-config)
-                (description "Applies my personal Sway desktop configuration.")
+  (service-type (name 'home-desktop-config)
+                (description "Applies my personal desktop configuration.")
                 (extensions
                  (list (service-extension
                         home-profile-service-type
