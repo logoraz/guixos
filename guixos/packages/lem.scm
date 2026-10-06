@@ -28,8 +28,8 @@
 
 (define %lem-ver "2.3.0")
 (define %lem-rev "3")
-(define %lem-commit "ef6c48eb56575bb3ffe648c30846321b2a5d7e2f")
-(define %lem-hash "16y2rkzc9hg7mp1cbazcsbyiziwzl08k4xn0ffirmm70y1b0xdpv")
+(define %lem-commit "2c882dee4a511b76c2b007ad8a05024c8d0801b0")
+(define %lem-hash "1a1c3vnq3jq6q2j7anvn417n9y79jyc8mnh6xyndh2mqdfhkgjfj")
 
 
 ;;;
