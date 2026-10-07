@@ -62,15 +62,15 @@ other distros are applying.
 
 ## Workarounds Tested
 
-| Workaround | Result |
-| --- | --- |
-| `modprobe btusb enable_autosuspend=0` | No change |
-| `modprobe mt7925e disable_aspm=1` | No change |
-| `modprobe -r mt7925e btusb` reload sequence | No change |
-| Force `btusb` bind via `/sys/bus/usb/drivers/btusb/new_id` | No change |
-| Cold boot (full power drain, AC unplugged, power button hold) | Not retested after pinpointing kernel cause |
-| Older `linux-firmware` (20260309 instead of 20260410) | Not the cause — same failure with new firmware on working 6.18.28 |
-| Roll back to `linux-libre` 6.18.28 | **Works** |
+| Workaround                                                    | Result                                                            |
+|---------------------------------------------------------------|-------------------------------------------------------------------|
+| `modprobe btusb enable_autosuspend=0`                         | No change                                                         |
+| `modprobe mt7925e disable_aspm=1`                             | No change                                                         |
+| `modprobe -r mt7925e btusb` reload sequence                   | No change                                                         |
+| Force `btusb` bind via `/sys/bus/usb/drivers/btusb/new_id`    | No change                                                         |
+| Cold boot (full power drain, AC unplugged, power button hold) | Not retested after pinpointing kernel cause                       |
+| Older `linux-firmware` (20260309 instead of 20260410)         | Not the cause — same failure with new firmware on working 6.18.28 |
+| Roll back to `linux-libre` 6.18.28                            | **Works**                                                         |
 
 ## Action Items
 

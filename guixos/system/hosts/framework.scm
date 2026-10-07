@@ -49,7 +49,7 @@
    ;; Upstream issue: https://github.com/NetworkConfiguration/openresolv/issues/38
    ;; Other distros hitting it: https://github.com/void-linux/void-packages/issues/54888
    ;;
-   ;; Remove once openresolv ships a fix and Guix picks it up.
+   ;; Remove once Guix's NetworkManager defaults rc-manager to resolvconf...
    (simple-service 'nm-rc-manager
                    activation-service-type
                    #~(begin
