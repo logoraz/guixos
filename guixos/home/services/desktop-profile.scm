@@ -15,10 +15,11 @@
   #:use-module (gnu packages glib)
   #:use-module (gnu packages xorg)                 ;; xorg-server-xwayland
 
-  ;; Themes & icons
+  ;; Themes & icons & fonts
   #:use-module (gnu packages gnome)                ;; adwaita, gnome extra, gvfs
   #:use-module (gnu packages gnome-xyz)            ;; qogir, papirus, matcha
   #:use-module (gnu packages kde-frameworks)       ;; breeze-icons
+  #:use-module (gnu packages fonts)
 
   ;; Web & toolkit support
   #:use-module (guixos packages zen-browser)
@@ -85,14 +86,17 @@
         ;; Compatibility for older Xorg applications
         xorg-server-xwayland))
 
-;; Icon & GTK themes
+;; Icon & GTK themes & Fonts
 (define %appearance
   (list qogir-icon-theme
         papirus-icon-theme
         adwaita-icon-theme
         breeze-icons ;; for KDE apps
         matcha-theme
-        gnome-themes-extra))
+        gnome-themes-extra
+        ;; Extra Fonts
+        font-inconsolata
+        font-kawkab-mono))
 
 (define %web-utils
   (list zen-browser-bin

@@ -69,7 +69,7 @@
 
   ;; Local config modules
   #:use-module (guixos services firmware)      ;; fwupd-service-type
-  #:use-module (guixos system identity)        ;; %home-user
+  #:use-module (guixos system identity)        ;; %home-user & %window-manager
   #:use-module (guixos system substitutes)
 
   #:export (make-guixos-system)
@@ -180,14 +180,46 @@
        (execl #$(file-append sway "/bin/sway")
               "sway"))))
 
-(define %guixos-base-services
+(define %mahogany-logged
+  (program-file
+   "mahogany-logged"
+   #~(begin
+       ;; TODO: replace with the real mahogany binary and log redirect,
+       ;; mirroring %sway-logged.
+       (execl "/path/to/mahogany" "mahogany"))))
+
+(define (wm-session-command)
+  "Return the program greetd runs after login for the current window manager."
+  (case (%window-manager)
+    ((sway) %sway-logged)
+    ((mahogany) %mahogany-logged)
+    (else (error "Unsupported window manager:" (%window-manager)))))
+
+(define (wm-screen-locker-service)
+  "Return the screen-locker service for the current window manager."
+  (case (%window-manager)
+    ((sway mahogany)
+     (service screen-locker-service-type
+              (screen-locker-configuration
+                (name "swaylock")
+                (program (file-append swaylock-effects "/bin/swaylock"))
+                (using-pam? #t)
+                (using-setuid? #f))))
+    (else (error "Unsupported window manager:" (%window-manager)))))
+
+(define (wm-packages)
+  "Return the system packages specific to the current window manager."
+  (case (%window-manager)
+    ((sway) (list swaylock-effects))
+    ((mahogany) '())
+    (else (error "Unsupported window manager:" (%window-manager)))))
+
+(define (guixos-base-services)
+    "Return the system services shared by every host.
+The screen locker and the greetd session command follow the window manager
+in (%window-manager); the greeter itself is pinned to sway."
   (cons*
-   (service screen-locker-service-type
-            (screen-locker-configuration
-              (name "swaylock")
-              (program (file-append swaylock-effects "/bin/swaylock"))
-              (using-pam? #t)
-              (using-setuid? #f)))
+   (wm-screen-locker-service)
 
    (service bluetooth-service-type
             (bluetooth-configuration
@@ -223,7 +255,7 @@
                       (sway sway)
                       (sway-configuration %greetd-conf)
                       (gtkgreet-style %gtkgreet-style)
-                      (command %sway-logged))))
+                      (command (wm-session-command)))))
                 (greetd-terminal-configuration (terminal-vt "2"))
                 (greetd-terminal-configuration (terminal-vt "3"))
                 (greetd-terminal-configuration (terminal-vt "4"))
@@ -292,9 +324,8 @@
         fwupd-nonfree))
 
 ;;; WM & Login Manager — needed for greetd/wlgreet configuration
-(define %guixos-wm
+(define %guixos-greeter
   (list sway
-        swaylock-effects
         librsvg
         foot))
 
@@ -339,15 +370,19 @@
         unzip
         tree))
 
-(define %guixos-base-packages
+(define (guixos-base-packages)
+  "Return the system packages shared by every host.
+The greeter packages (sway, librsvg, foot) are always included; the
+window-manager specific packages follow (%window-manager)."
   (append %guixos-lisp-stack
           %guixos-system-tools
-          %guixos-wm
+          %guixos-greeter
           %guixos-fonts
           %guixos-themes
           %guixos-hardware-runtimes
           %guixos-containers
           %guixos-cli
+          (wm-packages)
           %base-packages))
 
 
@@ -361,12 +396,15 @@
                              comment
                              file-systems
                              swap-devices
+                             (window-manager 'sway)
                              (extra-packages '())
                              (extra-services '()))
   "Build a GuixOS operating-system record for a specific host.
 HOST-NAME, FILE-SYSTEMS, and SWAP-DEVICES are required and must be
 supplied by the host-specific configuration. EXTRA-PACKAGES and
 EXTRA-SERVICES are optional escape hatches for host-specific additions."
+  (%home-user user)
+  (%window-manager window-manager)
   (operating-system
     (host-name host-name)
     (timezone "America/Chicago")
@@ -385,7 +423,7 @@ EXTRA-SERVICES are optional escape hatches for host-specific additions."
              (setuid? #t))
            %default-privileged-programs))
     (users (%guixos-users user comment))
-    (packages (append %guixos-base-packages extra-packages))
-    (services (append %guixos-base-services extra-services))
+    (packages (append (guixos-base-packages) extra-packages))
+    (services (append (guixos-base-services) extra-services))
     ;; Allow resolution of '.local' host names with mDNS.
     (name-service-switch %mdns-host-lookup-nss)))

@@ -1,24 +1,24 @@
-(define-module (guixos home services sway)
+(define-module (guixos home window-manager sway)
   #:use-module (ice-9 format)
   #:use-module (ice-9 match)
   #:use-module (guix gexp)
-  #:use-module (guix packages)
   #:use-module (gnu)
   #:use-module (gnu packages)
-  #:use-module (gnu packages window-management)
+  #:use-module ((gnu packages window-management) #:hide (gubar))
   #:use-module (gnu packages xdisorg)
   #:use-module (gnu packages guile-xyz)
   #:use-module (gnu packages web)
   #:use-module (gnu services)
-  #:use-module (gnu services configuration)
   #:use-module (gnu home services)
   #:use-module (gnu home services sway)
   #:use-module (guixos lib utils)
   #:use-module (guixos system identity)
-  #:use-module (guixos home services impure-symlinks)
   #:use-module (guixos packages gubar)
+  #:use-module (guixos home services impure-symlinks)
+  #:use-module (guixos home services desktop-utilities)
   #:export (sway-configuration-extension
-            home-sway-configuration-service-type))
+            home-sway-configuration-service-type
+            sway-home-services))
 
 ;;;
 ;;; Build-Time Assets
@@ -149,108 +149,6 @@
    "{ \"label\": \"hibernate\","
    " \"action\": \"" %sway-session-end " hibernate\","
    " \"text\": \"Hibernate (h)\", \"keybind\": \"h\" }\n"))
-
-(define %foot-config
-  (mixed-text-file
-   "foot.ini"
-   "# Base16 Monokai - foot color config\n"
-   "font=Fira Code:size=10\n"
-   "dpi-aware=no\n"
-   "initial-window-size-chars=140x40 # Columns x Rows in Characters\n"
-   "\n"
-   "[bell]\n"
-   "urgent=no\n"
-   "notify=no\n"
-   "visual=no\n"
-   "\n"
-   "[scrollback]\n"
-   "lines=5000\n"
-   "\n"
-   "[csd]\n"
-   "preferred=client\n" ; Use client-side decorations
-   "color=2e3440\n"     ; Keep 5000 lines of history (default is 1000)
-   "border-width=1\n"
-   "border-color=81a1c1\n"
-   "button-color=88c0d0\n"
-   "\n"
-   "[colors-dark]\n"
-   "alpha=0.80\n"
-   "background=383838\n" ; Nord Black Polar Night
-   "foreground=eceff4\n")) ; Nord White Snow Storm
-
-;; Notification daemon
-(define %mako-config
-  (mixed-text-file
-   "config"
-   "font=Hack 9\n"
-   "text-color=#ffffff\n"
-   "background-color=#1c1f26ee\n"
-   "border-color=#89AAEBee\n"
-   "border-size=1\n"
-   "border-radius=4\n"
-   "padding=5\n"
-   "height=200\n"
-   "width=300\n"
-   "\n"
-   "layer=overlay\n"
-   "default-timeout=7000\n"
-   "ignore-timeout=0\n"
-   "icons=1\n"
-   "anchor=top-right\n"
-   "sort=+time\n"
-   "\n"
-   "max-visible=5\n"
-   "\n"
-   "[hidden]\n"
-   "format=(and %h more)\n"
-   "text-color=#777777\n"
-   "\n"
-   "[urgency=high]\n"
-   "background-color=#c00000\n"
-   "border-color=#ff0000\n"))
-
-;; Application launcher
-;; filter-desktop respects OnlyShowIn/NotShowIn keys against $XDG_CURRENT_DESKTOP
-(define %fuzzel-config
-  (mixed-text-file
-   "fuzzel.ini"
-   "[main]\n"
-   "prompt=\"❯ \"\n"
-   "icon-theme=Qogir-Dark\n"
-   "font=JetBrains Mono:weight=bold:size=14\n"
-   "dpi-aware=no\n"
-   "width=50\n"
-   "horizontal-pad=8\n"
-   "vertical-pad=8\n"
-   "filter-desktop=yes\n"
-   "list-executables-in-path=no\n"
-   "show-actions=no\n"
-   "lines=12\n"
-   "exit-on-keyboard-focus-loss=yes\n"
-   "\n"
-   "[colors]\n"
-   "background=1d1f21dd\n"
-   "border=5e81accc\n"
-   "text=a6accdff\n"
-   "match=c792eacc\n"
-   "selection=a6accdff\n"
-   "selection-text=232635ff\n"
-   "\n"
-   "[border]\n"
-   "radius=25\n"
-   "\n"
-   "[dmenu]\n"
-   "exit-immediately-if-empty=yes\n"))
-
-(define* (kbd-backlight-cmd direction #:optional (step 10))
-  "Generate a bindsym command for keyboard backlight adjustment.
-DIRECTION is either \"-\" or \"+\", STEP is the percentage integer."
-  (string-append
-   "exec brightnessctl -d chromeos::kbd_backlight set "
-   (number->string step) "%" direction
-   " && notify-send 'Keyboard Backlight'"
-   " \"$(brightnessctl -d chromeos::kbd_backlight"
-   " -m | cut -d, -f4)\""))
 
 ;;;
 ;;; Sway Configuration Data
@@ -601,11 +499,9 @@ DIRECTION is either \"-\" or \"+\", STEP is the percentage integer."
         wlsunset
         jq))
 
-;; Launchers, notifications, & user-input UI
+;; user-input UI
 (define %sway-ui
-  (list fuzzel  ;; app launcher
-        wlogout ;; logout/lock UI
-        mako))  ;; notification daemon
+  (list wlogout))
 
 ;; Screenshot & clipboard tooling
 (define %sway-clipboard+screenshot
@@ -711,12 +607,6 @@ DIRECTION is either \"-\" or \"+\", STEP is the percentage integer."
     ;; (".config/gubar"
     ;;  ,(resolve (config-source) "files/gubar"))
 
-    ;; Notification daemon
-    (".config/mako/config" ,%mako-config)
-
-    ;; Application launcher
-    (".config/fuzzel/fuzzel.ini" ,%fuzzel-config)
-
     ;; UI Logout Application
     (".config/wlogout/layout" ,%wlogout-layout)
 
@@ -724,10 +614,7 @@ DIRECTION is either \"-\" or \"+\", STEP is the percentage integer."
      ,(resolve (config-source) "files/wlogout/style.css"))
 
     (".config/wlogout/icons"
-     ,(resolve (config-source) "files/wlogout/icons"))
-
-    ;; Default Sway/Wayland Terminal
-    (".config/foot/foot.ini" ,%foot-config)))
+     ,(resolve (config-source) "files/wlogout/icons"))))
 
 (define (home-sway-gubar-symlink-service config)
   `(;; Sway Bar --> gubar Configuration (Dev)
@@ -752,3 +639,8 @@ DIRECTION is either \"-\" or \"+\", STEP is the percentage integer."
        home-impure-symlinks-service-type
        home-sway-gubar-symlink-service)))
     (default-value #f)))
+
+(define (sway-home-services)
+  "Return the home services needed to run sway."
+  (list (service home-sway-service-type %empty-sway-configuration)
+        (service home-sway-configuration-service-type)))

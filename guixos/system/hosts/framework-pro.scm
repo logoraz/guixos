@@ -2,12 +2,9 @@
   #:use-module (guix gexp)
   #:use-module (gnu)
   #:use-module (gnu services)
-  #:use-module (gnu services guix)             ;; guix-home-service-type
   ;; Local config
   #:use-module (guixos system system)
-  #:use-module (guixos system identity)        ;; %home-user
-  ;; Integrate home into system
-  #:use-module (guixos home guixos-home)       ;; guixos-home
+  #:use-module (guixos system identity)        ;; %home-user & %window-manager
   #:export (%guixos))
 
 
@@ -82,6 +79,7 @@
   (make-guixos-system
    #:host-name "framework-pro"
    #:user "locutus"
+   #:window-manager 'mahogany
    #:comment "Worker Bee"
    #:file-systems %host-file-systems
    #:swap-devices %host-swap-devices

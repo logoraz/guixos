@@ -10,14 +10,17 @@
 ;;;
 ;;; Identity values shared across the GuixOS configuration.
 ;;;
-;;; %home-user is a parameter so a user could override it via
-;;; `parameterize` in unusual contexts (e.g., building a config for a
-;;; different user from the REPL). For normal reconfigure flows, the
-;;; default is the value of record.
+;;; Both values are parameters. Calling one with an argument sets it,
+;;; and calling it with none reads it.
 ;;;
-;;; %window-manager works the same way: sway is the default for every
-;;; host unless a host-specific file overrides it via `parameterize`
-;;; (e.g. framework-pro.scm, once mahogany is ready).
+;;; %home-user is set from the #:user keyword of make-guixos-system.
+;;; The default, "logoraz", applies only if nothing has set it.
+;;;
+;;; %window-manager is set from the #:window-manager keyword of
+;;; make-guixos-system and guixos-home. The default is 'sway.
+;;;
+;;; The home entry point (home.scm) loads the selected host first, so
+;;; home picks up the same user and window manager as the system.
 ;;;
 
 
@@ -31,4 +34,4 @@
   (string-append (config-source) "/guixos/guixos.scm"))
 
 (define (guixos-home-config)
-  (string-append (config-source) "/guixos/home/guixos-home.scm"))
+  (string-append (config-source) "/guixos/home.scm"))
