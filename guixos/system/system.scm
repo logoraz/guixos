@@ -33,7 +33,7 @@
   #:use-module (gnu packages linux)
 
   ;; Filesystem & firmware
-  #:use-module (gnu packages file-systems)     ;; bcachefs-tools
+  #:use-module (gnu packages file-systems)     ;; btrfs-progs
   #:use-module (gnu packages polkit)
   #:use-module (nongnu packages firmware)      ;; fwupd-nonfree, linux-firmware
   #:use-module (nongnu packages linux)         ;; linux (kernel)
@@ -318,7 +318,7 @@ in (%window-manager); the greeter itself is pinned to sway."
 ;;; File system & firmware tools
 (define %guixos-system-tools
   (list efibootmgr
-        bcachefs-tools
+        btrfs-progs
         opendoas
         polkit
         fwupd-nonfree))
