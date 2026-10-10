@@ -17,22 +17,22 @@
 (define %host-file-systems
   (cons* (file-system
            (mount-point "/boot/efi")
-           (device (uuid "TBD" 'fat32))
+           (device (uuid "0000-0000" 'fat32))
            (type "vfat"))
          (file-system
            (mount-point "/")
-           (device (uuid "TBD" 'ext4))
+           (device (uuid "00000000-0000-0000-0000-000000000000" 'ext4))
            (type "ext4"))
          (file-system
            (mount-point "/home")
-           (device (uuid "TBD" 'ext4))
+           (device (uuid "00000000-0000-0000-0000-000000000000" 'ext4))
            (type "ext4"))
          %base-file-systems))
 
 (define %host-swap-devices
   (list (swap-space
          (target
-          (uuid "TBD")))))
+          (uuid "00000000-0000-0000-0000-000000000000")))))
 
 
 ;;;
@@ -78,7 +78,7 @@
 
 ;; Describes this machine; read by both system and home entry points.
 (define %host-profile
-  (make-host-profile "framework-pro" "logoraz" "Farmer" 'sway))
+  (make-host-profile "framework-pro" "logoraz" "Farm Craft" 'sway))
 
 (define (host-operating-system)
   "Return the operating-system for this host, built from %host-profile.
