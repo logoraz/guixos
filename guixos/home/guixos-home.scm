@@ -26,7 +26,9 @@
   #:export (guixos-home))
 
 
-(define %guixos-home-base-services
+(define (guixos-home-base-services)
+  "Return the home services shared by every host.
+Call it after %home-user is set, because bash-config->service reads it."
   (list
    ;; Enable bluetooth connections to be handled properly
    ;; bluetooth service only currently available at system level.
@@ -94,14 +96,19 @@
   "Return the home services for the window manager in (%window-manager)."
   (case (%window-manager)
     ((sway) (sway-home-services))
+    ((mahogany) (mahogany-home-services))
     (else (error "Unsupported window manager:" (%window-manager)))))
 
-(define* (guixos-home #:key (window-manager (%window-manager)))
-  "Return the GuixOS home-environment for the WINDOW-MANAGER in (%window-manager)."
+(define* (guixos-home #:key
+                      (user (%home-user))
+                      (window-manager (%window-manager)))
+  "Return the GuixOS home-environment for USER and WINDOW-MANAGER.
+Both default to the current values of %home-user and %window-manager."
+  (%home-user user)
   (%window-manager window-manager)
   (home-environment
     (services
      (append
-      %guixos-home-base-services
+      (guixos-home-base-services)
       (window-manager-services)
       %base-home-services))))

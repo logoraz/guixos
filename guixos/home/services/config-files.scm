@@ -44,7 +44,10 @@
    "short-name-mode = \"permissive\"\n"))
 
 ;; Requires one to first create the labview distrobox container
-(define %labview-desktop
+(define (labview-desktop)
+  "Return the LabVIEW desktop entry file.
+The icon path is built from the current %home-user, so call this only after
+the user has been set; the home service does."
   (mixed-text-file
    "labview.desktop"
    "[Desktop Entry]\n"
@@ -72,7 +75,7 @@
 
     (".config/containers/registries.conf" ,%podman-registries)
 
-    (".local/share/applications/labview.desktop" ,%labview-desktop)
+    (".local/share/applications/labview.desktop" ,(labview-desktop))
 
     ;; TODO
     ))

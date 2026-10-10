@@ -6,11 +6,13 @@
   #:use-module (gnu services)
   #:use-module (gnu home services)
   #:export (kbd-backlight-cmd
+            wlogout-layout
             home-desktop-utilities-service-type))
 
 ;;;
 ;;; Desktop utilities that do not depend on the window manager:
-;;; terminal (foot), notification daemon (mako), launcher (fuzzel).
+;;; terminal (foot), notification daemon (mako), launcher (fuzzel),
+;;; and the wlogout layout generator.
 ;;;
 
 ;;;
@@ -34,15 +36,15 @@
    "lines=5000\n"
    "\n"
    "[csd]\n"
-   "preferred=client\n" ; Use client-side decorations
-   "color=2e3440\n"     ; Keep 5000 lines of history (default is 1000)
+   "preferred=client\n"         ; Use client-side decorations
+   "color=2e3440\n"             ; Keep 5000 lines of history (default is 1000)
    "border-width=1\n"
    "border-color=81a1c1\n"
    "button-color=88c0d0\n"
    "\n"
    "[colors-dark]\n"
    "alpha=0.80\n"
-   "background=383838\n" ; Nord Black Polar Night
+   "background=383838\n"                ; Nord Black Polar Night
    "foreground=eceff4\n")) ; Nord White Snow Storm
 
 ;; Notification daemon
@@ -122,6 +124,37 @@ DIRECTION is either \"-\" or \"+\", STEP is the percentage integer."
    " && notify-send 'Keyboard Backlight'"
    " \"$(brightnessctl -d chromeos::kbd_backlight"
    " -m | cut -d, -f4)\""))
+
+;; Default lock flags, matching the swaylock invocation used elsewhere.
+(define %default-lock-flags
+  (string-append " -f --screenshots --clock"
+                 " --effect-blur 9x7 --effect-vignette 0.25:0.5"))
+
+(define* (wlogout-layout #:key lock-cmd session-end-cmd
+                         (lock-flags %default-lock-flags))
+  "Return the wlogout layout file.
+LOCK-CMD is the lock program; SESSION-END-CMD is a program taking exit,
+reboot, poweroff, suspend or hibernate as its argument."
+  (mixed-text-file
+   "wlogout-layout"
+   "{ \"label\": \"lock\","
+   " \"action\": \"" lock-cmd lock-flags "\","
+   " \"text\": \"Lock (l)\", \"keybind\": \"l\" }\n"
+   "{ \"label\": \"logout\","
+   " \"action\": \"" session-end-cmd " exit\","
+   " \"text\": \"Logout (e)\", \"keybind\": \"e\" }\n"
+   "{ \"label\": \"reboot\","
+   " \"action\": \"" session-end-cmd " reboot\","
+   " \"text\": \"Reboot (r)\", \"keybind\": \"r\" }\n"
+   "{ \"label\": \"shutdown\","
+   " \"action\": \"" session-end-cmd " poweroff\","
+   " \"text\": \"Shutdown (s)\", \"keybind\": \"s\" }\n"
+   "{ \"label\": \"suspend\","
+   " \"action\": \"" session-end-cmd " suspend\","
+   " \"text\": \"Suspend (u)\", \"keybind\": \"u\" }\n"
+   "{ \"label\": \"hibernate\","
+   " \"action\": \"" session-end-cmd " hibernate\","
+   " \"text\": \"Hibernate (h)\", \"keybind\": \"h\" }\n"))
 
 ;;;
 ;;; Service Composition

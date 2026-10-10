@@ -13,14 +13,14 @@
 ;;; Both values are parameters. Calling one with an argument sets it,
 ;;; and calling it with none reads it.
 ;;;
-;;; %home-user is set from the #:user keyword of make-guixos-system.
-;;; The default, "logoraz", applies only if nothing has set it.
+;;; %home-user is set from the #:user keyword of make-guixos-system and
+;;; guixos-home. The default, "logoraz", applies only if nothing has set it.
 ;;;
 ;;; %window-manager is set from the #:window-manager keyword of
 ;;; make-guixos-system and guixos-home. The default is 'sway.
 ;;;
-;;; The home entry point (home.scm) loads the selected host first, so
-;;; home picks up the same user and window manager as the system.
+;;; Both entry points read the host profile from (guixos host); home.scm
+;;; passes its user and window manager to guixos-home.
 ;;;
 
 

@@ -85,41 +85,43 @@
 
 (define %priv (if %use-doas? "doas" "sudo"))
 
-;; Channels
-(define %gop (string-append "guix pull -L "
-                            (config-source)))
+(define (gop)
+  "Return the command that pulls channels."
+  (string-append "guix pull -L " (config-source)))
 
-;; System Configuration
-(define %gosr (string-append %priv " guix system -L "
-                             (config-source) " "
-                             "reconfigure "
-                             (guixos-system-config)))
+(define (gosr)
+  "Return the command that reconfigures the system."
+  (string-append %priv " guix system -L " (config-source) " "
+                 "reconfigure " (guixos-system-config)))
 
-(define %gostm (string-append %priv " guix time-machine -- "
-                              "system -L " (config-source) " "
-                              "reconfigure --allow-downgrades "
-                              (guixos-system-config)))
+(define (gostm)
+  "Return the time-machine command that reconfigures the system."
+  (string-append %priv " guix time-machine -- "
+                 "system -L " (config-source) " "
+                 "reconfigure --allow-downgrades "
+                 (guixos-system-config)))
 
-;; Home Configuration
-(define %gohr (string-append "guix home -L "
-                             (config-source) " "
-                             "reconfigure "
-                             (guixos-home-config)))
+(define (gohr)
+  "Return the command that reconfigures the home."
+  (string-append "guix home -L " (config-source) " "
+                 "reconfigure " (guixos-home-config)))
 
-(define %gohtm (string-append "guix time-machine -- "
-                              "home -L " (config-source) " "
-                              "reconfigure --allow-downgrades "
-                              (guixos-home-config)))
+(define (gohtm)
+  "Return the time-machine command that reconfigures the home."
+  (string-append "guix time-machine -- "
+                 "home -L " (config-source) " "
+                 "reconfigure --allow-downgrades "
+                 (guixos-home-config)))
 
 ;; Run mermaid-cli inside its distrobox container (create it once, see
 ;; the mermaid container notes).  Args after `mmdc' pass straight through.
 (define %mmdc "distrobox enter mermaid -- mmdc")
 
+
 ;;;
 ;;; Service Composition
 ;;;
-(define* (bash-config->service #:key
-                               (test #f))
+(define* (bash-config->service #:key (test #f))
   (service home-bash-service-type
            (home-bash-configuration
              (guix-defaults? #f)
@@ -129,10 +131,10 @@
                 ("ll"    . "ls -l")
                 ("la"    . "ls -la")
                 ("mmdc"  . ,%mmdc)
-                ("gohtm" . ,%gohtm)
-                ("gostm" . ,%gostm)
-                ("gop"   . ,%gop)
-                ("gohr"  . ,%gohr)
-                ("gosr"  . ,%gosr)))
+                ("gop"   . ,(gop))
+                ("gosr"  . ,(gosr))
+                ("gostm" . ,(gostm))
+                ("gohr"  . ,(gohr))
+                ("gohtm" . ,(gohtm))))
              (bashrc (list %dot-bashrc))
              (bash-profile (list %dot-bash-profile)))))

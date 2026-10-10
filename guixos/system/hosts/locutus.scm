@@ -1,4 +1,4 @@
-(define-module (guixos system hosts framework)
+(define-module (guixos system hosts locutus)
   #:use-module (guix gexp)
   #:use-module (gnu)
   #:use-module (gnu services)
@@ -10,29 +10,33 @@
 
 
 ;;;
-;;; Framework specific hardware identifiers
+;;; Locutus specific hardware identifiers
 ;;;
 
+;; Use 'blkid' to find unique file system identifiers ("UUIDs").
 (define %host-file-systems
-  ;; Use 'blkid' to find unique file system identifiers ("UUIDs").
   (cons* (file-system
-          (mount-point "/boot/efi")
-          (device (uuid "B0B0-C71A" 'fat32))
-          (type "vfat"))
+           (mount-point "/boot/efi")
+           (device (uuid "TBD" 'fat32))
+           (type "vfat"))
          (file-system
-          (mount-point "/")
-          (device (uuid "7388e57a-177d-45cf-8005-208b79eb6d2d" 'ext4))
-          (type "ext4"))
+           (mount-point "/")
+           (device (uuid "TBD" 'ext4))
+           (type "ext4"))
+         (file-system
+           (mount-point "/home")
+           (device (uuid "TBD" 'ext4))
+           (type "ext4"))
          %base-file-systems))
 
 (define %host-swap-devices
   (list (swap-space
          (target
-          (uuid "6f510da6-67f2-4de7-8b0e-0745de6457d8")))))
+          (uuid "TBD")))))
 
 
 ;;;
-;;; Framework specific service additions
+;;; Locutus specific service additions
 ;;;
 
 (define %host-extra-services
@@ -59,7 +63,7 @@
                            (display "[main]\nrc-manager=file\n" port)))))))
 
 ;;;
-;;; Framework specific package additions
+;;; Locutus specific package additions
 ;;;
 
 (define %host-extra-packages
@@ -74,7 +78,7 @@
 
 ;; Describes this machine; read by both system and home entry points.
 (define %host-profile
-  (make-host-profile "framework" "logoraz" "Erik P Almaraz" 'sway))
+  (make-host-profile "locutus" "shamgar" "Farmer" 'mahogany))
 
 (define (host-operating-system)
   "Return the operating-system for this host, built from %host-profile.

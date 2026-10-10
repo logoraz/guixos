@@ -95,11 +95,11 @@
          (user-group (system? #t) (name "adbusers"))
          %base-groups))
 
-(define (%guixos-users username comment)
+(define (guixos-users username comment)
   (cons* (user-account
-          (name (%home-user username))
+          (name username)
           (comment comment)
-          (home-directory (string-append "/home/" (%home-user)))
+          (home-directory (string-append "/home/" username))
           (group "users")
           (supplementary-groups '("wheel"    ;; sudo
                                   "seat"     ;; greetd/wlgreet
@@ -422,7 +422,7 @@ EXTRA-SERVICES are optional escape hatches for host-specific additions."
              (program (file-append opendoas "/bin/doas"))
              (setuid? #t))
            %default-privileged-programs))
-    (users (%guixos-users user comment))
+    (users (guixos-users user comment))
     (packages (append (guixos-base-packages) extra-packages))
     (services (append (guixos-base-services) extra-services))
     ;; Allow resolution of '.local' host names with mDNS.

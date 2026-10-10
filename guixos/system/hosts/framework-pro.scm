@@ -4,8 +4,9 @@
   #:use-module (gnu services)
   ;; Local config
   #:use-module (guixos system system)
-  #:use-module (guixos system identity)        ;; %home-user & %window-manager
-  #:export (%guixos))
+  #:use-module (guixos system host-profile)  ;; make-host-profile & accessors
+  #:export (%host-profile
+            host-operating-system))
 
 
 ;;;
@@ -72,15 +73,21 @@
 
 
 ;;;
-;;; Operating System Definition
+;;; Host Profile and Operating System
 ;;;
 
-(define %guixos
+;; Describes this machine; read by both system and home entry points.
+(define %host-profile
+  (make-host-profile "framework-pro" "logoraz" "Farmer" 'sway))
+
+(define (host-operating-system)
+  "Return the operating-system for this host, built from %host-profile.
+It is a thunk so that importing the module does not set any parameters."
   (make-guixos-system
-   #:host-name "framework-pro"
-   #:user "locutus"
-   #:window-manager 'mahogany
-   #:comment "Worker Bee"
+   #:host-name (host-profile-name %host-profile)
+   #:user (host-profile-user %host-profile)
+   #:window-manager (host-profile-window-manager %host-profile)
+   #:comment (host-profile-comment %host-profile)
    #:file-systems %host-file-systems
    #:swap-devices %host-swap-devices
    #:extra-services %host-extra-services

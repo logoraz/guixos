@@ -127,29 +127,6 @@
                                      " min")))
            (system* "notify-send" "Idle Timeout" "Off")))))
 
-(define %wlogout-layout
-  (mixed-text-file
-   "wlogout-layout"
-   "{ \"label\": \"lock\","
-   " \"action\": \"" %swaylock-cmd
-   " -f --screenshots --clock --effect-blur 9x7 --effect-vignette 0.25:0.5\","
-   " \"text\": \"Lock (l)\", \"keybind\": \"l\" }\n"
-   "{ \"label\": \"logout\","
-   " \"action\": \"" %sway-session-end " exit\","
-   " \"text\": \"Logout (e)\", \"keybind\": \"e\" }\n"
-   "{ \"label\": \"reboot\","
-   " \"action\": \"" %sway-session-end " reboot\","
-   " \"text\": \"Reboot (r)\", \"keybind\": \"r\" }\n"
-   "{ \"label\": \"shutdown\","
-   " \"action\": \"" %sway-session-end " poweroff\","
-   " \"text\": \"Shutdown (s)\", \"keybind\": \"s\" }\n"
-   "{ \"label\": \"suspend\","
-   " \"action\": \"" %sway-session-end " suspend\","
-   " \"text\": \"Suspend (u)\", \"keybind\": \"u\" }\n"
-   "{ \"label\": \"hibernate\","
-   " \"action\": \"" %sway-session-end " hibernate\","
-   " \"text\": \"Hibernate (h)\", \"keybind\": \"h\" }\n"))
-
 ;;;
 ;;; Sway Configuration Data
 ;;;
@@ -608,7 +585,9 @@
     ;;  ,(resolve (config-source) "files/gubar"))
 
     ;; UI Logout Application
-    (".config/wlogout/layout" ,%wlogout-layout)
+    (".config/wlogout/layout"
+     ,(wlogout-layout #:lock-cmd %swaylock-cmd
+                      #:session-end-cmd %sway-session-end))
 
     (".config/wlogout/style.css"
      ,(resolve (config-source) "files/wlogout/style.css"))

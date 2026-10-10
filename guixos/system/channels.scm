@@ -1,7 +1,7 @@
 ;;; GuixOS channels. Single source of truth.
 ;;; Consumed by:
 ;;;   - guix pull / guix time-machine (read directly, sandbox-compatible)
-;;;   - system.scm (via load)
+;;;   - mutable-files.scm (symlinked to ~/.config/guix/channels.scm)
 ;;;
 ;;; To pin channels at a certain guix pull do:
 ;;;
