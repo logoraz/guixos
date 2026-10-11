@@ -82,8 +82,8 @@ It is a thunk so that importing the module does not set any parameters."
   (make-guixos-system
    #:host-name (host-profile-name %host-profile)
    #:user (host-profile-user %host-profile)
-   #:window-manager (host-profile-window-manager %host-profile)
    #:comment (host-profile-comment %host-profile)
+   #:window-manager (host-profile-window-manager %host-profile)
    #:file-systems %host-file-systems
    #:swap-devices %host-swap-devices
    #:extra-services %host-extra-services

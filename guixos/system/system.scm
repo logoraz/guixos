@@ -394,9 +394,10 @@ window-manager specific packages follow (%window-manager)."
                              host-name
                              user
                              comment
+                             (window-manager 'sway)
                              file-systems
                              swap-devices
-                             (window-manager 'sway)
+                             (kernel-arguments '())
                              (extra-packages '())
                              (extra-services '()))
   "Build a GuixOS operating-system record for a specific host.
@@ -411,6 +412,8 @@ EXTRA-SERVICES are optional escape hatches for host-specific additions."
     (locale "en_US.utf8")
     (keyboard-layout %guixos-keyboard-layout)
     (kernel linux)
+    (kernel-arguments (append kernel-arguments
+                              %default-kernel-arguments))
     (firmware (list linux-firmware))
     (initrd microcode-initrd)
     (bootloader %guixos-bootloader)
