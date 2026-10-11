@@ -95,6 +95,7 @@
         matcha-theme
         gnome-themes-extra
         ;; Extra Fonts
+        font-nerd-symbols
         font-inconsolata
         font-kawkab-mono))
 

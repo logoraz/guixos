@@ -3,5 +3,5 @@
 ;;; host's profile (name, user, window manager) and its operating-system
 ;;; thunk, so system and home entry points both follow.
 (define-module (guixos host)
-  #:use-module (guixos system hosts framework)   ; change per machine
+  #:use-module (guixos system hosts framework-pro)   ; change per machine
   #:re-export (%host-profile host-operating-system))

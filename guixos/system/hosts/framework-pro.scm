@@ -13,26 +13,29 @@
 ;;; Framework-Pro specific hardware identifiers
 ;;;
 
-;; Use 'blkid' to find unique file system identifiers ("UUIDs").
+;; File systems for framework-pro, found by the labels set at format time.
 (define %host-file-systems
   (cons* (file-system
            (mount-point "/boot/efi")
-           (device (uuid "0000-0000" 'fat32))
+           (device (file-system-label "EFT"))
            (type "vfat"))
          (file-system
            (mount-point "/")
-           (device (uuid "00000000-0000-0000-0000-000000000000" 'ext4))
-           (type "ext4"))
+           (device (file-system-label "guixos"))
+           (type "btrfs")
+           (flags '(no-atime))
+           (options "subvol=@,compress=zstd"))
          (file-system
            (mount-point "/home")
-           (device (uuid "00000000-0000-0000-0000-000000000000" 'ext4))
-           (type "ext4"))
+           (device (file-system-label "guixos"))
+           (type "btrfs")
+           (flags '(no-atime))
+           (options "subvol=@home,compress=zstd"))
          %base-file-systems))
 
 (define %host-swap-devices
   (list (swap-space
-         (target
-          (uuid "00000000-0000-0000-0000-000000000000")))))
+         (target (file-system-label "swap")))))
 
 
 ;;;
