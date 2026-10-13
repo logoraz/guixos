@@ -87,6 +87,11 @@ Call it after %home-user is set, because bash-config->service reads it."
                "foot-server"
                "Foot Server"
                #:exec "foot --server"
+               #:no-display? #t)
+             (xdg-desktop-entry
+               "xdvi"
+               "xdvi"
+               #:exec "xdvi"
                #:no-display? #t)))
 
    ;; Bash configuration
