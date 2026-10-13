@@ -74,7 +74,8 @@
 
 ;; Describes this machine; read by both system and home entry points.
 (define %host-profile
-  (make-host-profile "framework" "logoraz" "Erik P Almaraz" 'sway))
+  (make-host-profile "framework" "logoraz" "Erik P Almaraz" 'sway
+                     #:features '(labview)))
 
 (define (host-operating-system)
   "Return the operating-system for this host, built from %host-profile.

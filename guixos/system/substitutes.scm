@@ -11,7 +11,6 @@
 
 (define %guixos-substitute-urls
   (cons* "https://substitutes.nonguix.org"
-         "https://ci.guix.gnu.org"
          %default-substitute-urls))
 
 (define %guixos-authorized-keys

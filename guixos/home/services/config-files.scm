@@ -75,7 +75,10 @@ the user has been set; the home service does."
 
     (".config/containers/registries.conf" ,%podman-registries)
 
-    (".local/share/applications/labview.desktop" ,(labview-desktop))
+    ,@(if (memq 'labview (%host-features))
+          `((".local/share/applications/labview.desktop"
+             ,(labview-desktop)))
+          '())
 
     ;; TODO
     ))

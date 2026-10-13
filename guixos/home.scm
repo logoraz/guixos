@@ -8,6 +8,7 @@
 
 (define %guixos-home
   (guixos-home #:user (host-profile-user %host-profile)
-               #:window-manager (host-profile-window-manager %host-profile)))
+               #:window-manager (host-profile-window-manager %host-profile)
+               #:features (host-profile-features %host-profile)))
 
 %guixos-home

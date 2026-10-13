@@ -4,9 +4,11 @@
   #:use-module (gnu)
   #:use-module (gnu home services)
 
-  ;; Lisp Stack Extra
+  ;; Lisp Dev Stack
+  #:use-module (guixos packages clasp)
   #:use-module (guixos packages lem)
   #:use-module (gnu packages lisp-xyz)
+  #:use-module (gnu packages libffi)
 
   ;; Flatpak, XDG plumbing & cross-toolkit compatibility
   #:use-module (gnu packages package-management)   ;; flatpak
@@ -14,12 +16,6 @@
   #:use-module (gnu packages freedesktop)          ;; xdg-*
   #:use-module (gnu packages glib)
   #:use-module (gnu packages xorg)                 ;; xorg-server-xwayland
-
-  ;; Themes & icons & fonts
-  #:use-module (gnu packages gnome)                ;; adwaita, gnome extra, gvfs
-  #:use-module (gnu packages gnome-xyz)            ;; qogir, papirus, matcha
-  #:use-module (gnu packages kde-frameworks)       ;; breeze-icons
-  #:use-module (gnu packages fonts)
 
   ;; Web & toolkit support
   #:use-module (guixos packages zen-browser)
@@ -54,6 +50,7 @@
   #:use-module (gnu packages engineering)          ;; freecad
 
   ;; Hardware & extra utilities
+  #:use-module (gnu packages gnome)                ;; libnotify, etc.
   #:use-module (gnu packages photo)                ;; gphoto2
   #:use-module (gnu packages polkit)
   #:use-module (gnu packages tls)                  ;; openssl, aws-lc
@@ -69,8 +66,11 @@
 ;;;
 
 (define %lisp-stack-xyz
-  (list lem
-        cl-micros))
+  (list clasp-cl-latest
+        lem
+        cl-micros
+        cl-slynk
+        libffi))
 
 ;; Flatpak, XDG plumbing & cross-toolkit compatibility
 (define %flatpak+xdg
@@ -85,19 +85,6 @@
         (list glib "bin")
         ;; Compatibility for older Xorg applications
         xorg-server-xwayland))
-
-;; Icon & GTK themes & Fonts
-(define %appearance
-  (list qogir-icon-theme
-        papirus-icon-theme
-        adwaita-icon-theme
-        breeze-icons ;; for KDE apps
-        matcha-theme
-        gnome-themes-extra
-        ;; Extra Fonts
-        font-nerd-symbols
-        font-inconsolata
-        font-kawkab-mono))
 
 (define %web-utils
   (list zen-browser-bin
@@ -169,7 +156,6 @@
 (define (home-desktop-profile-service config)
   (append %lisp-stack-xyz
           %flatpak+xdg
-          %appearance
           %web-utils
           %authentication
           %media-codecs+playback

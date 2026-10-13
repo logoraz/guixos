@@ -101,11 +101,14 @@ Call it after %home-user is set, because bash-config->service reads it."
 
 (define* (guixos-home #:key
                       (user (%home-user))
-                      (window-manager (%window-manager)))
-  "Return the GuixOS home-environment for USER and WINDOW-MANAGER.
-Both default to the current values of %home-user and %window-manager."
+                      (window-manager (%window-manager))
+                      (features (%host-features)))
+  "Return the GuixOS home-environment for USER, WINDOW-MANAGER, and per-host
+FEATURES. They default to the current values of %home-user, %window-manager, and
+%host-features."
   (%home-user user)
   (%window-manager window-manager)
+  (%host-features features)
   (home-environment
     (services
      (append

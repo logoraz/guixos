@@ -2,6 +2,7 @@
   #:use-module (guixos lib subrx)
   #:export (%home-user
             %window-manager
+            %host-features
             config-source
             guixos-system-config
             guixos-home-config))
@@ -25,7 +26,11 @@
 
 
 (define-parameter %home-user "logoraz")
+
 (define-parameter %window-manager 'sway)
+
+(define-parameter %host-features '())
+
 
 (define (config-source)
   (string-append "/home/" (%home-user) "/.config/guixos"))

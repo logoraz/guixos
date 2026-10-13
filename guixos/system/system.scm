@@ -11,28 +11,24 @@
 
   ;; Lisp Dev Stack
   #:use-module (gnu packages lisp)
-  #:use-module (gnu packages lisp-xyz)
-  #:use-module (guixos packages clasp)
   #:use-module (gnu packages emacs)
   #:use-module (gnu packages guile)
   #:use-module (gnu packages guile-xyz)
-  #:use-module (gnu packages libffi)
-
 
   ;; WM, Login & Terminal
   #:use-module (gnu packages window-management) ;; sway, swaylock-effects
-  #:use-module (gnu packages gnome)             ;; librsvg
   #:use-module (gnu packages terminals)         ;; foot
-
 
   ;; Fonts & Themes
   #:use-module (gnu packages fonts)
+  #:use-module (gnu packages gnome)             ;; librsvg & themes
   #:use-module (gnu packages gnome-xyz)        ;; bibata-cursor
 
   ;; Hardware runtimes (audio, bluetooth, brightness, sensors)
   #:use-module (gnu packages linux)
 
   ;; Filesystem & firmware
+  #:use-module (gnu packages disk)             ;; dosfstools
   #:use-module (gnu packages file-systems)     ;; btrfs-progs
   #:use-module (gnu packages polkit)
   #:use-module (nongnu packages firmware)      ;; fwupd-nonfree, linux-firmware
@@ -308,17 +304,15 @@ in (%window-manager); the greeter itself is pinned to sway."
 ;;; Lisp Machine
 (define %guixos-lisp-stack
   (list sbcl
-        clasp-cl-latest
-        cl-slynk
         emacs-pgtk
         guile-colorized
-        guile-ares-rs
-        libffi))
+        guile-ares-rs))
 
 ;;; File system & firmware tools
 (define %guixos-system-tools
   (list efibootmgr
         btrfs-progs
+        dosfstools
         opendoas
         polkit
         fwupd-nonfree))
@@ -331,20 +325,24 @@ in (%window-manager); the greeter itself is pinned to sway."
 
 ;;; Fonts
 (define %guixos-fonts
-  (list font-google-noto
+  (list font-jetbrains-mono
+        font-google-noto
         font-google-noto-emoji
-        font-google-noto-sans-cjk
         font-sarasa-gothic
-        font-fira-code
         font-hack
+        font-fira-code
         font-iosevka-aile
-        font-jetbrains-mono
         font-liberation
-        font-awesome))
+        font-nerd-symbols
+        font-inconsolata
+        font-kawkab-mono))
 
 ;;; Themes
 (define %guixos-themes
-  (list bibata-cursor-theme))
+  (list adwaita-icon-theme
+        gnome-themes-extra
+        qogir-icon-theme
+        bibata-cursor-theme))
 
 ;;; Hardware runtimes
 (define %guixos-hardware-runtimes
