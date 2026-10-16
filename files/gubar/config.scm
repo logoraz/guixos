@@ -12,8 +12,8 @@
 
 
 ;;; Load Custom Gublocks
-;; (load "/home/logoraz/.config/gubar/blocks/network-manager.scm")
-;; (load "/home/logoraz/.config/gubar/blocks/date-time-2.scm")
+;; (load "/home/<username>/.config/gubar/blocks/network-manager.scm")
+;; (load "/home/<username>/.config/gubar/blocks/date-time-2.scm")
 ;; (use-modules (files gubar blocks network-manager)
 ;;              (files gubar blocks date-time-2))
 
