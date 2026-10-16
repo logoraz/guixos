@@ -13,22 +13,32 @@
 ;;; Framework specific hardware identifiers
 ;;;
 
+(define %host-kernel-arguments
+  (list "resume=/dev/nvme0n1p2"))
+
+;; File systems for framework, found by the labels set at format time.
 (define %host-file-systems
-  ;; Use 'blkid' to find unique file system identifiers ("UUIDs").
   (cons* (file-system
-          (mount-point "/boot/efi")
-          (device (uuid "B0B0-C71A" 'fat32))
-          (type "vfat"))
+           (mount-point "/boot/efi")
+           (device (file-system-label "EFI"))
+           (type "vfat"))
          (file-system
-          (mount-point "/")
-          (device (uuid "7388e57a-177d-45cf-8005-208b79eb6d2d" 'ext4))
-          (type "ext4"))
+           (mount-point "/")
+           (device (file-system-label "guixos"))
+           (type "btrfs")
+           (flags '(no-atime))
+           (options "subvol=@,compress=zstd"))
+         (file-system
+           (mount-point "/home")
+           (device (file-system-label "guixos"))
+           (type "btrfs")
+           (flags '(no-atime))
+           (options "subvol=@home,compress=zstd"))
          %base-file-systems))
 
 (define %host-swap-devices
   (list (swap-space
-         (target
-          (uuid "6f510da6-67f2-4de7-8b0e-0745de6457d8")))))
+         (target (file-system-label "swap")))))
 
 
 ;;;
@@ -74,7 +84,7 @@
 
 ;; Describes this machine; read by both system and home entry points.
 (define %host-profile
-  (make-host-profile "framework" "logoraz" "Erik P Almaraz" 'sway
+  (make-host-profile "framework" "scribest" "Worker Bee" 'sway
                      #:features '(labview)))
 
 (define (host-operating-system)
@@ -85,6 +95,7 @@ It is a thunk so that importing the module does not set any parameters."
    #:user (host-profile-user %host-profile)
    #:comment (host-profile-comment %host-profile)
    #:window-manager (host-profile-window-manager %host-profile)
+   #:kernel-arguments %host-kernel-arguments
    #:file-systems %host-file-systems
    #:swap-devices %host-swap-devices
    #:extra-services %host-extra-services

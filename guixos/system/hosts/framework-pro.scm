@@ -84,7 +84,7 @@
 
 ;; Describes this machine; read by both system and home entry points.
 (define %host-profile
-  (make-host-profile "framework-pro" "logoraz" "Farm Craft" 'sway))
+  (make-host-profile "framework-pro" "logoraz" "Erik P Almaraz" 'sway))
 
 (define (host-operating-system)
   "Return the operating-system for this host, built from %host-profile.
