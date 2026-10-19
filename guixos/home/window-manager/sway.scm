@@ -4,7 +4,7 @@
   #:use-module (guix gexp)
   #:use-module (gnu)
   #:use-module (gnu packages)
-  #:use-module ((gnu packages window-management) #:hide (gubar))
+  #:use-module (gnu packages window-management)
   #:use-module (gnu packages xdisorg)
   #:use-module (gnu packages guile-xyz)
   #:use-module (gnu packages web)
@@ -13,7 +13,7 @@
   #:use-module (gnu home services sway)
   #:use-module (guixos lib utils)
   #:use-module (guixos system identity)
-  #:use-module (guixos packages gubar)
+  #:use-module (guixos packages barker)
   #:use-module (guixos home services impure-symlinks)
   #:use-module (guixos home services desktop-utilities)
   #:export (sway-configuration-extension
@@ -366,9 +366,9 @@
 
     ;; Brightness control
     "bindsym $lbrt_down exec brightnessctl set 5%-"
-    "bindsym $rbrt_down exec pkill -SIGRTMIN+4 -n gubar"
+    "bindsym $rbrt_down exec pkill -SIGRTMIN+4 -n barker"
     "bindsym $lbrt_up exec brightnessctl set 5%+"
-    "bindsym $rbrt_up exec pkill -SIGRTMIN+4 -n gubar"
+    "bindsym $rbrt_up exec pkill -SIGRTMIN+4 -n barker"
 
     ;; Backlight control
     ,(string-append
@@ -380,11 +380,11 @@
 
     ;; Volume control
     "bindsym $lad_mute exec wpctl set-mute @DEFAULT_SINK@ toggle"
-    "bindsym $rad_mute exec pkill -SIGRTMIN+2 -n gubar"
+    "bindsym $rad_mute exec pkill -SIGRTMIN+2 -n barker"
     "bindsym $lad_lv exec wpctl set-volume @DEFAULT_SINK@ 5%-"
-    "bindsym $rad_lv exec pkill -SIGRTMIN+2 -n gubar"
+    "bindsym $rad_lv exec pkill -SIGRTMIN+2 -n barker"
     "bindsym $lad_rv exec wpctl set-volume -l 1.25 @DEFAULT_SINK@ 5%+"
-    "bindsym $rad_rv exec pkill -SIGRTMIN+2 -n gubar"
+    "bindsym $rad_rv exec pkill -SIGRTMIN+2 -n barker"
 
     ;; Audio Player controls
     "bindsym --locked XF86AudioPlay exec playerctl play-pause"
@@ -485,25 +485,23 @@
   (list grimshot
         wl-clipboard))
 
-;; Status bar (gubar) and its Guile runtime deps
+;; Status bar (barker) and its Guile runtime deps
 ;; guile-fibers installed system level
-(define %sway-gubar
-  (list gubar
-        guile-hall
-        (specification->package "guile-json")))
+(define %sway-barker
+  (list barker))
 
 (define %sway-base-packages
   (append %sway-session
           %sway-ui
           %sway-clipboard+screenshot
-          %sway-gubar))
+          %sway-barker))
 
 (define* (swaybar->config #:key (identifier 'bar0))
   "Return a sway-bar configuration record."
   (sway-bar
     (identifier identifier)
     (position 'top)
-    (status-command "gubar")
+    (status-command "barker")
     (colors
      (sway-color
        (statusline "#eceff4")
@@ -559,7 +557,7 @@
         (sway-configuration-extra-content base)
         %sway-config-base-extra-content))
 
-      (bar (swaybar->config #:identifier 'gubar))
+      (bar (swaybar->config #:identifier 'barker))
 
       (startup+reload-programs
        (append
@@ -580,11 +578,7 @@
 
 (define (home-sway-files-service config)
   "Provide symlinks for other programs configs that Sway uses."
-  `( ;; Sway Bar --> gubar Configuration
-    ;; (".config/gubar"
-    ;;  ,(resolve (config-source) "files/gubar"))
-
-    ;; UI Logout Application
+  `(;; UI Logout Application
     (".config/wlogout/layout"
      ,(wlogout-layout #:lock-cmd %swaylock-cmd
                       #:session-end-cmd %sway-session-end))
@@ -595,10 +589,10 @@
     (".config/wlogout/icons"
      ,(resolve (config-source) "files/wlogout/icons"))))
 
-(define (home-sway-gubar-symlink-service config)
-  `(;; Sway Bar --> gubar Configuration (Dev)
-    (".config/gubar"
-     ,(resolve (config-source) "files/gubar" #:string? #t))
+(define (home-sway-barker-symlink-service config)
+  `(;; Sway Bar --> barker Configuration (Dev)
+    (".config/barker"
+     ,(resolve (config-source) "files/barker" #:string? #t))
     ))
 
 (define home-sway-configuration-service-type
@@ -616,7 +610,7 @@
        home-sway-files-service)
       (service-extension
        home-impure-symlinks-service-type
-       home-sway-gubar-symlink-service)))
+       home-sway-barker-symlink-service)))
     (default-value #f)))
 
 (define (sway-home-services)
