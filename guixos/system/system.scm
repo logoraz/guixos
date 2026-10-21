@@ -22,7 +22,7 @@
   ;; Fonts & Themes
   #:use-module (gnu packages fonts)
   #:use-module (gnu packages gnome)             ;; librsvg & themes
-  #:use-module (gnu packages gnome-xyz)        ;; bibata-cursor
+  #:use-module (gnu packages gnome-xyz)         ;; bibata-cursor
 
   ;; Hardware runtimes (audio, bluetooth, brightness, sensors)
   #:use-module (gnu packages linux)
@@ -245,7 +245,7 @@ in (%window-manager); the greeter itself is pinned to sway."
                (list
                 (greetd-terminal-configuration
                   (terminal-vt "1")
-                  (terminal-switch #t)
+                  (terminal-switch #f)
                   (default-session-command
                     (greetd-gtkgreet-sway-session
                       (sway sway)
