@@ -12,79 +12,14 @@
 
 ;;; Pinned release.  To bump: set %commit, bump %revision, then
 ;;; refresh %hash with
-;;;   git clone https://github.com/logoraz/barker /tmp/b
-;;;   git -C /tmp/b checkout <commit>
+;;;   git clone https://codeberg.org/logoraz/barker /tmp/b
+;;;   git rev-parse HEAD
 ;;;   guix hash -rx /tmp/b
 
-(define %version "0.1.0")
-(define %revision "0")
-(define %commit "7c0bc6c7c02bb94a246ef969d5be42dcda07f684")
-(define %hash "14r41lcximpg6zabd5zv1if040cszhm7gq1acwlpivviy6hs9p90")
-
-(define %trinsic-commit "3a370f91982fba03987ae71d5b75e8527508b3c4")
-(define %trinsic-hash "1v9z3wysl9x5gjs72wjabgarq30azrkqnvx9a1f2mdcfrg21pqvj")
-
-(define %khazern-commit "b657262946bfba0e17ee930c58c8fcd6fa6be774")
-(define %khazern-hash "0029wx2k9xq0k1ijzjps29dwpq7djpg1yfyy5r3g2p9dg611cmmq")
-
-
-(define-public sbcl-trinsic
-  (package
-    (name "sbcl-trinsic")
-    (version (git-version "1.0.0" "0" %trinsic-commit))
-    (source
-     (origin
-       (method git-fetch)
-       (uri (git-reference
-              (url "https://github.com/s-expressionists/trinsic")
-              (commit %trinsic-commit)))
-       (file-name (git-file-name "cl-trinsic" version))
-       (sha256 (base32 %trinsic-hash))))
-    (build-system asdf-build-system/sbcl)
-    (inputs
-     (list sbcl-trivial-package-locks))
-    (home-page "https://github.com/s-expressionists/Trinsic")
-    (synopsis "Utilities for building intrinsic and extrinsic Lisp systems")
-    (description
-     "Trinsic is a Common Lisp utility system that helps construct
-systems which are loaded either intrinsically into an implementation, by
-replacing its own definitions, or extrinsically, beside them.")
-    (license license:expat)))
-
-(define-public sbcl-khazern
-  (package
-    (name "sbcl-khazern")
-    (version (git-version "1.0.0" "0" %khazern-commit))
-    (source
-     (origin
-       (method git-fetch)
-       (uri (git-reference
-             (url "https://github.com/s-expressionists/khazern")
-             (commit %khazern-commit)))
-       (file-name (git-file-name "cl-khazern" version))
-       (sha256 (base32 %khazern-hash))))
-    (build-system asdf-build-system/sbcl)
-    (arguments
-     (list
-      ;; Only the intrinsic systems barker uses.  The test systems need
-      ;; ansi-test-harness and parachute, so skip them.
-      #:asd-systems ''("khazern"
-                       "khazern-intrinsic"
-                       "khazern-extension"
-                       "khazern-extension-intrinsic")
-      #:tests? #f))
-    (inputs
-     (list sbcl-acclimation
-           sbcl-closer-mop
-           sbcl-trinsic
-           sbcl-trivial-with-current-source-form))
-    (home-page "https://github.com/s-expressionists/Khazern")
-    (synopsis "Portable and extensible Common Lisp LOOP implementation")
-    (description
-     "Khazern is a portable, extensible implementation of the Common Lisp
-LOOP macro.  It can replace an implementation's LOOP (intrinsic) or sit
-beside it (extrinsic), and offers extension iteration paths.")
-    (license license:bsd-2)))
+(define %version "0.2.0")
+(define %revision "2")
+(define %commit "8819623819264422188780e717ff8ef5a574ba4c")
+(define %hash "0c40083f67d7ly4san0fvbn8sjnngk1z498fil9h6z2khbysa2wp")
 
 (define-public barker
   (package
@@ -121,9 +56,7 @@ beside it (extrinsic), and offers extension iteration paths.")
      (list sbcl-fiveam))
     (inputs
      (list sbcl-bordeaux-threads
-           sbcl-cl-ppcre
            sbcl-jzon
-           sbcl-khazern
            sbcl-trivial-gray-streams))
     (home-page "https://codeberg.org/logoraz/barker")
     (synopsis "Swaybar status generator configured in Common Lisp")
