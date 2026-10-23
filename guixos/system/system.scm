@@ -10,10 +10,14 @@
   #:use-module (gnu system privilege)
 
   ;; Lisp Dev Stack
+  #:use-module (guixos packages clasp)
   #:use-module (gnu packages lisp)
+  #:use-module (gnu packages lisp-xyz)
+  #:use-module (gnu packages libffi)
   #:use-module (gnu packages emacs)
   #:use-module (gnu packages guile)
   #:use-module (gnu packages guile-xyz)
+
 
   ;; WM, Login & Terminal
   #:use-module (gnu packages window-management) ;; sway, swaylock-effects
@@ -301,12 +305,15 @@ in (%window-manager); the greeter itself is pinned to sway."
 ;;; Package Categories
 ;;;
 
-;;; Lisp Machine
+;;; Lisp Machine Tools
 (define %guixos-lisp-stack
   (list sbcl
+        clasp-cl-latest
+        cl-slynk
         emacs-pgtk
         guile-colorized
-        guile-ares-rs))
+        guile-ares-rs
+        libffi))
 
 ;;; File system & firmware tools
 (define %guixos-system-tools

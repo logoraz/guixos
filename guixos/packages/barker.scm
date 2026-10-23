@@ -18,8 +18,8 @@
 
 (define %version "0.2.0")
 (define %revision "2")
-(define %commit "8819623819264422188780e717ff8ef5a574ba4c")
-(define %hash "0c40083f67d7ly4san0fvbn8sjnngk1z498fil9h6z2khbysa2wp")
+(define %commit "353a9de636da9780d1402e0ccac59a3b6ff43b90")
+(define %hash "14ygh41v970z2s4ds7vvz7zjhvzhrz6yd61dn7nm20g9gqvhky6l")
 
 (define-public barker
   (package

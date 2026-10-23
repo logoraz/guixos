@@ -436,7 +436,7 @@
 (define %sway-base-config-startup-programs
   `(;; Set default brightness & backlight
     "brightnessctl set 50%"
-    "brightnessctl -d chromeos::kbd_backlight set 10%"
+    "brightnessctl -d chromeos::kbd_backlight set 0%"
 
     ;; Mouse
     "exec swaymsg focus output $laptop"

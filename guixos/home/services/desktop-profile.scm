@@ -5,10 +5,8 @@
   #:use-module (gnu home services)
 
   ;; Lisp Dev Stack
-  #:use-module (guixos packages clasp)
   #:use-module (guixos packages lem)
   #:use-module (gnu packages lisp-xyz)
-  #:use-module (gnu packages libffi)
 
   ;; Flatpak, XDG plumbing & cross-toolkit compatibility
   #:use-module (gnu packages package-management)   ;; flatpak
@@ -66,11 +64,8 @@
 ;;;
 
 (define %lisp-stack-xyz
-  (list clasp-cl-latest
-        lem
-        cl-micros
-        cl-slynk
-        libffi))
+  (list lem
+        cl-micros))
 
 ;; Flatpak, XDG plumbing & cross-toolkit compatibility
 (define %flatpak+xdg
