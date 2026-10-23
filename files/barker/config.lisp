@@ -4,9 +4,23 @@
 ;;;; Licensed under the LGPL-2.1-only with the LLGPL preamble;
 ;;;; see the LICENSE file in this repository.
 
-(defblock guixos :kind label :text "GuixOS" :color "#81a1c1")
-(defblock network-manager :ssid t)
-(defblock brightness :nerd-icons t)
+
+(defblock guixos
+  :kind label
+  :text "GuixOS"
+  :color "#81a1c1"
+  :click-handler nil)
+
+(defblock network-manager
+  :ssid t)
+
+(defblock brightness
+  :nerd-icons t)
+
 (defblock volume)
-(defblock battery :nerd-icons t)
-(defblock clock :format "%a %b %d %Y %-I:%M:%S %p")
+
+(defblock battery
+  :nerd-icons t)
+
+(defblock clock
+  :format "%a %b %d %Y %-I:%M:%S %p")

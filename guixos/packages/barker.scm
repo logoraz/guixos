@@ -10,27 +10,27 @@
   #:use-module ((guix licenses) #:prefix license:)
   #:use-module (guix packages))
 
-;;; Pinned release.  To bump: set %commit, bump %revision, then
-;;; refresh %hash with
-;;;   git clone https://codeberg.org/logoraz/barker /tmp/b
-;;;   git rev-parse HEAD
-;;;   guix hash -rx /tmp/b
 
-(define %version "0.2.0")
-(define %revision "2")
-(define %commit "353a9de636da9780d1402e0ccac59a3b6ff43b90")
-(define %hash "14ygh41v970z2s4ds7vvz7zjhvzhrz6yd61dn7nm20g9gqvhky6l")
+;;; Pinned release, fetched by its git tag.  To bump: set %version to
+;;; the new tag without the v, then refresh %hash with
+;;;   git clone https://codeberg.org/logoraz/barker /tmp/barker
+;;;   git -C /tmp/barker checkout v<version>
+;;;   guix hash -rx /tmp/barker
+
+
+(define %version "0.5.0")
+(define %hash "0hj918wkbvfzp1kvv3z8cy5nyz8b2m3mjm16aks0h20mlr327r10")
 
 (define-public barker
   (package
     (name "barker")
-    (version (git-version %version %revision %commit))
+    (version %version)
     (source
      (origin
        (method git-fetch)
        (uri (git-reference
               (url "https://codeberg.org/logoraz/barker")
-              (commit %commit)))
+              (commit (string-append "v" %version))))
        (file-name (git-file-name name version))
        (sha256 (base32 %hash))))
     (build-system asdf-build-system/sbcl)
