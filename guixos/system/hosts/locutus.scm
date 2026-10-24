@@ -12,27 +12,28 @@
 ;;;
 ;;; Locutus specific hardware identifiers
 ;;;
+(define %host-kernel-arguments
+  (list "resume=/dev/tbd"))
 
-;; Use 'blkid' to find unique file system identifiers ("UUIDs").
+;; File systems for locutus, found by the labels set at format time.
 (define %host-file-systems
   (cons* (file-system
            (mount-point "/boot/efi")
-           (device (uuid "TBD" 'fat32))
+           (device (file-system-label "EFI"))
            (type "vfat"))
          (file-system
            (mount-point "/")
-           (device (uuid "TBD" 'ext4))
+           (device (file-system-label "guixos"))
            (type "ext4"))
          (file-system
            (mount-point "/home")
-           (device (uuid "TBD" 'ext4))
+           (device (file-system-label "home"))
            (type "ext4"))
          %base-file-systems))
 
 (define %host-swap-devices
   (list (swap-space
-         (target
-          (uuid "TBD")))))
+         (target (file-system-label "swap")))))
 
 
 ;;;
@@ -86,8 +87,9 @@ It is a thunk so that importing the module does not set any parameters."
   (make-guixos-system
    #:host-name (host-profile-name %host-profile)
    #:user (host-profile-user %host-profile)
-   #:window-manager (host-profile-window-manager %host-profile)
    #:comment (host-profile-comment %host-profile)
+   #:window-manager (host-profile-window-manager %host-profile)
+   #:kernel-arguments %host-kernel-arguments
    #:file-systems %host-file-systems
    #:swap-devices %host-swap-devices
    #:extra-services %host-extra-services
