@@ -69,8 +69,10 @@
 
   ;; Local config modules
   #:use-module (guixos services firmware)      ;; fwupd-service-type
+  #:use-module (guixos services cloak)         ;; cloak greeter
   #:use-module (guixos system identity)        ;; %home-user & %window-manager
   #:use-module (guixos system substitutes)
+
 
   #:export (make-guixos-system)
   #:declarative? #f)
@@ -128,43 +130,29 @@
 (define %greetd-backsplash
   (local-file "../../files/assets/wallpapers/guix-bottom-checkered-16-9.svg"))
 
+(define %greetd-avatar
+  (local-file "../../files/assets/graphics/gx-logoraz.svg"))
+
 (define %greetd-conf
   (mixed-text-file
    "sway-greetd.conf"
    "# sway greetd configuration file\n"
-    "\n"
-    ;; Configure Mouse & Scale
-    "seat seat0 xcursor_theme Bibata-Modern-Classic 20\n"
-    "output eDP-1 scale 1.6\n"
-    ;; Output layout
-    "output * disable\n"
-    "output eDP-1 enable\n"
-    "output eDP-1 position 1920 0\n"
-    "\n"
-    ;; "# Background image (resolved at build time)\n"
-    ;; "output eDP-1 bg " %greetd-backsplash " fill\n"
-    ;; "\n"
-    "input type:keyboard {\n"
-    "  xkb_layout us\n"
-    "  xkb_options ctrl:nocaps\n"
-    "}\n"))
-
-(define %gtkgreet-style
-  (mixed-text-file "gtkgreet.css"
-    "window {\n"
-    "  background-image: url(\"file://" %greetd-backsplash "\");\n"
-    "  background-size: cover;\n"
-    "  background-position: center;\n"
-    "}\n"
-    "box#body {\n"
-    "  background-color: rgba(46, 52, 64, 0.85);\n"
-    "  border-radius: 10px;\n"
-    "  padding: 50px;\n"
-    "}\n"
-    "entry { background-color: #3b4252; color: #d8dee9; }\n"
-    "button > label { color: #2e3440; }\n"
-    "button:hover > label { color: #BF616A; }\n"
-    "label { color: #d8dee9; }\n"))
+   "\n"
+   ;; Configure Mouse & Scale
+   "seat seat0 xcursor_theme Bibata-Modern-Classic 20\n"
+   "output eDP-1 scale 1.6\n"
+   ;; Output layout
+   "output * disable\n"
+   "output eDP-1 enable\n"
+   "output eDP-1 position 1920 0\n"
+   "\n"
+   ;; "# Background image (resolved at build time)\n"
+   ;; "output eDP-1 bg " %greetd-backsplash " fill\n"
+   ;; "\n"
+   "input type:keyboard {\n"
+   "  xkb_layout us\n"
+   "  xkb_options ctrl:nocaps\n"
+   "}\n"))
 
 (define %sway-logged
   (program-file
@@ -240,8 +228,9 @@ in (%window-manager); the greeter itself is pinned to sway."
    ;; TODO: New - need to look into & configure!!
    (service tor-service-type)
 
-   ;; TODO: Create (greetd-wlgreet-configuration-service-type)
-   ;; see fwuupd-service-type
+   ;; Log and state directories for cloak
+   (service cloak-service-type)
+
    (service greetd-service-type
             (greetd-configuration
               (greeter-supplementary-groups '("video" "input" "seat" "users"))
@@ -251,11 +240,20 @@ in (%window-manager); the greeter itself is pinned to sway."
                   (terminal-vt "1")
                   (terminal-switch #f)
                   (default-session-command
-                    (greetd-gtkgreet-sway-session
-                      (sway sway)
-                      (sway-configuration %greetd-conf)
-                      (gtkgreet-style %gtkgreet-style)
-                      (command (wm-session-command)))))
+                    (greetd-cloak-sway-session
+                     (sway sway)
+                     (sway-configuration %greetd-conf)
+                     (cloak-configuration
+                      (cloak-configuration
+                       (user (cloak-user
+                              (name (%home-user))
+                              (avatar %greetd-avatar)))
+                       (theme (cloak-theme
+                               (wallpaper (cloak-wallpaper
+                                           (path %greetd-backsplash)
+                                           (fit 'cover)))))
+                       (session (cloak-session
+                                 (command (wm-session-command)))))))))
                 (greetd-terminal-configuration (terminal-vt "2"))
                 (greetd-terminal-configuration (terminal-vt "3"))
                 (greetd-terminal-configuration (terminal-vt "4"))
