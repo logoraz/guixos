@@ -1,4 +1,7 @@
 (define-module (guixos system system)
+  ;; Guile Modules
+  #:use-module (ice-9 match)
+
   ;; Core Guix DSL & utilities
   #:use-module (gnu)
   #:use-module (gnu packages)
@@ -133,18 +136,58 @@
 (define %greetd-avatar
   (local-file "../../files/assets/graphics/gx-logoraz.svg"))
 
+;;; Monitor layout of the greeter, as in the home sway configuration:
+;;; the laptop sits between a left and a right monitor, whichever set
+;;; of monitors (home or work) is plugged in.
+(define (greetd-dpi-scale identifier)
+  "Return the sway scale of the output known as IDENTIFIER, a symbol.
+Mirrors dpi-scale of the home sway module; the laptop is 1.6 here."
+  (case identifier
+    ((eDP-1)    1.6)
+    ((HDMI-A-1) 1.5)
+    (else       1)))
+
+(define %greetd-laptop "eDP-1")
+(define %greetd-laptop-pixels 2880)  ; width of the laptop panel
+(define %greetd-left-width 1920)     ; width of the left monitors
+
+(define %greetd-monitors
+  '(("Acer Technologies K243Y TN6AA0018513" acer left)
+    ("VIZIO, Inc E32-C1 0x01010101" tv right)
+    ("Dell Inc. DELL P2425HE 1C5FN84" dellM left)
+    ("Dell Inc. DELL P2425H CNGJK94" dellS right)))
+
+(define (greetd-output-lines)
+  "Return the sway output lines of the greeter, as a list of strings.
+The laptop sits between the left and right monitors; the right ones
+start after the laptop, whose width follows from its scale."
+  (let* ((scale (greetd-dpi-scale 'eDP-1))
+         (laptop-x %greetd-left-width)
+         (laptop-width (inexact->exact
+                        (round (/ %greetd-laptop-pixels scale))))
+         (right-x (+ laptop-x laptop-width)))
+    (cons*
+     "output * enable"
+     (format #f "output ~a scale ~a position ~a 0"
+             %greetd-laptop scale laptop-x)
+     (map (match-lambda
+            ((description role side)
+             (format #f "output \"~a\" scale ~a position ~a 0"
+                     description
+                     (greetd-dpi-scale role)
+                     (if (eq? side 'left) 0 right-x))))
+          %greetd-monitors))))
+
 (define %greetd-conf
   (mixed-text-file
    "sway-greetd.conf"
    "# sway greetd configuration file\n"
    "\n"
    ;; Configure Mouse & Scale
-   "seat seat0 xcursor_theme Bibata-Modern-Classic 20\n"
-   "output eDP-1 scale 1.6\n"
+   "seat seat0 xcursor_theme Bibata-Modern-Classic 20"
+   "\n"
    ;; Output layout
-   "output * disable\n"
-   "output eDP-1 enable\n"
-   "output eDP-1 position 1920 0\n"
+   (string-join (greetd-output-lines) "\n" 'suffix)
    "\n"
    ;; "# Background image (resolved at build time)\n"
    ;; "output eDP-1 bg " %greetd-backsplash " fill\n"
@@ -252,6 +295,7 @@ in (%window-manager); the greeter itself is pinned to sway."
                                (wallpaper (cloak-wallpaper
                                            (path %greetd-backsplash)
                                            (fit 'cover)))))
+                       (layout (cloak-layout (primary "eDP-1")))
                        (session (cloak-session
                                  (command (wm-session-command)))))))))
                 (greetd-terminal-configuration (terminal-vt "2"))
