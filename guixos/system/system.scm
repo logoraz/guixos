@@ -182,13 +182,15 @@ start after the laptop, whose width follows from its scale."
   (mixed-text-file
    "sway-greetd.conf"
    "# sway greetd configuration file\n"
-   "\n"
    ;; Configure Mouse & Scale
-   "seat seat0 xcursor_theme Bibata-Modern-Classic 20"
-   "\n"
+   "seat seat0 xcursor_theme Bibata-Modern-Classic 20\n"
+   ;; Warp the pointer to the center of the focused output
+   "mouse_warping output\n"
    ;; Output layout
    (string-join (greetd-output-lines) "\n" 'suffix)
    "\n"
+   ;; Focus the laptop, so the pointer starts at its center
+   "exec swaymsg focus output " %greetd-laptop "\n"
    ;; "# Background image (resolved at build time)\n"
    ;; "output eDP-1 bg " %greetd-backsplash " fill\n"
    ;; "\n"
