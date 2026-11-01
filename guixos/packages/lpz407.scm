@@ -85,7 +85,7 @@
                     ,(input-dirs inputs "lib")))))
             ;; Install the logo and register the program with launchers
             ;; such as fuzzel.
-            (add-after 'install 'install-desktop-entry
+            (add-after 'wrap-program 'install-desktop-entry
               (lambda* (#:key outputs #:allow-other-keys)
                 (let* ((out (assoc-ref outputs "out"))
                        (applications (string-append out "/share/applications"))
