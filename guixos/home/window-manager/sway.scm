@@ -150,7 +150,8 @@
 ;; Windows that should always spawn floating.
 ;; Each entry: (name criteria-type criteria-value)
 (define floating-app-list
-  '((mpv         app_id "mpv")
+  '((lpz407      app_id "org.lpz407.app")
+    (mpv         app_id "mpv")
     (pavucontrol app_id "pavucontrol")
     (nm-editor   app_id "nm-connection-editor")
     (blueman     app_id ".blueman-manager-real")))
