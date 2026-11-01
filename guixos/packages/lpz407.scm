@@ -11,6 +11,7 @@
   #:use-module (guix gexp)
   #:use-module (guix git-download)
   #:use-module ((guix licenses) #:prefix license:)
+  #:use-module ((guixos packages cloak) #:select (sbcl-cl-gtk4/adw))
   #:use-module (guix packages))
 
 
@@ -126,7 +127,7 @@
            glib
            gtk
            libadwaita
-           sbcl-cl-gtk4
+           sbcl-cl-gtk4/adw
            sbcl-dbus
            sbcl-iolib))
     (home-page "https://codeberg.org/logoraz/lpz407")
