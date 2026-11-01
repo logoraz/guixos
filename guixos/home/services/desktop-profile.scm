@@ -46,6 +46,7 @@
   #:use-module (gnu packages inkscape)
   #:use-module (gnu packages graphics)             ;; blender
   #:use-module (gnu packages engineering)          ;; freecad
+  #:use-module (guixos packages lpz407)
 
   ;; Hardware & extra utilities
   #:use-module (gnu packages gnome)                ;; libnotify, etc.
@@ -126,7 +127,8 @@
         texlive-collection-fontsrecommended))
 
 (define %applications
-  (list gnucash
+  (list lpz407
+        gnucash
         gimp
         inkscape
         blender
