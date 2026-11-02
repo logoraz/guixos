@@ -27,9 +27,9 @@
 ;;;
 
 (define %lem-ver "2.3.0")
-(define %lem-rev "4")
-(define %lem-commit "877c683846aa7f22e3ca5f64170ee0d60b26f844")
-(define %lem-hash "1dhgag9zfanshngsjhwvkh3rqmg9147sbsx7iwjr02xnilhlnk97")
+(define %lem-rev "5")
+(define %lem-commit "c65f228566607e9c7345902779e3cf3e0c0b3dc2")
+(define %lem-hash "1mxprasm32rl2ihnsgh5q61pfb6dpshsxm9i23ffz2mivzs699gn")
 
 
 ;;;
@@ -296,8 +296,9 @@ pattern queries.")
                 ;; whichever definition comes last simply wins -- no
                 ;; need to locate or remove the original at all. This
                 ;; is upstream's own extensions list at this commit,
-                ;; confirmed working, minus lem-zig-mode and
-                ;; lem-living-canvas. Upstream's own #+sbcl / #-clasp /
+                ;; confirmed working, plus lem-winner-mode,
+                ;; minus lem-template (needs cl-template), lem-zig-mode,
+                ;; and lem-living-canvas. Upstream's own #+sbcl / #-clasp /
                 ;; #-os-windows conditionals on individual entries are
                 ;; dropped, since every one of them is unconditionally
                 ;; true for an SBCL-on-Linux build anyway. Appended via
@@ -334,7 +335,8 @@ pattern queries.")
                   "\"lem-mcp-server\" \"lem-transient\" \"lem-tree-sitter\" "
                   "\"lem-git-gutter\" \"lem-skk-mode\" "
                   "\"lem-emacs-help-mode\" \"lem-display-time-mode\" "
-                  "\"lem-trailing-spaces\" \"lem-tramp\"))\n")))))))
+                  "\"lem-trailing-spaces\" \"lem-tramp\" "
+                  "\"lem-winner-mode\" ))\n")))))))
       (inputs
        (modify-inputs (package-inputs upstream:lem)
          (prepend sbcl-webview sbcl-command-line-arguments
