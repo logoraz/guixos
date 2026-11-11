@@ -92,7 +92,12 @@ Call it after %home-user is set, because bash-config->service reads it."
                "xdvi"
                "xdvi"
                #:exec "xdvi"
-               #:no-display? #t)))
+               #:no-display? #t)
+             (xdg-desktop-entry
+               "codium"
+               "VSCodium"
+               #:exec "codium"
+               #:icon "visualstudiocode")))
 
    ;; Bash configuration
    (bash-config->service)))
