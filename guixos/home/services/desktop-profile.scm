@@ -6,7 +6,8 @@
 
   ;; Lisp Dev Stack
   #:use-module (guixos packages lem)
-  #:use-module (gnu packages lisp-xyz)
+  #:use-module (gnu packages lisp-xyz)             ;; cl-micros
+  #:use-module (nongnu packages editors)           ;; vscodium
 
   ;; Flatpak, XDG plumbing & cross-toolkit compatibility
   #:use-module (gnu packages package-management)   ;; flatpak
@@ -66,7 +67,8 @@
 
 (define %lisp-stack-xyz
   (list lem
-        cl-micros))
+        cl-micros
+        vscodium))
 
 ;; Flatpak, XDG plumbing & cross-toolkit compatibility
 (define %flatpak+xdg
