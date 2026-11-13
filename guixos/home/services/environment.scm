@@ -78,6 +78,8 @@
     ;; Set Emacs as editor
     ("EDITOR" . "emacsclient -c -a emacs")
     ("VISUAL" . "emacsclient -c -a emacs")
+    ;; Keep VSCodium extensions with the rest of its config
+    ("VSCODE_EXTENSIONS" . "$XDG_CONFIG_HOME/VSCodium/extensions")
 
     ;; Set quotebrowser as the default
     ("BROWSER" . "Zen Browser")
