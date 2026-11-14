@@ -13,6 +13,7 @@
   #:use-module (gnu system privilege)
 
   ;; Lisp Dev Stack
+  #:use-module (guixos packages egcl)
   #:use-module (guixos packages clasp)
   #:use-module (gnu packages lisp)
   #:use-module (gnu packages lisp-xyz)
@@ -55,6 +56,7 @@
 
   ;; CLI essentials
   #:use-module (gnu packages admin)            ;; tree
+  #:use-module (gnu packages base)
   #:use-module (gnu packages compression)      ;; zip, unzip
   #:use-module (gnu packages curl)
   #:use-module (gnu packages ssh)              ;; openssh-sans-x
@@ -353,10 +355,11 @@ in (%window-manager); the greeter itself is pinned to sway."
 (define %guixos-lisp-stack
   (list sbcl
         clasp-cl-latest
+        egcl
         cl-slynk
         emacs-pgtk
         guile-colorized
-        guile-ares-rs
+        ;; guile-ares-rs
         libffi))
 
 ;;; File system & firmware tools
@@ -413,6 +416,7 @@ in (%window-manager); the greeter itself is pinned to sway."
   (list openssh-sans-x
         git
         (list git "send-email")
+        binutils
         curl
         wget
         zip
