@@ -18,8 +18,8 @@
 ;;;   guix hash -rx /tmp/barker
 
 
-(define %version "0.5.0")
-(define %hash "0hj918wkbvfzp1kvv3z8cy5nyz8b2m3mjm16aks0h20mlr327r10")
+(define %version "0.5.1")
+(define %hash "12f9v476x5vf1p5f6qmy0lh4cgkwk95x4yyp318ha6f0n9hm0lcd")
 
 (define-public barker
   (package
@@ -29,7 +29,7 @@
      (origin
        (method git-fetch)
        (uri (git-reference
-              (url "https://codeberg.org/logoraz/barker")
+              (url "https://github.com/logoraz/barker")
               (commit (string-append "v" %version))))
        (file-name (git-file-name name version))
        (sha256 (base32 %hash))))

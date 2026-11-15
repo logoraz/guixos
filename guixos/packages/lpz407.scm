@@ -24,8 +24,8 @@
 ;;; real one.
 
 
-(define %version "0.1.0")
-(define %hash "0kpzjvgicg82acrz788nc44plbgcfxl2fgcw2g3awd3h2fxcfxhd")
+(define %version "0.2.1")
+(define %hash "1b85vqa9mfw3m1iw1dgh3skni79yxfpmxrri3jm1q8n029mhydc1")
 
 (define-public lpz407
   (package
@@ -35,7 +35,7 @@
      (origin
        (method git-fetch)
        (uri (git-reference
-              (url "https://codeberg.org/logoraz/lpz407")
+              (url "https://github.com/logoraz/lpz407")
               (commit (string-append "v" %version))))
        (file-name (git-file-name name version))
        (sha256 (base32 %hash))))

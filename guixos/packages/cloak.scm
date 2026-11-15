@@ -24,8 +24,8 @@
 ;;; preload gtk4-layer-shell, which has to load before libwayland-client.
 
 
-(define %version "0.6.2")
-(define %hash "03ypa15hj7x4a8yvln1lah7vx95s34h253yka8axph63jz2g2khd")
+(define %version "0.6.3")
+(define %hash "161h5rd287m405glg8lkcgcm3jds1aizvhyhyx4sqy7fsrim96pf")
 
 (define-public sbcl-cl-gtk4/adw
   (package
@@ -48,7 +48,7 @@
      (origin
        (method git-fetch)
        (uri (git-reference
-              (url "https://codeberg.org/logoraz/cloak")
+              (url "https://github.com/logoraz/cloak")
               (commit (string-append "v" %version))))
        (file-name (git-file-name name version))
        (sha256 (base32 %hash))))
