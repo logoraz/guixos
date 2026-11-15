@@ -57,6 +57,9 @@
 (asdf:initialize-source-registry
  (list :source-registry
        (list :directory (uiop:getcwd))
+       ;; Systems installed by ocicl in ./ocicl/ shadow the inherited
+       ;; ASDF registry (Guix); launch from the directory holding it
+       (list :tree (uiop:subpathname (uiop:getcwd) "ocicl/"))
        :inherit-configuration))
 
 ;; Let's make sure we see what ocicl is doing...
